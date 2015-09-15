@@ -1,0 +1,1 @@
+project briefing. what we'll build, and the steps.
