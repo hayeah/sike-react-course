@@ -122,12 +122,10 @@ index 0000000..e2d56c6
 +}
 ```
 
-# Add README.md
-
-[MarkDown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-
 # Publish To GitHub
 
-Let's push this new project to GitHub.
+Let's push this project to GitHub.
+
+Remember to describe the project in `README.md` before you push!
 
 

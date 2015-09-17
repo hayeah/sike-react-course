@@ -1,18 +1,23 @@
-Usually, it's faster to start with a boiler plate project setup. But we are going to start from scratch, and configure a simple frontend project. Throughout this project, we'll incrementally add more features to our setup.
+We are going to setup a frontend project from scratch. Usually it's simpler to use a boilerplate, but if you are new to frontend, it's good to go through the process of setting up a project, so you know what the useful tools are.
 
-There are too many different project build tools out there. Even worse, there's a new build tool that comes out every week. It's impossible to keep up. All these build tools, though, share same basic ideas.
+There are too many different project build tools out there. Even worse, a new build tool becomes popular every other week! It's impossible to keep up.
 
-We'll show you these basic ideas, so no matter what build tool you use (Grunt, Gulp, Webpack, Duo.js), you'd have some intuition of how they work. Specifically, we will learn to use the following tools:
+All these build tools, though, share same basic ideas. We'll show you these basic ideas, so no matter what build tool you have to use (Grunt, Gulp, Webpack), you'd can learn to use them quickly.
+
+We'll learn to:
 
 + Use NPM to install open-source packages.
 + Break CSS files into modules.
 + Use BrowserSync for live-editing.
 + Use Makefile to run project tasks.
+
+Later, we'll learn how to organize JavaScript:
+
 + Instead of one big JS file, write smaller CommonJS modules.
 + Use `browserify` to bundle JavaScript modules.
 + Use Babel to convert ES6 to ES5, so you can run your JS everywhere.
 
-Although NPM is the package management tool from NodeJS, it's also great for frontend development.
+Although NPM is the package management tool for NodeJS, it's also great for frontend development.
 
 Before you start, make sure that your NodeJS version is recent enough.
 
@@ -24,7 +29,7 @@ Versions 2, 3, 4, or above should be ok.
 
 # Create A New Project
 
-[Mission: Use NPM to create a new project](project-create)
+[Mission: Use NPM to create a new project](init)
 
 + Use `npm init` to create `ilovereact` project.
 + Create a new git repo.
@@ -37,17 +42,54 @@ Resources:
 
 # Live Edit With BrowserSync
 
-+ Use `npm install` to install open source packages.
+[Mission: Get BrowserSync running](live-edit)
+
++ Use `npm install` to install open source packages (e.g. BrowserSync).
 + Run executables installed in `node_modules`.
++ Add `./node_modules/.bin` to PATH
 + Run BrowserSync for live-editing.
-+ Add project tasks to a `Makefile`.
++ Create `Makefile`. Add a task to run BrowserSync.
 
-Add "Build Apps with React!"
+Resources:
 
-# CSS
++ [Using GNU Make as a Front-end Development Build Tool](http://www.sitepoint.com/using-gnu-make-front-end-development-build-tool/) for a good intro.
 
-+ @include directive.
+<zh>
+### NPM 镜像
 
-+ Include [normalizer.css](http://necolas.github.io/normalize.css).
-+ autoprefix.
-+ app.css -> bundle.css
+因为国内特别的网路环境，梯子不给力请用淘宝 NPM 镜像。
+
+临时使用:
+
+```
+npm --registry https://registry.npm.taobao.org install express
+```
+
+持久使用:
+
+```
+npm config set registry https://registry.npm.taobao.org
+
+// 配置后可通过下面方式来验证是否成功
+npm config get registry
+```
+</zh>
+
+# The Project CSS Base
+
+[Mission: Configure the project CSS base](css-base)
+
+Before we start working on the project, we should add some CSS to solve common cross-browser problems:
+
++ Include [normalizer.css](http://necolas.github.io/normalize.css) to fix browser inconsistencies.
++ Use [autoprefixer](https://github.com/postcss/autoprefixer) to add vendor prefixes automatically.
+
+Furthermore, to make CSS layout easier, we'll adopt the ReactNative's flexbox settings:
+
++ Use the [ReactNative flexbox settings](https://github.com/facebook/css-layout#default-values) globally.
+
+We'll talk about what these settings mean in the next lesson. Don't worry if you don't understand what they mean yet.
+
+Resources:
+
++ Always check [Can I Use](http://caniuse.com) for browser compatibility.
