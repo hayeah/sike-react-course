@@ -2,7 +2,7 @@ We are going to setup a frontend project from scratch. It's tedious to setup a p
 
 There are too many different project build tools out there. Even worse, a new build tool becomes popular every other week! It's impossible to keep up.
 
-All these build tools, though, share same basic ideas. We'll show you these basic ideas, so that no matter what build tool you eventually use (Grunt, Gulp, Webpack), you'd be able learn them quickly.
+All these build tools, though, share same basic ideas. We'll show you these basic ideas, so that no matter which build tool you eventually use (Grunt, Gulp, Webpack), you'd be able learn them quickly.
 
 For this project, we will:
 
@@ -14,10 +14,8 @@ For this project, we will:
 Although NPM is the package management tool for NodeJS, it's also great for frontend development. Later, we'll learn how to organize JavaScript:
 
 + Instead of one big JS file, write smaller CommonJS modules.
-+ Use `browserify` to package JavaScript modules for the browser.
++ Use `browserify` to combine JavaScript modules into a bundle.
 + Use Babel to convert ES6 to ES5, so you can run your JS everywhere.
-
-
 
 Before you start, make sure that your NodeJS version is recent enough.
 
