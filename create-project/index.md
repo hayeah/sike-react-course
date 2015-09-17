@@ -1,23 +1,23 @@
-We are going to setup a frontend project from scratch. Usually it's simpler to use a boilerplate, but if you are new to frontend, it's good to go through the process of setting up a project, so you know what the useful tools are.
+We are going to setup a frontend project from scratch. It's tedious to setup a project. But if you are new to frontend development, it's a good way to learn the basics before you start using a more complicated build tool.
 
 There are too many different project build tools out there. Even worse, a new build tool becomes popular every other week! It's impossible to keep up.
 
-All these build tools, though, share same basic ideas. We'll show you these basic ideas, so no matter what build tool you have to use (Grunt, Gulp, Webpack), you'd can learn to use them quickly.
+All these build tools, though, share same basic ideas. We'll show you these basic ideas, so that no matter what build tool you eventually use (Grunt, Gulp, Webpack), you'd be able learn them quickly.
 
-We'll learn to:
+For this project, we will:
 
 + Use NPM to install open-source packages.
 + Break CSS files into modules.
 + Use BrowserSync for live-editing.
 + Use Makefile to run project tasks.
 
-Later, we'll learn how to organize JavaScript:
+Although NPM is the package management tool for NodeJS, it's also great for frontend development. Later, we'll learn how to organize JavaScript:
 
 + Instead of one big JS file, write smaller CommonJS modules.
-+ Use `browserify` to bundle JavaScript modules.
++ Use `browserify` to package JavaScript modules for the browser.
 + Use Babel to convert ES6 to ES5, so you can run your JS everywhere.
 
-Although NPM is the package management tool for NodeJS, it's also great for frontend development.
+
 
 Before you start, make sure that your NodeJS version is recent enough.
 
@@ -48,11 +48,11 @@ Resources:
 + Run executables installed in `node_modules`.
 + Add `./node_modules/.bin` to PATH
 + Run BrowserSync for live-editing.
-+ Create `Makefile`. Add a task to run BrowserSync.
++ Create `Makefile`. Add the `server` task to run BrowserSync.
 
 Resources:
 
-+ [Using GNU Make as a Front-end Development Build Tool](http://www.sitepoint.com/using-gnu-make-front-end-development-build-tool/) for a good intro.
++ [Using GNU Make as a Front-end Development Build Tool](http://www.sitepoint.com/using-gnu-make-front-end-development-build-tool/)
 
 <zh>
 ### NPM 镜像
@@ -81,15 +81,16 @@ npm config get registry
 
 Before we start working on the project, we should add some CSS to solve common cross-browser problems:
 
-+ Include [normalizer.css](http://necolas.github.io/normalize.css) to fix browser inconsistencies.
++ Use [PostCSS](https://github.com/postcss/postcss) to add features to standard CSS.
 + Use [autoprefixer](https://github.com/postcss/autoprefixer) to add vendor prefixes automatically.
++ Include [normalizer.css](http://necolas.github.io/normalize.css) to fix browser inconsistencies.
 
 Furthermore, to make CSS layout easier, we'll adopt the ReactNative's flexbox settings:
 
 + Use the [ReactNative flexbox settings](https://github.com/facebook/css-layout#default-values) globally.
 
-We'll talk about what these settings mean in the next lesson. Don't worry if you don't understand what they mean yet.
+We'll talk about what these settings mean in the next lesson. Don't worry if you don't understand them yet.
 
 Resources:
 
-+ Always check [Can I Use](http://caniuse.com) for browser compatibility.
++ Check [Can I Use](http://caniuse.com) for browser compatibility.
