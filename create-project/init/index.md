@@ -172,7 +172,7 @@ Add an h1 element to `index.html`
 
 Let's push this project to GitHub so everyone can see it.
 
-My username is `hayeah`. You'll need to change it to yourown.
+My username is `hayeah`. You'll need to change it to your own GitHub username.
 
 ```
 $ git remote add origin git@github.com:hayeah/sikeio-ilovereact.git
