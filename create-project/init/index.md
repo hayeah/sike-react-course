@@ -122,10 +122,78 @@ index 0000000..e2d56c6
 +}
 ```
 
+# HTML Boilerplate
+
+Let's create `index.html`. Rather than starting from scratch, it's faster to tweak [HTML5-boilerplate](https://github.com/h5bp/html5-boilerplate/blob/master/src/index.html) to suit your needs.
+
+For this project you could use something like this:
+
+
+```html
+<!-- Uses html5 syntax -->
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <!-- Forces IE to follow modern standards -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title></title>
+    <meta name="description" content="">
+
+    <!-- Disable zooming on mobile. Useful for responsive design. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+
+    <!-- <link rel="stylesheet" href="css/app.css"> -->
+
+</head>
+<body>
+
+
+<!-- <script src="js/app.js"></script> -->
+
+</body>
+</html>
+```
+
+### Exercise: I Love React
+
+Add an h1 element to `index.html`
+
+```html
+<h1>I Love React</h1>
+```
+
 # Publish To GitHub
 
-Let's push this project to GitHub.
+Let's push this project to GitHub so everyone can see it.
 
-Remember to describe the project in `README.md` before you push!
+My username is `hayeah`. You'll need to change it to yourown.
 
+```
+$ git remote add origin git@github.com:hayeah/sikeio-ilovereact.git
+$ git push origin master -u
+Counting objects: 13, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (13/13), 1.69 KiB | 0 bytes/s, done.
+Total 13 (delta 2), reused 0 (delta 0)
+To git@github.com:hayeah/sikeio-ilovereact.git
+ * [new branch]      master -> master
+Branch master set up to track remote branch master from origin.
+```
 
+And you can use GitHub Pages to host this web-page. All you need to do is to push to the branch `gh-pages`:
+
+```
+$ git push origin master:gh-pages
+Total 0 (delta 0), reused 0 (delta 0)
+To git@github.com:hayeah/sikeio-ilovereact.git
+ * [new branch]      master -> gh-pages
+```
+
+Then you should be able to see the page at: http://hayeah.github.io/sikeio-ilovereact/
