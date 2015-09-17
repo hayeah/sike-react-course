@@ -31,7 +31,9 @@ Versions 2, 3, 4, or above should be ok.
 
 + Use `npm init` to create `ilovereact` project.
 + Create a new git repo.
++ Use .gitignore to avoid adding junk into the repo.
 + Push the git repo to GitHub.
++ Use GitHub pages to host static websites.
 
 Resources:
 
@@ -47,7 +49,6 @@ Resources:
 + Add `./node_modules/.bin` to PATH
 + Run BrowserSync for live-editing.
 + Create `Makefile`. Add the `server` task to run BrowserSync.
-+ Use GitHub pages to host static websites.
 
 Resources:
 
