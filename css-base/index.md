@@ -304,6 +304,10 @@ npm install --save-dev postcss-import@7.0.0
 
 
 
+normalize.css is installed at `node_modules/normalize.css/normalize.css`. In `css/app.css` we can import normalize.css using relative path:
+
+
+
 ```
 /* css/app.css */
 @import "../node_modules/normalize.css/normalize.css";
