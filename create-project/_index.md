@@ -83,7 +83,7 @@ Resources:
 
 # 创建一个新项目
 
-[任务：使用 NPM 创建一个新项目](init)
+[任务：使用 NPM 创建一个新项目](../project-init/?lang=cn)
 
 + 使用 `npm init` 创建 `ilovereact` 项目。
 + 创建一个新的 git 仓库。
@@ -100,7 +100,7 @@ Resources:
 
 # Live Edit With BrowserSync
 
-[Mission: Get BrowserSync running](live-edit)
+[Mission: Get BrowserSync running](../live-edit)
 
 + Use `npm install` to install open source packages (e.g. BrowserSync).
 + Run executables installed in `node_modules`.
@@ -116,7 +116,7 @@ Resources:
 
 # 使用 BrowserSync 实时编辑
 
-[任务：让 BrowserSync 运行起来](live-edit)
+[任务：让 BrowserSync 运行起来](../live-edit/?lang=cn)
 
 + 使用 `npm install` 安装开源包（比如 BrowserSync）。
 + 运行安装在 `node_modules` 内的可执行文件。
@@ -149,7 +149,7 @@ npm config get registry
 
 # The Project CSS Base
 
-[Mission: Configure the project CSS base](css-base)
+[Mission: Configure the project CSS base](../css-base)
 
 Before we start working on the project, we should add some CSS to solve common cross-browser problems:
 
@@ -171,7 +171,7 @@ Resources:
 
 # 项目 CSS 基础
 
-[任务：配置项目 CSS 基础](css-base)
+[任务：配置项目 CSS 基础](../css-base/?lang=cn)
 
 在我们开始继续在这个项目工作前，我们应该添加一些 CSS 来解决常见的跨浏览器问题：
 

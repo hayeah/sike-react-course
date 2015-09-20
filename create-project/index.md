@@ -50,7 +50,7 @@ Resources:
 
 # Live Edit With BrowserSync
 
-[Mission: Get BrowserSync running](live-edit)
+[Mission: Get BrowserSync running](../live-edit)
 
 + Use `npm install` to install open source packages (e.g. BrowserSync).
 + Run executables installed in `node_modules`.
@@ -68,7 +68,7 @@ Resources:
 
 # The Project CSS Base
 
-[Mission: Configure the project CSS base](css-base)
+[Mission: Configure the project CSS base](../css-base)
 
 Before we start working on the project, we should add some CSS to solve common cross-browser problems:
 
