@@ -6,7 +6,7 @@
 #overview
   Frontend Dev in a week
 
-  <video src="assets/scrollmagic-demo.mp4" controls></video>
+  <video src="assets/scrollmagic-demo.mp4" controls="controls"></video>
 
 #lesson[day=1 name=create-project project=ilovereact]
 #lesson[day=2 name=responsive-design project=ilovereact]
