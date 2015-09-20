@@ -1,0 +1,398 @@
+
+
+# CSS 基础
+
+在我们开始这个项目前，我们应该添加一些 CSS 来解决常见的跨浏览器问题。
+
+此外，为了让 CSS 布局更简单，我们会采用 ReactNative 的 flexbox 设置。
+
+
+# PostCSS
+
+对于这个项目，我们只想要两个 CSS 补充特性：
+
+1. `@import` 从很多 CSS 文件打包
+2. 使用 `autoprefix` 为“实验性”特性来生成特定浏览器的 CSS 属性名称。
+
+
+
+[Sass](http://sass-lang.com/) 和 [Less](http://lesscss.org/) 是最受欢迎的两个 CSS 预处理器。它们是有着大量特性（变量，循环语句，条件语句，函数）的完备语言，可以生成复杂的 CSS 样式表。我们不需要那个。
+
+
+
+Less/Sass 的替代品之一是 [PostCSS](https://github.com/postcss/postcss)。PostCSS 不是一种语言。它是一个解析器，解析标准 CSS 语法，而且允许你安装 JavaScript 插件通过不同方法来转换 CSS。使用 PostCSS，你可以添加你需要的功能。
+
+
+
+我们将安装 [PostCSS command line tool](https://github.com/code42day/postcss-cli)：
+
+
+
+```
+npm install postcss-cli@2.1.0 --save-dev
+```
+
+
+
+查看帮助：
+
+
+
+```
+$ postcss -h
+Usage: node_modules/.bin/postcss -use plugin [--config|-c config.json] [--output
+|-o output.css] [input.css]
+
+Options:
+  -c, --config       JSON file with plugin configuration
+  -u, --use          postcss plugin name (can be used multiple times)
+  -o, --output       Output file (stdout if not provided)
+  -d, --dir          Output directory
+  -s, --syntax       Custom syntax
+  -p, --parser       Custom syntax parser
+  -t, --stringifier  Custom syntax stringifier
+  -w, --watch        auto-recompile when detecting source changes
+  -v, --version      Show version number                               [boolean]
+  -h, --help         Show help                                         [boolean]
+
+Examples:
+  postcss --use autoprefixer -c options.    Use autoprefixer as a postcss plugin
+  json -o screen.css screen.css
+  postcss --use autoprefixer --             Pass plugin parameters in plugin.
+  autoprefixer.browsers "> 5%" -o screen.   option notation
+  css screen.css
+  postcss -u postcss-cachify -u             Use multiple plugins and multiple
+  autoprefixer -d build *.css               input files
+```
+
+
+
+# 浏览器引擎前缀 （Verdor Prefix）
+
+看一下 flexbox 的浏览器支持表 ([Can I Use: Flexbox](http://caniuse.com/#search=flex))：
+
+![](vendor-prefix.png)
+
+你应该看到对于 Safari 8 有一个注释：
+
+
+
+```
+Supported with prefix: -webkit
+```
+
+
+
+那是 Safari 8 的 [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix)。不要这样写：
+
+
+
+```css
+.a-flexible-row {
+  flex-direction: row;
+}
+```
+
+
+
+你需要为每个你支持的浏览器添加浏览器引擎前缀。 这条 CSS 规则也许看起来是这样：
+
+
+
+```
+.a-flexible-row {
+  /* 不用浏览器引擎前缀就支持 flexbox 的浏览器 */
+  flex-direction: row;
+  /* Safari 8, Android 4.3 或更早版本, iOS Safari 7/8 */
+  -webkit-flex-direction: row;
+  /* IE 10 */
+  -ms-flex-direction: row;
+}
+```
+
+
+
+你将需要做：
+
++ 了解哪些特性需要浏览器引擎前缀。
++ 记得在每一处你用到这些特性的地方添加这些前缀。
++ 对于成熟的特性，新浏览器不再需要浏览器引擎前缀。
+  + 比如，Safari 9 和 IE 11 不需要 flexbox 的浏览器引擎前缀。
++ 由于使用旧浏览器的用户下降，你也许可以决定停止浏览器引擎前缀支持。
+  + 如果你只为移动端开发，你也许不用考虑 IE 10。
+
+
+
+把这些事情做对很显然相当复杂。[autoprefixer](https://github.com/postcss/autoprefixer)  工具自动给你添加浏览器引擎前缀。另外，它使用一个 [浏览器市场占有率数据库](https://github.com/ai/browserslist) 来决定某个特殊的特性是否仍旧需要浏览器引擎前缀。
+
+安装 autoprefixer：
+
+
+
+```
+npm install autoprefixer@6.0.2 --save-dev
+```
+
+
+
+### 练习：在全局使用 Flexbox
+
+虽然 ReactNative 实现了 flexbox，但是它使用了一种与浏览器不同的 flexbox 默认设置。一个巨大的区别是在 ReactNative 中元素默认从上到下排列，但是在浏览器中默认是从左到右排列。
+
+结果是 ReactNative 的设定更加友好，所以让我们使浏览器表现出同样的行为。
+
+添加 [ReactNative flexbox settings](https://github.com/facebook/css-layout#default-values) 到文件 `css/app.css` 中:
+
+
+
+```css
+body, div, span {
+  box-sizing: border-box;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 0;
+  align-content: flex-start;
+
+  border: 0 solid black;
+  margin: 0;
+  padding: 0;
+}
+```
+
+
+
+运行这个命令来转换你的 CSS 文件：
+
+
+
+```
+mkdir -p bundle
+postcss --use autoprefixer css/app.css --output bundle/app.css
+```
+
+
+
+你可以看到在 `bundle/app.css` 中，自动添加前缀的 CSS 属性：
+
+
+
+```css
+body, div, span {
+  box-sizing: border-box;
+  position: relative;
+
+  display: -webkit-box;
+
+  display: -webkit-flex;
+
+  display: -ms-flexbox;
+
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+  -webkit-align-content: flex-start;
+      -ms-flex-line-pack: start;
+          align-content: flex-start;
+
+  border: 0 solid black;
+  margin: 0;
+  padding: 0;
+}
+```
+
+
+
+在 `head` 元素中关联 `bundle/app.css`：
+
+
+
+```html
+<head>
+  ...
+  <link rel="stylesheet" type="text/css" href="/bundle/app.css">
+  ...
+</head>
+```
+
+
+
+在 Chrome 审查器中，你应该能看到 `body` 现在是一个 flexbox：
+
+![](body-flexbox.jpg)
+
+
+
+如果你不理解这些属性的作用，不要担心。我们会很快学习它们的！
+
+
+
+# normalize.css
+
+浏览器行为表现彼此略有不同。[normalize.css](https://github.com/necolas/normalize.css) 使浏览器行为更相似。举个例子，你以前知道在 IE 8/9/10 中，如果 `img` 在一个 `a` 元素内，它会有边框这件事吗？
+
+normalize.css 包含了对于那个问题的修复：
+
+
+
+```css
+/* https://github.com/necolas/normalize.css/blob/2bdda84272650aedfb45d8abe11a6d177933a803/normalize.css#L185-L187 */
+img {
+  border: 0;
+}
+```
+
+
+
+它也会定义 HTML5 元素：
+
+
+
+```css
+/* https://github.com/necolas/normalize.css/blob/2bdda84272650aedfb45d8abe11a6d177933a803/normalize.css#L33-L47 */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+```
+
+
+
+使用 npm 安装它：
+
+
+
+```
+npm install --save normalize.css@3.0.3
+```
+
+
+
+### 练习：引入 normalize.css
+
+让我们使用 [postcss-import](https://github.com/postcss/postcss-import) 插件来导入 normalize.css 而不是使用另外一个 `link` 元素。
+
+安装 `postcss-import`：
+
+
+
+```
+npm install --save-dev postcss-import@7.0.0
+```
+
+<cn>
+
+normalize.css is installed at `node_modules/normalize.css/normalize.css`. In `css/app.css` we can import normalize.css using relative path:
+
+<cn>
+
+normalize.css 被安装在 `node_modules/normalize.css/normalize.css`。在 `css/app.css` 里我们可以导入 normalize.css:
+
+
+
+```
+/* css/app.css */
+@import "../node_modules/normalize.css/normalize.css";
+```
+
+
+
+运行这个命令来生成打包后的 CSS：
+
+
+
+```
+postcss --use autoprefixer --use postcss-import css/app.css --output bundle/app.css
+```
+
+
+
+你现在应该可以看到在 `bundle/app.css` 中的 normalize.css 了。
+
+因为 normalize.css 被安装在 `node_modules` 目录里，你实际上可以使用包名称来导入它：
+
+
+
+```
+@import "normalize.css";
+```
+
+
+
+> 注：PostCSS 从一个插件获取输出，然后输入到另一个插件中。上面的命令可以被写在一个 unix 命令管道中。
+
+
+
+```
+cat css/app.css | postcss --use autoprefixer | postcss --use postcss-import | cat > bundle/app.css
+```
+
+
+
+# 实时编辑
+
+把你的 Makefile 改成下面这样：
+
+
+
+```
+.PHONY: css
+css:
+  mkdir -p bundle
+  postcss --watch --use autoprefixer --use postcss-import css/app.css --output bundle/app.css
+
+.PHONY: server
+server:
+  browser-sync start --server --files='index.html,bundle/app.css'
+
+
+.PHONY: clean
+clean:
+  rm -r bundle
+```
+
+
+
+我们做了两个改动：
+
+1. 为 postcss 添加了 `--watch` 选项，因此每当你作出改动时，它重新构建 `css/app.css`。
+2. 把 `bundle/app.css` 添加到了 `--files`，因此每当我们重新构建时， BrowserSync 重新加载。
+
+尝试把背景改为红色：
+
+
+
+```
+body, html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background-color: rgba(255,0,0,0.3);
+}
+```
+

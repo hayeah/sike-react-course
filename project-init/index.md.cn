@@ -1,6 +1,8 @@
-# Create A New Project With NPM
 
-First, create a project directory called `ilovereact`:
+
+# 用 NPM 创建一个新的项目
+
+首先，创建一个名为 `ilovereact` 的目录：
 
 ```
 $ mkdir ilovereact
@@ -9,7 +11,7 @@ $ cd ilovereact
 
 
 
-Create the project:
+创建项目：
 
 
 
@@ -54,7 +56,7 @@ Is this ok? (yes) yes
 
 
 
-Having run the above command, you should see `package.json` like this:
+运行上述命令后，你应该可以看到 `package.json` 大致是这样：
 
 
 
@@ -75,25 +77,21 @@ $ cat package.json
 
 
 
-# Initialize Git Repository
+# 初始化 Git 仓库
 
-We don't want junks like log or installed packages to bloat our git repository. So let's use a `.gitignore` file to prevent anyone from adding unnecessary files into the repo.
+我们不想要像日志或者安装过的包之类的垃圾文件，它们会使我们的 git 仓库膨胀。因此我们使用 `.gitignore` 文件来阻止任何人向仓库添加不必要的文件。
 
-You can find common project-specific `.gitignore` files in the repo [github/gitignore](https://github.com/github/gitignore). Some examples are:
+你能在这个仓库 [github/gitignore](https://github.com/github/gitignore) 里找到常见项目特定的 `.gitignore` 文件。一些例子：
 
 + [ObjectiveC .gitignore](https://github.com/github/gitignore/blob/master/Objective-C.gitignore)
 + [Rails .gitignore](https://github.com/github/gitignore/blob/master/Rails.gitignore)
 + [Node .gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
 
-We'll use NodeJS specific: `.gitignore`. Download it to your project directory:
+我们会使用 NodeJS 特定的: `.gitignore` 。把它下载到你的项目目录。
 
 
 
-```
-curl https://github.com/github/gitignore/blob/master/Node.gitignore > .gitignore
-```
-
-Then we can create the repo:
+然后我们可以创建仓库：
 
 ```
 $ git init
@@ -107,7 +105,7 @@ $ git commit -m "Project init"
 
 
 
-You can see the commit you've just created:
+你可以看到你刚创建的提交：
 
 ```
 $ git show HEAD
@@ -138,29 +136,29 @@ index 0000000..e2d56c6
 
 
 
-# HTML Boilerplate
+# HTML 样板文件
 
-Let's create `index.html`. Rather than starting from scratch, it's faster to tweak [HTML5-boilerplate](https://github.com/h5bp/html5-boilerplate/blob/master/src/index.html) to suit your needs.
+让我们来创建 `index.html`。 与其从零开始，调整 [HTML5-boilerplate](https://github.com/h5bp/html5-boilerplate/blob/master/src/index.html) 满足你的需求来得更快。
 
-For this project you could use something like this:
+对于这个项目，你可以使用像这样的东西：
 
 
 
 ```html
-<!-- Uses html5 syntax -->
+<!-- 使用 html5 语法 -->
 <!doctype html>
 
 <html lang="en">
 <head>
     <meta charset="utf-8">
 
-    <!-- Forces IE to follow modern standards -->
+    <!-- 强制 IE 遵循现代标准 -->
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title></title>
     <meta name="description" content="">
 
-    <!-- Disable zooming on mobile. Useful for responsive design. -->
+    <!-- 在移动端禁用缩放。对响应式设计有用。 -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
@@ -179,9 +177,9 @@ For this project you could use something like this:
 
 
 
-### Exercise: I Love React
+### 练习：我爱 React
 
-Add an h1 element to `index.html`
+把 h1 元素添加到 `index.html`
 
 ```html
 <h1>I Love React</h1>
@@ -189,11 +187,11 @@ Add an h1 element to `index.html`
 
 
 
-# Publish To GitHub
+# 发布到 GitHub
 
-Let's push this project to GitHub so everyone can see it.
+让我们推送这个项目到 GitHub 上，这样每个人都能看到它。
 
-My username is `hayeah`. You'll need to change it to your own GitHub username.
+我的用户名是 `hayeah`。你将需要把它改为你自己的 GitHub 用户名。
 
 
 
@@ -212,7 +210,7 @@ Branch master set up to track remote branch master from origin.
 
 
 
-And you can use GitHub Pages to host this web-page. All you need to do is to push to the branch `gh-pages`:
+而且你可以使用 GitHub Pages 来托管这个网页。所有你需要做的是推送到分支 `gh-pages`：
 
 
 
@@ -225,5 +223,5 @@ To git@github.com:hayeah/sikeio-ilovereact.git
 
 
 
-Then you should be able to see the page at: http://hayeah.github.io/sikeio-ilovereact/
+然后你应该可以看到这个页面：http://hayeah.github.io/sikeio-ilovereact/
 
