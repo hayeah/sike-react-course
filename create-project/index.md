@@ -66,7 +66,7 @@ v2.5.0
 
 # Create A New Project
 
-[Mission: Use NPM to create a new project](init)
+[Mission: Use NPM to create a new project](../project-init)
 
 + Use `npm init` to create `ilovereact` project.
 + Create a new git repo.
