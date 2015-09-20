@@ -1,14 +1,41 @@
 # Web 开发的未来 - React 全端训练营
 
-
 ## 暖身周
 
 #overview
-  Frontend Dev in a week
+  这次训练营大家的背景都不太一样，后端，移动端，前端都有。许多同学使用过类似 Bootstrap 的框架来实现页面，但没有从零开始，自己做布局的经验。
 
-  <video src="assets/scrollmagic-demo.mp4" controls="controls"></video>
+  这周我们会一起完成一个包含滚动效果的营销页面：
+
+  <video src="assets/scrollmagic-demo.mp4" controls></video>
+
+  通过这个页面的实现，前端经验较为不足的同学们可以系统性地接触到前端开发的技巧，工具，和流程。我们的学习目标如下：
+
+  + NPM 依赖管理。
+  + 效应式设计的基本概念。
+  + Flexbox 布局和绝对定位。
+  + 如何用 CommonJS 模块化 JavaScript。
+
+  这是一个针对 ReactNative 的 “非主流” 前端教程。我们不会介绍 block, inline-block, float 这些前端必备的知识。我们也不用任何前端框架。我们甚至使用了一个相当激进的 CSS 预设：
+
+  ```css
+  * {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+
+    flex-direction: column;
+  }
+  ```
+
+  这个预设和 ReactNative 的盒子模型一致，使用起来其实也可以避免不少坑。
+
+  最后，纯粹为了好玩，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过~
+
 
 #lesson[day=1 name=create-project project=ilovereact]
 #lesson[day=2 name=responsive-design project=ilovereact]
 #lesson[day=3 name=flexbox project=ilovereact]
 #lesson[day=4 name=absolute-positioning project=ilovereact]
+#lesson[day=5 name=modular-javascript project=ilovereact]
+#lesson[day=6 name=scrollmagic project=ilovereact]
