@@ -99,7 +99,7 @@ Supported with prefix: -webkit
 
 
 
-```
+```css
 .a-flexible-row {
   /* 不用浏览器引擎前缀就支持 flexbox 的浏览器 */
   flex-direction: row;
@@ -381,7 +381,7 @@ clean:
 
 
 
-```
+```html
 body, html {
   width: 100%;
   height: 100%;

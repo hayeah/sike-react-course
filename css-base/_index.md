@@ -197,7 +197,7 @@ You need to add the vendor prefix for every browser you support. The CSS rule mi
 
 </cn>
 
-```
+```css
 .a-flexible-row {
   /* Browsers that supports flexbox without vendor prefix. */
   flex-direction: row;
@@ -210,7 +210,7 @@ You need to add the vendor prefix for every browser you support. The CSS rule mi
 
 <cn>
 
-```
+```css
 .a-flexible-row {
   /* 不用浏览器引擎前缀就支持 flexbox 的浏览器 */
   flex-direction: row;
@@ -761,7 +761,7 @@ Try making the background red:
 
 </cn>
 
-```
+```html
 body, html {
   width: 100%;
   height: 100%;
@@ -774,7 +774,7 @@ body {
 
 <cn>
 
-```
+```html
 body, html {
   width: 100%;
   height: 100%;
