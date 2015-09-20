@@ -8,11 +8,11 @@ Setup a frontend project from scratch.
 
 A quick introduction to responsive design. See how responsive grid and full page design are used in the real world.
 
-# [Layout Part 1 - Flexbox]()
+# [Layout Part 1 - Flexbox](flexbox)
 
 Use flexbox to layout a full page design.
 
-# [Layout Part 2 - Absolute Positioning]()
+# [Layout Part 2 - Absolute Positioning](absolute-positioning)
 
 + Create a transparent overlay.
 + Place an element arbitrarily inside a container.
