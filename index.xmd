@@ -18,19 +18,18 @@
 
   这是一个针对 ReactNative 的 “非主流” 前端教程。我们不会介绍 block, inline-block, float 这些前端必备的知识。我们也不用任何前端框架。我们甚至使用了一个相当激进的 CSS 预设：
 
-  ```css
+  ```[css]
   * {
     position: relative;
     display: flex;
     box-sizing: border-box;
-
     flex-direction: column;
   }
   ```
 
   这个预设和 ReactNative 的盒子模型一致，使用起来其实也可以避免不少坑。
 
-  最后，纯粹为了好玩，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过~
+  最后，纯粹为了好玩，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过.
 
 
 #lesson[day=1 name=create-project project=ilovereact]
