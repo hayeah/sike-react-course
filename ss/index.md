@@ -44,6 +44,21 @@ Save the following ShadowSock configuration JSON as `config.json` (or whatever):
 }
 ```
 
+You could also try port 25 (SMTP), see if that's better:
+
+```
+{
+    "server": "108.61.181.71",
+    "server_port": 25,
+    "local_address": "127.0.0.1",
+    "local_port":1080,
+    "password":"b908e9bc4eab665fb9da5ce79ee981c28a5d9c1b",
+    "timeout":360,
+    "method":"aes-256-cfb",
+    "fast_open": true
+}
+```
+
 Then run the shadowsock client `sslocal -c config.json`, it will start a local proxy server listening on 1080.
 
 Something like:
