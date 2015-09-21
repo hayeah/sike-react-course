@@ -193,9 +193,9 @@ index 0000000..e2d56c6
 
 # 发布到 GitHub
 
-让我们推送这个项目到 GitHub 上，这样每个人都能看到它。
+让我们推送这个项目到 GitHub 上，这样每个人都能看到它。我的用户名是 `hayeah`。下面的命令你需要改用自己的 GitHub 用户名。
 
-我的用户名是 `hayeah`。你将需要把它改为你自己的 GitHub 用户名。
+首先，到 GitHub 上去 [创建一个新项目](https://github.com/new), 命名为 `sikeio-ilovereact`. 接下来，添加远程仓库：
 
 
 

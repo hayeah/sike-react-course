@@ -382,17 +382,17 @@ Add an h1 element to `index.html`
 
 # Publish To GitHub
 
-Let's push this project to GitHub so everyone can see it.
+Let's push this project to GitHub so everyone can see it. My username is `hayeah`. You'll need to use your own username for the examples below.
 
-My username is `hayeah`. You'll need to change it to your own GitHub username.
+First, go on GitHub to [create a new repository](https://github.com/new). Call it `sikeio-ilovereact`. Then add the remote repo:
 
 <cn>
 
 # 发布到 GitHub
 
-让我们推送这个项目到 GitHub 上，这样每个人都能看到它。
+让我们推送这个项目到 GitHub 上，这样每个人都能看到它。我的用户名是 `hayeah`。下面的命令你需要改用自己的 GitHub 用户名。
 
-我的用户名是 `hayeah`。你将需要把它改为你自己的 GitHub 用户名。
+首先，到 GitHub 上去 [创建一个新项目](https://github.com/new), 命名为 `sikeio-ilovereact`. 接下来，添加远程仓库：
 
 </cn>
 

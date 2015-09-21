@@ -191,9 +191,9 @@ Add an h1 element to `index.html`
 
 # Publish To GitHub
 
-Let's push this project to GitHub so everyone can see it.
+Let's push this project to GitHub so everyone can see it. My username is `hayeah`. You'll need to use your own username for the examples below.
 
-My username is `hayeah`. You'll need to change it to your own GitHub username.
+First, go on GitHub to [create a new repository](https://github.com/new). Call it `sikeio-ilovereact`. Then add the remote repo:
 
 
 
