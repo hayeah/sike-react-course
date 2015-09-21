@@ -25,11 +25,11 @@ Shadowsocks 这个程序本身没有分成 Server 和 Client 两部分来开发�
 安装成功后，Shadowsocks 给我们提供了一个 `sslocal` 的命令，这个就是用来启动 SS Local 服务器的。和所有服务器一样，在启动之前我们需要对它进行一下配置。我们使用的配置文件如下：
 ```
 {
-    "server": "192.x.x.x",
+    "server": "108.61.181.71",
     "server_port": 443,
     "local_address": "127.0.0.1",
     "local_port":1080,
-    "password":"xxx",
+    "password":"b908e9bc4eab665fb9da5ce79ee981c28a5d9c1b",
     "timeout":360,
     "method":"aes-256-cfb",
     "fast_open": true
@@ -46,9 +46,9 @@ Shadowsocks 这个程序本身没有分成 Server 和 Client 两部分来开发�
 
 + 浏览器上的代理软件
 
-由于我们课程推荐使用 chrome 浏览器，所以我们介绍使用 chrome 上的一个插件 SwitchyOmega 。由于未翻墙的情况下不能访问 chrome 的应用商店，所以你可以从这里[下载](http://pan.baidu.com/s/1jGCPoR8)。
+由于我们课程推荐使用 Chrome 浏览器，所以我们介绍使用 Chrome 上的一个插件 SwitchyOmega 。由于未翻墙的情况下不能访问 Chrome 的应用商店，所以你可以从这里[下载](http://pan.baidu.com/s/1jGCPoR8)。
 
-下载了上面的文件之后，打开 chrome 浏览器，在地址栏输入 `chrome://extensions/`，然后将上述文件拖入 chrome 浏览器，并根据提示点击“确认”按钮完成安装。
+下载了上面的文件之后，打开 Chrome 浏览器，在地址栏输入 `chrome://extensions/`，然后将上述文件拖入 Chrome 浏览器，并根据提示点击“确认”按钮完成安装。
 
 安装完成之后，我们需要对代理软件进行配置，让他知道我们的 SS Local 服务器。
 
@@ -74,11 +74,11 @@ Shadowsocks 这个程序本身没有分成 Server 和 Client 两部分来开发�
 	1. 安装
 		+  Debian/Ubuntu: `apt-get install proxychains`
 		+ Mac OS X: `brew install proxychains-ng`
-	2. 配置	
-		我们在创建配置文件 `~/.proxychains/proxychains.conf`，内容如下：		
+	2. 配置
+		我们在创建配置文件 `~/.proxychains/proxychains.conf`，内容如下：
 
 				strict_chain
-				proxy_dns 
+				proxy_dns
 				remote_dns_subnet 224
 				tcp_read_time_out 15000
 				tcp_connect_time_out 8000
@@ -87,7 +87,7 @@ Shadowsocks 这个程序本身没有分成 Server 和 Client 两部分来开发�
 
 				[ProxyList]
 				socks5  127.0.0.1 1080
-				
+
 		配置之后，我们就可以像如下一样使用代理了：
 
 		proxychains4 curl https://www.twitter.com/
