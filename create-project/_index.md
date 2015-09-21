@@ -10,7 +10,7 @@ All these build tools, though, share same basic ideas. We'll show you these basi
 
 市面上有很多不同的项目构建工具。更不幸的是，每隔一周，一个新的构建工具就会变得流行起来。跟上这个步伐是不可能的。
 
-尽管如此，这些构建工具使用了想用的基本思路。我们会展示给你这些基本思路，因此不论你最终使用哪种前段构建工具（Grunt，Gulp，Webpack），你将能够快速地学习它们。
+尽管如此，这些构建工具使用了相同的基本思路。我们会展示给你这些基本思路，因此不论你最终使用哪种前段构建工具（Grunt，Gulp，Webpack），你将能够快速地学习它们。
 
 </cn>
 
