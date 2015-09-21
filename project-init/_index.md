@@ -164,6 +164,10 @@ You can find common project-specific `.gitignore` files in the repo [github/giti
 
 We'll use NodeJS specific: `.gitignore`. Download it to your project directory:
 
+```
+curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
+```
+
 <cn>
 
 # 初始化 Git 仓库
@@ -178,11 +182,11 @@ We'll use NodeJS specific: `.gitignore`. Download it to your project directory:
 
 我们会使用 NodeJS 特定的: `.gitignore` 。把它下载到你的项目目录。
 
-</cn>
+```
+curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
+```
 
-```
-curl https://github.com/github/gitignore/blob/master/Node.gitignore > .gitignore
-```
+</cn>
 
 Then we can create the repo:
 
