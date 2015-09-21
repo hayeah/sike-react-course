@@ -89,6 +89,10 @@ $ cat package.json
 
 我们会使用 NodeJS 特定的: `.gitignore` 。把它下载到你的项目目录。
 
+```
+curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
+```
+
 
 
 然后我们可以创建仓库：

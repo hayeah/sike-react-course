@@ -87,11 +87,11 @@ You can find common project-specific `.gitignore` files in the repo [github/giti
 
 We'll use NodeJS specific: `.gitignore`. Download it to your project directory:
 
+```
+curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
+```
 
 
-```
-curl https://github.com/github/gitignore/blob/master/Node.gitignore > .gitignore
-```
 
 Then we can create the repo:
 
