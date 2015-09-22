@@ -13,7 +13,7 @@ When you get a design from a designer to implement, it's usually fixed to a part
 But the static design is never enough. You need to figure out what the design should look like for *every* possible widths and heights:
 
 <video src="wunderlist-resize.mp4"></video>
-女士
+
 
 
 That's why it's important for us to understand the ideas behind a responsive design, not just the implementation techniques.

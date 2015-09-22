@@ -25,7 +25,7 @@ When you get a design from a designer to implement, it's usually fixed to a part
 But the static design is never enough. You need to figure out what the design should look like for *every* possible widths and heights:
 
 <video src="wunderlist-resize.mp4"></video>
-女士
+
 <cn>
 
 但是静态设计远远不够。你需要弄清设计在每个可能的宽度和高度下的样子。
