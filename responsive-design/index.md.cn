@@ -14,7 +14,7 @@
 
 但是静态设计远远不够。你需要弄清设计在每个可能的宽度和高度下的样子。
 
-<video src="wunderlist-resize.mp4"></video>
+<video src="wunderlist-resize.mp4" controls></video>
 
 
 
