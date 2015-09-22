@@ -66,7 +66,7 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 + To center items both horizontally and vertically in a container:
 
   ![](flex-centering.jpg)
-  
+
 
 
 
@@ -249,7 +249,7 @@ Your result:
 
 Our next goal is to divide the page into two equal parts:
 
-![](left-right-partitions.jpg)
+![](left-right-partitions-no-content.jpg)
 
 The obvious way to accomplish this is to set the width to 50%, and height to 100%. For this exercise, though, we are going to use flexbox. First, let's add the following html to the second section:
 
@@ -514,4 +514,5 @@ Control how items grow or shrink：
 Shorthand:
 
 + `flex: 1` means `flex-grow: 1; flex-shrink: 1; flex-basis: auto;`
+
 

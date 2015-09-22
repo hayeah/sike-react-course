@@ -104,9 +104,9 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 
 # Flex 介绍
 
-[Flexbox 完整指南](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) 里有所有有关 flexbox 的 CSS 属性的总结。这里面的信息稍微有点多（bad translation）。
+[Flexbox 完整指南](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) 里有所有有关 flexbox 的 CSS 属性的总结。这篇文章的讲解对于初次接触 Flexbox 相关属性的人来说信息量有点过大（bad translation）。
 
-我们将从三个属性开始：`flex-direction`，`align-items`，`justify-content`。
+所以我们先从 Flexbox 的三个属性开始：`flex-direction`，`align-items`，`justify-content`。
 
 </cn>
 
@@ -122,7 +122,7 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 + To center items both horizontally and vertically in a container:
 
   ![](flex-centering.jpg)
-  
+
 <cn>
 
 + `flex-direction` - 子元素是水平排列还是垂直排列。
@@ -491,7 +491,7 @@ Your result:
 
 Our next goal is to divide the page into two equal parts:
 
-![](left-right-partitions.jpg)
+![](left-right-partitions-no-content.jpg)
 
 The obvious way to accomplish this is to set the width to 50%, and height to 100%. For this exercise, though, we are going to use flexbox. First, let's add the following html to the second section:
 
@@ -503,7 +503,7 @@ The obvious way to accomplish this is to set the width to 50%, and height to 100
 
 我们下一个目标是把页面分为两个相等的部分：
 
-![](left-right-partitions.jpg)
+![](left-right-partitions-no-content.jpg)
 
 完成这项工作的直接方式是把宽度设置为 50%，高度设置为 100%。但是在这个练习中，我们将要使用 flexbox。首先，让我们把下面的 html 添加到第二部分：
 
@@ -757,7 +757,7 @@ Then the free space is divided according to `flew-grow` factors. This explains w
 
 <cn>
 
-然后空闲空间感觉 `flew-grow` 因素划分。这就解释了为什么容器宽度不同：
+然后空闲空间根据 `flew-grow` 因素划分。这就解释了为什么容器宽度不同：
 
 ![](flex-basis-auto.jpg)
 
