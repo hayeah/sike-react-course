@@ -997,7 +997,7 @@ Control where in the container items are (against one of the edges, or centered)
 
 <cn>
 
-控制元素在容器的什么位置（对着一条边，或者聚众）：
+控制元素在容器的什么位置（对着一条边，或者居中）：
 
 + `align-items`, `align-self`, `justify-content`
 

@@ -2,6 +2,8 @@
 
 In this lesson we are going to use JavaScript to add animation effects.
 
+
+
 ### A Floating React Logo
 
 <video src="react-logo-yoyo-float.mp4" controls autoplay loop></video>
@@ -14,11 +16,15 @@ In this lesson we are going to use JavaScript to add animation effects.
 
 <video src="animated-scroll.mp4" controls autoplay loop></video>
 
+
+
 # JavaScript Animation VS CSS Animation
 
 Many frontend developers would tell you that you should avoid JavaScript animation and use CSS animation to get better performance (less CPU time) and smoother effects (higher framerate).
 
 However, the reason that JavaScript animation is slow is usually because the library you use isn't optimized for animation. An optimized JavaScript animation engine (e.g. [GreenSock](https://www.greensock.com) or [Velocity.js](http://velocityjs.org/)) has comparable performance to CSS animation. In some cases JS animation could be faster than CSS animation.
+
+
 
 Let's try the [JavaScript Animation Speed Test](https://www.greensock.com/js/speed.html), comparing different libraries to see their performance difference. For my test, I've set the number of particles to 500. You could try more or fewer particles. The demo looks like:
 
@@ -31,6 +37,8 @@ The test results:
 + TweenJS: ~28fps.
 + GreenSock (GSAP): 50~60fps.
 
+
+
 You could get 5~6x performance boost just by using another JavaScript library! For a comparison of JavaScript animation and CSS animation performance, see:
 
 + [CSS animations performance: the untold story](http://greensock.com/css-performance)
@@ -40,6 +48,8 @@ So don't worry about performance issues, it's not JavaScript's fault. We will us
 <video src="scrollmagic-scrubbing.mp4" controls loop></video>
 
 Note: See [Animate.css](https://daneden.github.io/animate.css/) for a simple to use CSS animation library.
+
+
 
 # How JavaScript Animation Works
 
@@ -52,6 +62,8 @@ We can use a sine wave to define its position in time:
 ![](sine-animation-curve.jpg)
 
 Then we use `setTimeout` to schedule a `draw` function, updating the element 60 times a second (or once every 16ms):
+
+
 
 ```js
 var deg360 = 2*Math.PI;
@@ -76,6 +88,8 @@ function draw() {
 setTimeout(draw,1000/60);
 ```
 
+
+
 See: [Codepen Demo](http://codepen.io/hayeah/pen/XmKYxr?editors=011)
 
 However, the browser (or iOS for ReactNative) refreshes the screen at a fixed rate, but a `setTimeout` timer may call `draw` at an unpredictable time. Suppose `draw` takes 10ms, it could sometime finish after the the screen refreshes:
@@ -89,6 +103,7 @@ To make sure that `draw` always have enough time to complete, we can use `reques
 Invokations of `draw` are now in perfect sync with screen refreshes, they *always* finish before the screen actually refresh.
 
 Rewriting the animation loop with `requestAnimationFrame`:
+
 
 
 ```js
@@ -116,36 +131,52 @@ function draw(time) {
 requestAnimationFrame(draw);
 ```
 
+
+
 See: [Codepen Demo](http://codepen.io/hayeah/pen/QjExJZ?editors=011)
 
 Note: ReactNative also supports `requestAnimationFrame`, which is built with [CADisplayLink](http://www.bigspaceship.com/ios-animation-intervals/).
 
 Note: [Layout thrashing](http://wilsonpage.co.uk/preventing-layout-thrashing/) is another reason why naive JavaScript animation is slow. You should know what it is, but don't worry about it. An optimized JavaScript animation engine would avoid layout thrashing.
 
+
+
 # GreenSock
 
 GreenSock is an awesome animation library with a stupid name. Install it:
+
+
 
 ```
 # (GSAP - GreenSock Animation Platform)
 npm install gsap@1.18.0 --save
 ```
 
+
+
 For now, we'll use `<script>` tag to load the library. Later we'll learn how to use it as a CommonJS module. The GSAP library is installed at `node_modules/gsap/src/uncompressed/TweenMax.js`. Add to `index.html`:
+
+
 
 ```js
 <script type="text/javascript" src="node_modules/gsap/src/uncompressed/TweenMax.js"></script>
 ```
 
+
+
 From the developer's tool, you should see that TweenMax was loaded, and that it added the global JavaScript object `TweenMax` and `TimelineMax`:
 
 ![](TweenMax-loaded.jpg?)
+
+
 
 ### TweenMax API
 
 You can use TweenMax to animate CSS properties. The three most important methods are `to`, `from` and `fromTo`.We'll use a centered element called `#box` to illustrate these methods.
 
 + `TweenMax.to(object,duration,options)` - animate properties from stylesheet CSS values to your values.
+
+
 
 ```js
 // Animation the `#box` element for 2 seconds.
@@ -158,6 +189,8 @@ TweenMax.to("#box",2,{
 });
 ```
 
+
+
 This is useful for animating an element out:
 
 <video src="TweenMaxTo.mp4" autoplay controls loop></video>
@@ -165,6 +198,8 @@ This is useful for animating an element out:
 [Codepen Demo](http://codepen.io/hayeah/pen/xwOmEj)
 
 + `TweenMax.from(object,duration,options)` - animate properties from your values to stylesheet CSS values.
+
+
 
 ```js
 // Animation the `#box` element for 2 seconds.
@@ -177,6 +212,7 @@ TweenMax.from("#box",2,{
 });
 ```
 
+
 This is useful for animating an element in:
 
 <video src="TweenMaxFrom.mp4" autoplay controls loop></video>
@@ -184,6 +220,8 @@ This is useful for animating an element in:
 [Codepen Demo](http://codepen.io/hayeah/full/NGreMb/)
 
 + `TweenMax.fromTo(object,duration,optionsFrom,optionsTo)` - animate properties from your starting values your final values.
+
+
 
 ```js
 TweenMax.fromTo("#box",1, {
@@ -206,9 +244,13 @@ TweenMax.fromTo("#box",1, {
 );
 ```
 
+
+
 <video src="TweenMaxFromToYoyo.mp4"></video>
 
 [Codepen Demo](http://codepen.io/hayeah/full/LpZMBa)
+
+
 
 ### Easing Functions
 
@@ -223,6 +265,8 @@ The [Ease Visualizer](http://greensock.com/ease-visualizer) is a great tool to e
 <video src="gsap-visualizer.mp4" controls></video>
 
 You might notice that the yoyo animation is a bit jerky at the start of the animation (near the left). For a looping animation, easeInOut is a better easing type.
+
+
 
 ```js
 TweenMax.fromTo("#box",1, {
@@ -248,9 +292,13 @@ TweenMax.fromTo("#box",1, {
 );
 ```
 
+
+
 <video src="TweenYoyoEaseInOut.mp4" controls></video>
 
 [Codepen Demo](http://codepen.io/hayeah/pen/meEvVE)
+
+
 
 ### Exercise: Animate the React Logo
 
@@ -259,6 +307,8 @@ TweenMax.fromTo("#box",1, {
 + Write the `animateLogo` function.
 + Choose a suitable easing function and animation duration that you like.
 
+
+
 ```js
 // Start animating when the page is ready.
 window.onload = function() {
@@ -266,9 +316,13 @@ window.onload = function() {
 };
 ```
 
+
+
 Your result:
 
 <video src="react-logo-yoyo-float.mp4" controls></video>
+
+
 
 # Rendering Monitor
 
@@ -288,6 +342,8 @@ Repainting is expensive because the browser is using the CPU to recreate a bitma
 
 For more info about the rendering tab see [DevTools - Rendering Settings](https://developer.chrome.com/devtools/docs/rendering-settings).
 
+
+
 # GPU Acceleration
 
 You can think of a web page as a bunch of rectangles. The layout and drawing are done by the CPU:
@@ -299,6 +355,8 @@ Then if possible, rectangles are sent to the GPU for better performance:
 
 3. CPU uploads the bitmap to GPU as texture.
 4. Send instruction to GPU to manipulate the bitmap. Translate/scale/rotation, transparency, etc.
+
+
 
 So how is the GPU faster than the GPU? Suppose we want to combine a red bitmap with a green bitmap, the CPU has to do it one pixel at a time:
 
@@ -315,6 +373,8 @@ To enable GPU acceleration, use the following four properties for animation:
 Basically only CSS3 transform can be accelerated by the GPU. Any of the box model properties (top, left, width, height, padding, margin, border...) would trigger relayout and repaint.
 
 So changing our TweenMax code to use CSS transform:
+
+
 
 ```js
 TweenMax.fromTo("#box",1, {
@@ -335,6 +395,8 @@ TweenMax.fromTo("#box",1, {
   ease: Power2.easeInOut,
 }
 ```
+
+
 
 [Codepen Demo](http://codepen.io/hayeah/full/YyGzva/)
 
@@ -358,11 +420,14 @@ In summary, there are three possible costs when changing CSS properties:
 To learn more see: [High Performance Animations](http://csstriggers.com/)
 
 
+
 ### Exercise: Animate The Logo With GPU Acceleration
 
 Your result:
 
 <video src="react-logo-composited.mp4" autoplay loop controls></video>
+
+
 
 # Animate Robot
 
@@ -372,6 +437,8 @@ You can specify a different duration for each step. Here's an example:
 
 <video src="TimelineMax.mp4" controls autoplay loop></video>
 
+
+
 ```js
 var t = new TimelineMax();
 t.to("#box",1,{x: 200})
@@ -380,18 +447,28 @@ t.to("#box",1,{x: 200})
   .to("#box",0.5,{rotation: "-=360deg"});
 ```
 
+
+
 [Codepen Demo](http://codepen.io/hayeah/full/YyGzva/)
 
 If you need `repeat` and `yoyo`, pass them as options to the TimelineMax constructor:
+
+
 
 ```js
 // yoyo the timeline animation forever
 var t = new TimelineMax({yoyo: true, repeat: -1});
 ```
 
+
+
 [Codepen Demo](http://codepen.io/hayeah/full/OyRVKv)
 
+
+
 ### Exercise: Shaking Android Robot
+
+
 
 ```js
 function animateRobot() {
@@ -403,9 +480,13 @@ window.onload = function() {
 }
 ```
 
+
+
 Your result:
 
 <video src="android-shakeit.mp4" controls autoplay loop></video>
+
+
 
 # Pro - Slider Control & Animated Scrolling
 
@@ -418,11 +499,15 @@ This section is optional. There are two additional features we'll implement:
 
 Note: Use jQuery if you want to, but this is a good chance to practice using the DOM API.
 
+
+
 ### Exercise: Update slider control on scroll event
 
 Whenever the the window scrolls you should use `window.scrollY` to figure out which section the window is showing.
 
 There are four sections. You should make sure that the section ids and the the `href` property of the slider control links match up:
+
+
 
 ```html
 <div id="intro-section" class="section">
@@ -453,7 +538,11 @@ There are four sections. You should make sure that the section ids and the the `
 </div>
 ```
 
+
+
 Complete the following code fragment:
+
+
 
 ```js
 function updateSliderControl() {
@@ -490,6 +579,8 @@ window.onload = function() {
 };
 ```
 
+
+
 + Use querySelector and querySelectorAll to get elements by CSS selector.
 + To get the attributes of an element,
   + See: [MDN - Element.attributes](https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes)
@@ -500,6 +591,8 @@ Your result:
 
 <video src="slider-control-update.mp4" controls></video>
 
+
+
 ### Exercise: Animated scrolling
 
 When you click on the links in the slider control, the browser jumps immediately to the section targeted by the `href` property of the link. Now we want to use GreenSock to animate smoothly to the targeted section instead.
@@ -508,12 +601,18 @@ The [ScrollToPlugin](https://greensock.com/ScrollToPlugin) provides the extra fu
 
 Let's include the scroll plugin. It must be loaded after `TweenMax.js`:
 
+
+
 ```html
 <script type="text/javascript" src="node_modules/gsap/src/uncompressed/TweenMax.js"></script>
 <script type="text/javascript" src="node_modules/gsap/src/uncompressed/plugins/ScrollToPlugin.js"></script>
 ```
 
+
+
 Complete the code fragment:
+
+
 
 ```js
 function scrollToElement(element) {
@@ -551,6 +650,8 @@ window.onload = function() {
 };
 ```
 
+
+
 + You need to cancel the link's default behaviour.
   + See: [MDN - Event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)
 + The event listener bug is very very common.
@@ -560,6 +661,8 @@ Your result:
 
 <video src="animated-scroll.mp4" controls></video>
 
+
+
 # Summary
 
 With an optimized animation engine, JavaScript animation can be as fast as CSS animation. Choose whichever that suit your project's needs better.
@@ -568,3 +671,5 @@ On ReactNative JavaScript animation is your only choice. Much of the performance
 
 + Avoid triggering layout.
 + Animate properties that the GPU can accelerate.
+
+

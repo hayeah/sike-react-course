@@ -111,7 +111,7 @@ Flexbox，相反，是被特别设计为现代 web 创造 UI 的。它并不简�
 
 ![](flex-align-self.jpg)
 
-根据这个原因，很简单就能基础 `align-self` 的方向。而且 `align-items` 和 `align-self` 方向相同。
+根据这个原因，很简单就能记住 `align-self` 的方向。而且 `align-items` 和 `align-self` 方向相同。
 
 
 
@@ -492,7 +492,7 @@ flex-basis: auto;
 
 
 
-控制元素在容器的什么位置（对着一条边，或者聚众）：
+控制元素在容器的什么位置（对着一条边，或者居中）：
 
 + `align-items`, `align-self`, `justify-content`
 
