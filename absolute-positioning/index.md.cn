@@ -6,13 +6,7 @@
 
 ![](layout-relative.jpg)
 
-<cn>
 
-Sometimes, the items are not relative to each other, but relative to their container. You can use absolute positioning to specify where these items should be. For example, put the items at the corners:
-
-![](layout-absolute.jpg)
-
-<cn>
 
 有时，元素并不彼此相关，但是和容器相关。你可以用绝对定位来指定这些元素应该在哪里。举个例子，把元素放在角上：
 
@@ -177,16 +171,15 @@ body, div, span {
 
 + `left, right` - 参考容器宽度的百分比。
 + `top, bottom` - 参考容器高度的百分比。
-+ `translate(x%,y%)` - 参考变换元素宽高的宽高的百分比。
++ `translate(x%,y%)` - 参考变换元素宽(x)或高(y)的百分比。
 + `padding, margin` - 参考容器宽度的百分比。
   + 对水平方向有用，垂直方向无用。
 
 
 
 > 注：使用传统 CSS 布局技术来垂直居中元素非常非常难，经常是与容器宽度有关的 `margin-top` 和 `margin-bottom`，而不是与高度有关。
-> 
-> 而且，如果你不会用 CSS3 `transform`，你需要知道被定为元素的宽度和高度，为了偏移 margin（bad translation）
-
+>
+> 而且，如果你不会用 CSS3 的 `transform`，你就需要知道被定位元素的宽度和高度的具体值，并根据这些值给被定位元素设置一个负的 margin 值。通过这些操作后，最终才能使被定位元素居中。
 
 
 ### 练习：Android 机器人
@@ -207,6 +200,8 @@ body, div, span {
 
 
 # Fixed 定位
+
+`position: fixed`  和 `position: absolute` 的行为相似。唯一的不同点在于 fixed 是相对于浏览器窗口而非父容器进行定位的。由于是相对于浏览器窗口定位，所以上下滚屏也不会改变元素在窗口中显示的位置。这样的性质对于制作 UI 导航栏和菜单栏尤为有用。
 
 
 

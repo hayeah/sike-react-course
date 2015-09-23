@@ -8,6 +8,12 @@ The layout system (flexbox or traditional CSS document flow) is good at arrangin
 
 
 
+Sometimes, the items are not relative to each other, but relative to their container. You can use absolute positioning to specify where these items should be. For example, put the items at the corners:
+
+![](layout-absolute.jpg)
+
+
+
 In the same container you can have mix items that are positioned by the layout system with items that are absolutely positioned:
 
 ![](layout-mixed.jpg)
