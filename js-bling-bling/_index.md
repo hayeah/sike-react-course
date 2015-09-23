@@ -811,7 +811,7 @@ In summary, there are three possible costs when changing CSS properties:
 2. Repaint (CPU).
 3. Transform, rotate, scale, opacity (GPU, cheapest).
 
-[CSS Triggers...](http://csstriggers.com/) has a chart of which CSS property triggers what cost. Let's take a look at border-bottom:
+[CSS Triggers...](http://csstriggers.com/) has a chart of which CSS property triggers what costs. Let's take a look at border-bottom:
 
 ![](border-bottom-triggers.jpg)
 

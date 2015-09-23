@@ -914,7 +914,7 @@ flex: 0 1 auto;
 /*
 flex-grow: 0;
 flex-shrink: 1;
-flex-shrink: auto;
+flex-basis: auto;
 */
 ```
 
@@ -929,7 +929,7 @@ flex: 0 1 auto;
 /*
 flex-grow: 0;
 flex-shrink: 1;
-flex-shrink: auto;
+flex-basis: auto;
 */
 ```
 
