@@ -358,15 +358,16 @@ It's confusing that percentage means different things for different CSS properti
 
 </cn>
 
-> Note: It is very very hard to vertically center items with traditional CSS layout techniques, mostly `margin-top` and `margin-bottom` refers to the width of the container, not the height!
+> Note: It is very very hard to vertically center items with traditional CSS layout techniques because `margin-top` and `margin-bottom` refer to the width of the container, not the height!
 >
-> Also, if you can't use CSS3 `transform`, then you need to know the width & height of a positioned item in order to offset it with a negative margin...
+> Also, if you can't use CSS3 `transform` for compatibility reasons, then you need to know the width & height of a positioned item in order to offset it with a negative margin...
 
 <cn>
 
 > 注：使用传统 CSS 布局技术来垂直居中元素非常非常难，经常是与容器宽度有关的 `margin-top` 和 `margin-bottom`，而不是与高度有关。
 >
-> 而且，如果你不会用 CSS3 的 `transform`，你就需要知道被定位元素的宽度和高度的具体值，并根据这些值给被定位元素设置一个负的 margin 值。通过这些操作后，最终才能使被定位元素居中。
+> 如果你因为兼容性的考量不能使用 CSS3 `transform`，你就需要知道被定位元素的宽度和高度的具体值，并根据这些值给被定位元素设置一个负的 margin 值。通过这些操作后，最终才能使被定位元素居中。
+
 </cn>
 
 ### Exercise: Android Robot

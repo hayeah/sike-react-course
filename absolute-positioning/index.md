@@ -181,9 +181,9 @@ It's confusing that percentage means different things for different CSS properti
 
 
 
-> Note: It is very very hard to vertically center items with traditional CSS layout techniques, mostly `margin-top` and `margin-bottom` refers to the width of the container, not the height!
+> Note: It is very very hard to vertically center items with traditional CSS layout techniques because `margin-top` and `margin-bottom` refer to the width of the container, not the height!
 >
-> Also, if you can't use CSS3 `transform`, then you need to know the width & height of a positioned item in order to offset it with a negative margin...
+> Also, if you can't use CSS3 `transform` for compatibility reasons, then you need to know the width & height of a positioned item in order to offset it with a negative margin...
 
 
 
