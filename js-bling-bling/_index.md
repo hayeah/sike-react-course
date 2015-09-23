@@ -33,7 +33,7 @@ The test results:
 
 You could get 5~6x performance boost just by using another JavaScript library! For a comparison of JavaScript animation and CSS animation performance, see:
 
-> [CSS animations performance: the untold story](http://greensock.com/css-performance)
++ [CSS animations performance: the untold story](http://greensock.com/css-performance)
 
 So don't worry about performance issues, it's not JavaScript's fault. We will use GreenSock for this project. Later when we implement scrolling effects, GreenSock makes it super easy to play the animation back and forth:
 
@@ -145,7 +145,7 @@ From the developer's tool, you should see that TweenMax was loaded, and that it 
 
 You can use TweenMax to animate CSS properties. The three most important methods are `to`, `from` and `fromTo`.We'll use a centered element called `#box` to illustrate these methods.
 
-> `TweenMax.to(object,duration,options)` - animate properties from stylesheet CSS values to your values.
++ `TweenMax.to(object,duration,options)` - animate properties from stylesheet CSS values to your values.
 
 ```js
 // Animation the `#box` element for 2 seconds.
@@ -164,7 +164,7 @@ This is useful for animating an element out:
 
 [Codepen Demo](http://codepen.io/hayeah/pen/xwOmEj)
 
-> `TweenMax.from(object,duration,options)` - animate properties from your values to stylesheet CSS values.
++ `TweenMax.from(object,duration,options)` - animate properties from your values to stylesheet CSS values.
 
 ```js
 // Animation the `#box` element for 2 seconds.
@@ -183,7 +183,7 @@ This is useful for animating an element in:
 
 [Codepen Demo](http://codepen.io/hayeah/full/NGreMb/)
 
-> `TweenMax.fromTo(object,duration,optionsFrom,optionsTo)` - animate properties from your starting values your final values.
++ `TweenMax.fromTo(object,duration,optionsFrom,optionsTo)` - animate properties from your starting values your final values.
 
 ```js
 TweenMax.fromTo("#box",1, {
