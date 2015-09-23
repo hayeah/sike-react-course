@@ -225,7 +225,7 @@ Following this reasoning, it's easy to remember which direction `align-self` is.
 
 ![](flex-align-self.jpg)
 
-根据这个原因，很简单就能基础 `align-self` 的方向。而且 `align-items` 和 `align-self` 方向相同。
+根据这个原因，很简单就能记住 `align-self` 的方向。而且 `align-items` 和 `align-self` 方向相同。
 
 </cn>
 
