@@ -558,7 +558,7 @@ function updateSliderControl() {
     var sectionBottom = ...
 
     // Check if window.scrollY is between the section.
-    if(window.scrollY >= documentTop && window.scrollY < documentBottom) {
+    if(window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
       link.className = "active";
     } else {
       link.className = "";
