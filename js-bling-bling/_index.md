@@ -926,7 +926,7 @@ var t = new TimelineMax({yoyo: true, repeat: -1});
 
 <cn>
 
-### 练习： 震动的 Android 机器人
+### 练习：晃动着的 Android Robot
 
 </cn>
 
