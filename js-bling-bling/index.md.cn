@@ -10,11 +10,11 @@
 
 <video src="react-logo-yoyo-float.mp4" controls autoplay loop></video>
 
-### Shaking Android Robot
+### 让 Android Robot 动起来
 
 <video src="android-shakeit.mp4" controls autoplay loop></video>
 
-### Animated Scrolling
+### 网页滚动动画
 
 <video src="animated-scroll.mp4" controls autoplay loop></video>
 
@@ -98,7 +98,7 @@ setTimeout(draw,1000/60);
 
 ![](setTimeout-not-sync.jpg)
 
-为了确保 `draw` 经常有足够的时间运行，我们可以使用 `requestAnimationFrame` 来调度 `draw` 在与屏幕刷新的相同间隔（bad translation）。时间线看起来像这样：
+为了确保 `draw` 总是有足够的时间运行，我们可以使用 `requestAnimationFrame` 来使得 `draw` 方法的执行频率与屏幕刷新频率相同。时间线看起来像这样：
 
 ![](rAF-sync.jpg)
 
@@ -174,9 +174,9 @@ npm install gsap@1.18.0 --save
 
 ### TweenMax API
 
-你可以使用 TweenMax 来驱动（bad translation） CSS 属性。三个最重要的方法是 `to`, `from` 和 `fromTo`。我们会使用一个叫 `#box` 的居中的元素来演示这些方法。
+你可以使用 TweenMax 来自定义 CSS 属性动画。三个最重要的方法是 `to`, `from` 和 `fromTo`。我们会使用一个叫 `#box` 的居中的元素来演示这些方法。
 
-+ `TweenMax.to(object,duration,options)` - 从样式表 CSS 值驱动（bad translation）到你的值。
++ `TweenMax.to(object,duration,options)` - 自定义属性动画：由 CSS 样式表中的值变化为自定义的值。
 
 
 
@@ -184,7 +184,7 @@ npm install gsap@1.18.0 --save
 // `#box` 元素进行 2 秒的动画
 TweenMax.to("#box",2,{
   css: {
-    // 在同时驱动（bad translation）多个 CSS 属性
+    // 在同时更改多个 CSS 属性
     left: "200px",
     opacity: 0,
   },
@@ -193,13 +193,13 @@ TweenMax.to("#box",2,{
 
 
 
-对于用动画把元素移走的场景(bad translation)，这非常有用：
+对于使用动画把元素移出的情况，这将非常有用：
 
 <video src="TweenMaxTo.mp4" autoplay controls loop></video>
 
 [Codepen Demo](http://codepen.io/hayeah/pen/xwOmEj)
 
-+ `TweenMax.from(object,duration,options)` - 从你的值驱动（bad translation）到 CSS 值。
++ `TweenMax.from(object,duration,options)` - 自定义属性动画：由自定义的值变化为 CSS 样式表中的值。
 
 
 
@@ -207,7 +207,7 @@ TweenMax.to("#box",2,{
 // `#box` 元素进行 2 秒的动画
 TweenMax.from("#box",2,{
   css: {
-    // 在同时驱动（bad translation）多个 CSS 属性
+    // 在同时更改多个 CSS 属性
     left: "-200px",
     opacity: 0,
   },
@@ -216,13 +216,13 @@ TweenMax.from("#box",2,{
 
 
 
-对于把元素用动画移入（bad translation）的场景，这很有用：
+对于使用动画把元素移入的情况，这将非常有用：
 
 <video src="TweenMaxFrom.mp4" autoplay controls loop></video>
 
 [Codepen Demo](http://codepen.io/hayeah/full/NGreMb/)
 
-+ `TweenMax.fromTo(object,duration,optionsFrom,optionsTo)` - 从你的初始值驱动（bad translation）到 你的最终值。
++ `TweenMax.fromTo(object,duration,optionsFrom,optionsTo)` - 自定义属性动画：由自定义初始值变化为自定义终值。
 
 
 
@@ -352,12 +352,12 @@ window.onload = function() {
 你可以把一个网页想象为一堆矩形。布局和绘图都是由 CPU 完成的：
 
 1. CPU 计算这些矩形的布局。矩形在哪里？它们有多大？
-2. CPU 把矩形渲染成点阵。
+2. CPU 把矩形渲染成点阵位图（bitmap）。
 
 之后如果可能的话，矩形被送到 GPU 以获得更好的性能：
 
-3. CPU 把点阵以文理形式上传到 GPU（bad translation）
-4. 给 GPU 发送指令来处理点阵。平移/缩放/旋转，修改透明度，等等。
+3. CPU 以点阵位图的形式上传到 GPU 中。
+4. 给 GPU 发送指令来处理这些位图。可能有平移/缩放/旋转，修改透明度，等等。
 
 
 
@@ -403,7 +403,7 @@ TweenMax.fromTo("#box",1, {
 
 [Codepen Demo](http://codepen.io/hayeah/full/YyGzva/)
 
-TweenMax 动画（bad translation）使用 `transform3d` 属性来启用 GPU 加速。使用 rendering 监控器，你可以看到“green rectangles”没了，不再有浏览器重绘了。此外，启用“show composited layer border”，你会看到元素有一个橙色边框，意为它是个 3D 图层，被 GPU 加速：
+TweenMax 通过改变 `transform3d` 属性来启用 GPU 加速。使用 rendering 监控器，你可以看到“green rectangles”没了，不再有浏览器重绘了。此外，启用“show composited layer border”，你会看到元素有一个橙色边框，意为它是个 3D 图层，被 GPU 加速：
 
 <video src="show-composited-layer.mp4" controls></video>
 
@@ -423,9 +423,9 @@ TweenMax 动画（bad translation）使用 `transform3d` 属性来启用 GPU 加
 
 
 
-# 舞动机器人(bad translation)
+# 让 Robot 动起来
 
-TweenMax 从一个初始点到一个结束点执行动画（bad translation）。为了构建更复杂的动画，你可以使用 [TimeLineMax](https://greensock.com/docs/#/HTML5/GSAP/TimelineMax/) 来从 A 到 B 到 C 到 D 进行动画(bad translation)。
+TweenMax 可以执行单个步骤、从某一个起始点变化到终点的动画。为了构建更复杂的动画，你可以使用 [TimeLineMax](https://greensock.com/docs/#/HTML5/GSAP/TimelineMax/) 来构建更加复杂、多步骤的动画。
 
 
 
@@ -446,7 +446,7 @@ t.to("#box",1,{x: 200})
 
 
 ```js
-// 让 the timeline 动画不停运行（bad translation）
+// 让动画一直执行
 var t = new TimelineMax({yoyo: true, repeat: -1});
 ```
 
@@ -478,12 +478,12 @@ window.onload = function() {
 
 
 
-# 高级 - Slider Control & 动画滚动效果（bad translation）
+# 高级 - 指示器 & 网页滚动动画
 
 这部分是可选的。我们要实现两个额外的特性：
 
-1. 更新 slider control 反映当前滚动的位置。
-2. 当用户点击 slider control 跳转到一部分时，平滑地滚动到那里。
+1. 更新指示器状态来反映当前滚动的位置。
+2. 当用户点击指示器跳转到一部分时，平滑地滚动到那里。
 
 <video src="animated-scroll.mp4" controls loop autoplay></video>
 
@@ -491,11 +491,11 @@ window.onload = function() {
 
 
 
-### 练习：滚动事件发生时更新 slider control
+### 练习：滚动事件发生时更新指示器状态
 
 不论何时当窗口滚动时你应该使用 `window.scrollY` 来算出窗口正在展示的是哪一部分。
 
-有四部分。你应该确保这些部分的 id 和 slider control 的 `href` 属性链接保持一致：
+有四部分。你应该确保这些部分的 id 和指示器的 `href` 属性链接保持一致：
 
 
 
@@ -577,13 +577,17 @@ window.onload = function() {
   + 参考：[MDN - NamedNodeMap](https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap)
 + 获取一个元素相对于文档的高度，参考：http://stackoverflow.com/a/21880020
 
+你的结果：
+
+<video src="slider-control-update.mp4" controls></video>
 
 
-### 练习：滚动动画（bad translation）
 
-当你点击 slider control 的链接时，浏览器立即跳转到被链接 `href` 属性定位的部分。现在我们想要使用 GreenSock 来平滑滚动到被定为到的部分。
+### 练习：网页滚动动画
 
-[ScrollToPlugin](https://greensock.com/ScrollToPlugin) 提供了额外的功能来实现滚动动画（bad translation）。
+当你点击指示器的链接时，浏览器立即跳转到被链接 `href` 属性定位的部分。现在我们想要使用 GreenSock 来平滑滚动到被定为到的部分。
+
+[ScrollToPlugin](https://greensock.com/ScrollToPlugin) 提供了额外的功能来实现网页滚动的动画效果。
 
 让我们引入 scroll 插件。它必须在 `TweenMax.js` 之后加载：
 
@@ -652,10 +656,10 @@ window.onload = function() {
 
 # 总结
 
-通过使用被优化的动画引擎，JavaScript 动画能像 CSS 动画一样快。选择适合你项目任何一个更适合你项目的（bad translation）。
+通过使用被优化的动画引擎，JavaScript 动画能像 CSS 动画一样快。选择最符合项目的那种吧！
 
 在 ReactNative 中，JavaScript 动画是你唯一的选择。很多我们已经谈到的性能技巧也适用于 ReactNative。最重要的是：
 
 + 避免引起布局。
-+ 使用 GPU 可以加速的属性进行动画（bad translation）
++ 动画可以通过 GPU 加速。
 
