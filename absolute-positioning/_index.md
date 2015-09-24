@@ -10,7 +10,7 @@ The layout system (flexbox or traditional CSS document flow) is good at arrangin
 
 <cn>
 
-布局系统（flex 或者传统的 CSS 文档流）善于排列相对于彼此的元素，或者一个元素在另外一个的后面：
+布局系统（flex 或者传统的 CSS 文档流）易于排列相对于彼此一个挨着一个的元素：
 
 ![](layout-relative.jpg)
 
@@ -240,7 +240,7 @@ Use absolute positioning to embed the demo image inside the iPhone frame. The me
 
 ### 练习：iPhone 演示
 
-使用绝对定位把演示图片嵌入 iPhone 框架框架里。尺寸为：
+使用绝对定位把演示图片嵌入 iPhone 框架里。尺寸为：
 
 </cn>
 
