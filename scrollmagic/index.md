@@ -1,4 +1,6 @@
-# 什么是 ScrollMagic？
+# ScrollMagic 滚动效果
+
+我们会通过这一系列的视频来学习如何使用 ScrollMagic 来实现 ILoveReact 的滚动效果。
 
 <video src="http://7xn15n.media1.z0.glb.clouddn.com/scrollmagic-leadin.mp4" controls preload="none"></video>
 
@@ -61,7 +63,7 @@ npm install scrollmagic@2.0.5 --save
 
 <video src="http://7xn15n.media1.z0.glb.clouddn.com/background-fading-plan.mp4" controls preload="none"></video>
 
-示范:
+请自己先试着实现再看示范:
 
 # 滚动飘移 iPhone 效果
 
@@ -69,7 +71,7 @@ npm install scrollmagic@2.0.5 --save
 
 <video src="http://7xn15n.media1.z0.glb.clouddn.com/iphone-movement-implementation-plan.mp4" controls preload="none"></video>
 
-示范:
+请自己先试着实现再看示范:
 
 <video src="http://7xn15n.media1.z0.glb.clouddn.com/iphone-movement-implementation.mp4" controls preload="none"></video>
 
@@ -80,3 +82,6 @@ npm install scrollmagic@2.0.5 --save
 # 响应式调整
 
 <video src="http://7xn15n.media1.z0.glb.clouddn.com/responsive-demo.mp4" controls preload="none"></video>
+
++ 没有什么系统性的解决方案。有洞补洞的体力活。
++ 移动端通常需要自己的布局。我们这里就不管了。
