@@ -36,7 +36,7 @@
 + `duration: 300` 是滚动 300 素数后完成动画。
 + `duration: 100%` 是滚动屏高 100% 后完成动画。
 
-<video src="http://7xn15n.media1.z0.glb.clouddn.com/controller-and-scene" controls preload="none"></video>
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/controller-and-scene.mp4" controls preload="none"></video>
 
 控制器 (Controller) & 场景 （Scene）:
 

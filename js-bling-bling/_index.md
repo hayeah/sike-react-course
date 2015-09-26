@@ -208,7 +208,7 @@ Rewriting the animation loop with `requestAnimationFrame`:
 
 ![](rAF-sync.jpg)
 
-`draw` 的调用现在可以与屏幕刷新完美同步了，它们*经常*在屏幕实际刷新前结束运行。
+`draw` 的调用现在可以与屏幕刷新完美同步了，它们·保·证·会在屏幕实际刷新前结束运行。
 
 使用 `requestAnimationFrame` 重写动画循环：
 
