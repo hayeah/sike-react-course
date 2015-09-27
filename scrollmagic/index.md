@@ -1,89 +1,82 @@
+# 什么是 ScrollMagic？
 
-# ScrollMagic
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/scrollmagic-leadin.mp4" controls preload="none"></video>
 
-<video src="scrollmagic-leadin.mp4" controls></video>
+# ScrollMagic 案例
 
-Just for fun. Probably not even a good idea... Find other ways to impress/attract your users.
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/scrollmagic-rant.mp4" controls preload="none"></video>
 
-+ What is ScrollMagic?
++ 好例子. http://www.pixate.com/
+  + 有垂直滚动韵律，方便用户定位当前的位置。
+  + 滚动一个屏到下一个屏有圆滑的连贯性，、
 
-# ExamplesREA
++ 坏例子：http://appliancetecltd.com/
+  + 失去了垂直的空间感，用户不好定位当前的位置。
+  + 滚动页面像走迷宫。
 
-<video src="scrollmagic-rant.mp4" controls></video>
-
-+ Good.
-  + Scroll rhythm.
-  + Continuity.
-  + http://www.pixate.com/
-
-+ Bad.
-  + No sense of vertical space.
-  + Complicated maze.
-  + http://appliancetecltd.com/
-
-+ Bad performance.
++ 性能问题。
   + https://mixpanel.com/inapp-notifications
 
-+ Even better, a normal scrollable page!
-  + Many people (me) scroll the page REALLY FAST to skim.
++ 返璞归真，不做炫酷滚动效果。
+  + 方便快速扫描页面信息，容易直接跳到自己要的地方。
   + http://early-access.notion.so/
 
-# Mechanics
+终而言之 ScrollMagic 着东西玩玩就好。认真你就输了。
 
-<video src="scrollmagic-trigger.mp4" controls></video>
+# ScrollMagic 使用机制
 
-Trigger & Duration:
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/scrollmagic-trigger.mp4" controls preload="none"></video>
 
-+ `duration: 0` means trigger the tween, and run in "actual time".
-+ Otherwise duration means scroll distance.
-  + In pixels or percentage.
-  + 100% is the full height of the screen.
+触发点 (trigger) 和动画 “长度” (duration)
 
-<video src="controller-and-scene" controls></video>
++ `duration: 0` 会按照动画本身设定的时间去执行动画效果，和滚动轴没有绑定。
++ 非 0 的 `duration` 表示一个滚动距离，把动画的时间轴和滚动轴绑定。
++ `duration: 300` 是滚动 300 素数后完成动画。
++ `duration: 100%` 是滚动屏高 100% 后完成动画。
 
-Controller & Scene:
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/controller-and-scene" controls preload="none"></video>
 
-+ Scene triggers.
-  + Trigger isn't necessarily the animation target.
-  + Entering and exiting a scene.
-+ GreenSock or Velocity.js or CSS
+控制器 (Controller) & 场景 （Scene）:
 
-<video src="pinning.mp4" controls></video>
++ 控制器等于是整个页面的滚动轴，在不同垂直区域会有场景。
++ 滚动到了场景会执行该场景指定的动画效果。
++ 动画效果可以用 GreenSock，Velocity.js，或者是 CSS 来驱动。
++ 若要把动画效果和滚动轴绑定，GreenSock 是唯一的选择。
 
-Pinning:
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/pinning.mp4" controls preload="none"></video>
 
-+ Keep an element at its current position.
-+ One pin only.
+固定 （pinning):
 
-# Install ScrollMagic
++ 一个场景可以在其滚动区域固定某个元素，停止它的滚动。
+
+# 安装 ScrollMagic
 
 ```
 npm install scrollmagic@2.0.5 --save
 ```
 
-# Background Fade
+# 滚动淡出背景
 
-Plan:
+实现思路:
 
-<video src="background-fading-plan.mp4" controls></video>
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/background-fading-plan.mp4" controls preload="none"></video>
 
-Implementation:
+示范:
 
-+ Start with a paused Tween, and seek from console.
-  + Add an overlay & animate opacity.
+# 滚动飘移 iPhone 效果
 
-# iPhone Pinning
+实现思路:
 
-<video src="iphone-movement-implementation-plan.mp4" controls></video>
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/iphone-movement-implementation-plan.mp4" controls preload="none"></video>
 
-+ iPhone move.
+示范:
 
-<video src="iphone-movement-implementation.mp4" controls></video>
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/iphone-movement-implementation.mp4" controls preload="none"></video>
 
-+ iPhone pin.
+### 固定 iPhone
 
-<video src="pin-iphone.mp4" controls></video>
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/pin-iphone.mp4" controls preload="none"></video>
 
-### responsive tweeks
+# 响应式调整
 
-<video src="responsive-demo.mp4" controls></video>
+<video src="http://7xn15n.media1.z0.glb.clouddn.com/responsive-demo.mp4" controls preload="none"></video>
