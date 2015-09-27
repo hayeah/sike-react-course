@@ -1,8 +1,6 @@
 # Buy Shoes Site Layout
 
-<cn>
-# Buy Shoes 网页布局
-</cn>
+
 
 
 In the first week we learned to use flexbox to build a simple webpage. This week, we are going to build a more complex page with flexbox, a percentage-based responsive shopping cart.
