@@ -35,8 +35,18 @@
 
   最后，纯粹为了好玩，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过.
 
-  ## 第一周
 
+#lesson[day=1 name=create-project project=ilovereact]
+#lesson[day=2 name=responsive-design project=ilovereact]
+#lesson[day=3 name=flexbox project=ilovereact]
+#lesson[day=4 name=absolute-positioning project=ilovereact]
+#lesson[day=5 name=js-bling-bling project=ilovereact]
+#lesson[day=6 name=scrollmagic project=ilovereact]
+
+
+## 第一周
+
+#overview
   暖身周大家对 Flexbox 和 CommonJS 模块有了认识，这周我们会使用 React 来实现一个购物车：
 
   <img src="assets/shopping-cart.jpg"/>
@@ -51,11 +61,5 @@
   + React 的函数式编程风格。
   + Flux 架构来实现 "one way data flow"。
 
-
-#lesson[day=1 name=create-project project=ilovereact]
-#lesson[day=2 name=responsive-design project=ilovereact]
-#lesson[day=3 name=flexbox project=ilovereact]
-#lesson[day=4 name=absolute-positioning project=ilovereact]
-#lesson[day=5 name=js-bling-bling project=ilovereact]
-#lesson[day=6 name=scrollmagic project=ilovereact]
+#lesson[day=7 name=buyshoes-layout project=buyshoes]
 
