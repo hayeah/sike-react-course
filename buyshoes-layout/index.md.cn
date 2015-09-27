@@ -1,2 +1,389 @@
 
 # Buy Shoes 网页布局
+
+在第一周，我们已经学习了如何使用 flexbox 来搭建一个简单的网页。这一周，我们将继续学习使用 flexbox 来制作一个更加复杂的、基于百分比的响应式商品购物车网页。
+
+# 基础项目
+
+
+为了帮助你更快上手 `buyshoes`，开始之前，下载这个基础项目：
+
+```
+git clone https://github.com/hayeah/sikeio-buyshoes-startkit.git buyshoes
+```
+
+
+
+在你克隆完项目之后，运行 `npm install` 来安装项目在 `package.json` 中所声明过的依赖：
+
+```
+npm install
+```
+
+
+
+配置基本上和前面一个项目一样，这个项目也有类似的 flexbox 设置：
+
+```css
+/* 如果你乐意的话，可以增加更多你所喜欢的 HTML5 标签 */
+body, div, span, a, img, h1, h2, h3, h4, h5 {
+  box-sizing: border-box;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 0;
+  align-content: flex-start;
+
+  border: 0 solid black;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  position: relative;
+}
+```
+
+
+
+`Makefile` 的作用也相类似。在开工之前，请打开两个不同的终端窗口：
+
+```
+# 终端 1 - 运行 browser-sync
+make server
+
+# 终端 2 - 运行 css 编译器
+make css
+```
+
+
+# BEM CSS 命名约定
+
+在这个项目中，我们将使用一个看上去丑极了，事实上使用起来却效果很好的命名约定：BEM 命名约定。
+
+
+假设有一个 company 模块：
+
+```html
+<div class="company">
+  <div class="name">Google</div>
+</div>
+```
+
+
+company 模块的 css 是这样的：
+
+```css
+.company {
+  border: 1px solid blue;
+}
+
+.company .name {
+  color: blue;
+}
+```
+
+
+同时，你有一个 person 模块：
+
+```html
+<div class="person">
+  <div class="name">Larry Page</div>
+</div>
+```
+
+person 的 css：
+
+```css
+.person {
+  border: 1px solid red;
+}
+
+.person .name {
+  color: red;
+}
+```
+
+像这样模块化 HTML 片段的目的就是为了能够把任何一个元素嵌入到网页的任何一个地方。如果当 `person` 模块放在 `company` 内会发生什么呢：
+
+```html
+<div class="company">
+  <div class="name">Google</div>
+
+  <div class="about">
+    <div class="person">
+
+      <!-- Larry Page 是红色还是蓝色？ -->
+      <div class="name">Larry Page</div>
+
+    </div>
+  </div>
+</div>
+```
+
+在这里，并不能清楚地知道「Larry Page」究竟是红色还是蓝色的字。尽管 `.person .name` 把字的颜色设成了红色，但是与此同时 `.company .name` 也改变了字的颜色。打趣地说，BEM 可谓是使用暴力方式解决了这个问题。
+
+`name` 的定义是模棱两可的，所以 BEM 在所有元素前加上了其相对应模块的模块名：
+
++ `.company .name` 变成了 `.company__name`
++ `.person .name` 变成了 `.person__name`
+
+```html
+<div class="company">
+  <div class="company__name">Google</div>
+
+  <div class="about">
+    <div class="person">
+
+      <div class="person__name">Larry Page</div>
+
+    </div>
+  </div>
+</div>
+```
+
+到这里你应该很清楚「Larry Page」的颜色了吧。
+
+有了 BEM，不必再担心所嵌入容器内的模块可能会在不经意间继承父容器的样式了。
+
+如果对于不同类型的 person 需要不同的样式，只需要创建一个修饰符。例如：
+
++ `person--employee`
++ `person--founder`
++ `person--investor`
+
+使用起來看上去像下面这个例子：
+
+```html
+<div class="person person--founder">
+  <div class="person__name">Larry Page</div>
+</div>
+```
+
+总结一下，BEM 的三个字母分别代表了：
+
++ 块（Block） - 对应一个模块。
++ 元素（Element） - 对应了模块中的一个元素。
++ 修饰符（Modifier） - 对应了模块的不同属性。
+
+进一步了解 BEM: [BEM 101](https://css-tricks.com/bem-101/)
+
+# 网站布局
+
+接下来开始构建 shoes store 网站的框架。
+
+## 练习：双栏显示
+
+把整个页面划分成两个容器：
+
+![](site-division.jpg)
+
+对于在不同屏幕大小下的响应式布局，我们可以调节两栏的比例：
+
++ 60/40（更大的侧边栏，适应更窄的屏幕(bad translation)）。
++ 70/30。
++ 80/20（更小的侧边栏，适应更宽的屏幕(bad translation)）。
+
+使用下面这个 HTML：
+
+```html
+<div class="site">
+  <!-- 70% 的主要区域 -->
+  <div class="site__main">
+    main
+  </div>
+
+  <!-- 30% 的侧边栏 -->
+  <div class="site__right-sidebar">
+    right
+  </div> <!-- site__right-sidebar -->
+</div> <!-- site -->
+```
+
+你的结果：
+
+![](columns-70-30.jpg)
+
+## 练习：子划分
+
+通常你会面临把一个容器划分成上下或者左右两部分的问题。接下来我们会解决这两个问题。
+
++ 将 `site__main` 划分为左右两部分。
++ 将 `site__right-sidebar` 划分为上下两部分。
+
+![](site-subdivision.jpg)
+
+HTML 文件：
+
+```html
+<div class="site">
+  <div class="site__main">
+    <div class="site__left-sidebar">
+      <h2>Buy Some Shoes</h2>
+    </div>
+
+    <div class="site__content">
+      <div class="products">
+        <div class="product">Product</div>
+        <div class="product">Product</div>
+        <div class="product">Product</div>
+        <div class="product">Product</div>
+      </div> <!-- products -->
+    </div> <!-- site__content -->
+  </div>
+
+  <div class="site__right-sidebar">
+    <div class="cart">Shopping Cart</div>
+    <div class="checkout">Checkout</div>
+  </div> <!-- site__right-sidebar -->
+</div> <!-- site -->
+```
+
+问题：`flex-basis: 0` 和 `flex-basis: auto` 的区别在哪里？当 `site__content` 或者 `cart` 中内容很多的时候，使用了 `flex-basis: auto` 的你将面临什么问题？
+
+你的结果：
+
+![](site-subdivision-result.jpg)
+
+# 商品布局
+
+接下来我们要用商品来填充 `site__content` 这一部分。将每个 `product` 元素调整为容器的 50%，使得两个商品并列着排列能够填充满整个容器。
+
+![](products-layout.jpg)
+
++ 当内容过长时，`flex-wrap: wrap` 让容器划分成多行显示。
+
+### 练习：商品布局
+
+现在我们先使用固定的宽度和高度来给产品预留位置。之后，我们将插入商品的图片、标题和价格等内容。
+
+```css
+.product {
+  width: 50%;
+  height: 250px;
+}
+```
+
+当我们向 `product` 容器添加内容的时候，记得移除 `height` 属性。这样商品能够根据内容的多少来自适应高度。
+
+你的结果：
+
+![](products-layout-done.jpg)
+
+# 固定侧边栏
+
+滚动网页的时候，我们并不想看到侧边栏滚动的场景。
+
+### 练习：让侧边栏固定
+
+给侧边栏设置 `position: fixed` 的属性。当一个元素是 `fixed` 或者是 `absolute` 的时候，**它会被移出布局流**，就好像不存在一样。这就能解释 `site__content` 向左扩张到左侧侧边栏所占据的位置的原因了。
+
+![](sidebar-no-reserved-space.jpg)
+
+有两种方式能够修复这个问题，你可以：
+
+1. 对于容器：通过增加 padding 来保留侧边栏的位置。
+2. 对于容器中的内容：通过增加 margin 来保留侧边栏的位置。
+
+任选一种更加方便的实现方式。在这个例子中，无论哪一种都可以使用。
+
+你的结果：
+
+<video src="fixed-sidebars.mp4" controls autoplay loop></video>
+
+# 可以上下滚动的购物车列表
+
+想象一下购物车中有很多商品，我们需要上下滚动它们。现在，我们给这些加到购物车中的商品设置一个固定的高度，这样就能够在深入下一步之前调整布局了。
+
+### 练习：让购物车列表上下滚动起来
+
+在 HTML 中加入以下内容：
+
+```html
+<div class="cart">
+  <h3 class="cart__title">Shopping Cart</h3>
+  <div class="cart__content">
+    <div class="cart-item">cart item</div>
+    <div class="cart-item">cart item</div>
+    <div class="cart-item">cart item</div>
+    <div class="cart-item">cart item</div>
+    <div class="cart-item">cart item</div>
+    <div class="cart-item">cart item</div>
+    <div class="cart-item">cart item</div>
+  </div>
+</div>
+
+<div class="checkout">
+</div> <!-- checkout -->
+```
+
+现在购物车内还没有任何等待付款的商品。我们暂时先设置一个固定的高度：
+
+```css
+.cart-item {
+  height: 150px;
+  margin-bottom: 20px;
+  background: rgba(0,255,0,0.3);
+}
+
+.checkout {
+  height: 300px;
+  background: rgba(0,0,255,0.3);
+}
+```
+
+在这里你需要了解的一个 CSS 属性叫做 [overflow](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow)。当容器内部有过多的内容时，由 `overflow` 来控制内容的显示方式。
+
+你的结果：
+
+<video src="scrollable-cart.mp4" controls loop autoplay></video>
+
+# 更好的购物车滚动列表实现
+
+购物车列表上下滚动的时候有两个问题：
+
++ 显示的时候会有两个滚动条。一个是窗口的滚动条，还有一个是购物车的滚动条。其丑无比！
++ 当购物车滚动到底部时，窗口继续接着滚动。
+
+我们用一个 JavaScript 插件 [perfect-scrollbar](http://noraesae.github.io/perfect-scrollbar/) 来替换掉默认的滚动条。它看上去像视频里这个样子：
+
+<video src="perfect-scroll-demo.mp4" controls loop autoplay></video>
+
+安装：
+
+```
+npm install perfect-scrollbar@0.6.4 --save
+```
+
+### 练习：使用 Perfect Scrolling
+
+使用 `<script>` 标签来载入 perfect-scroll。然后在 `app.js` 添加:
+
+```js
+function makeCartScrollNicely() {
+  var cart = document.querySelector(...);
+  Ps.initialize(cart);
+}
+```
+
+你的结果：
+
+<video src="scrollable-cart-perfect.mp4" controls loop autoplay></video>
+
+### 练习：购物车的标题不要跟着一起滚动
+
+最后，我们并不希望看到购物车的标题跟着一起滚动。你需要做的是：
+
+1. 让标题固定在同一处。
+2. 为购物车列表的头部留出一个标题的空间。这样不会让标题覆盖到列表中的第一个商品。
+
+你的结果：
+
+<video src="cart-scroll-fixed-title.mp4" controls></video>
+
+# 总结
+
++ `flex-grow: 1; flex-basis: 0` 通常作为一种范式来创建一个能够充满其父元素的容器，并且能够在有大量内容填充的时候，该容器不会超过其父元素的容器大小。
++ 使用 `perfect-scrollbar` 插件是一种很好的替代浏览器内置的滚动条的方式。
