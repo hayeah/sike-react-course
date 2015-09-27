@@ -61,5 +61,5 @@
   + React 的函数式编程风格。
   + Flux 架构来实现 "one way data flow"。
 
-#lesson[day=7 name=buyshoes-layout project=buyshoes]
+#lesson[day=1 name=buyshoes-layout project=buyshoes]
 
