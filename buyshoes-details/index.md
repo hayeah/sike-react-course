@@ -1,8 +1,6 @@
 # Buy Shoes Details
 
-<cn>
-# Buy Shoes 页面细节
-</cn>
+
 
 Previously we've completed the skeletal layout for the `buyshoes` page. In this lesson, we'll fill in the details.
 
