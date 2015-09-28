@@ -406,9 +406,9 @@ For responsive design on different screen sizes, we could adjust the 2 columns t
 <cn>
 对于在不同屏幕大小下的响应式布局，我们可以调节两栏的比例：
 
-+ 60/40（更大的侧边栏，适应更窄的屏幕(bad translation)）。
++ 60/40（采用大的侧边栏以适应更窄的屏幕）。
 + 70/30。
-+ 80/20（更小的侧边栏，适应更宽的屏幕(bad translation)）。
++ 80/20（采用小的侧边栏以适应更宽的屏幕）。
 </cn>
 
 Use this html:
