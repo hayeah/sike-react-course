@@ -1,2 +1,373 @@
 
 # Buy Shoes 页面细节
+
+上一课中，我们已经搭建起来了 `buyshoes` 页面的基本骨架结构。这节课我们将继续完善细节。
+
++ 完成网页的整个设计。
++ 响应式调整。
+
+# 设计细节
+
+![](buy-shoes-spec.jpg)
+
+原始的 Sketch 文件：[design.sketch](design.sketch)
+
+# 克隆素材
+
+从以下网址下载你的素材文件：
+
+https://github.com/hayeah/sikeio-buyshoes-assets
+
+复制这些图片到 `img` 文件夹中。
+
+# 商品目录
+
+现在开始，让我们来一起制作商品目录。既然框架是基于百分比调整的，那么整个页面就应该根据窗口大小调整。
+
+<video src="products-layout-percentage-adjustable.mp4" controls autoplay loop></video>
+
+在窗口留有足够空间的时候它表现得很不错！接下来我们将修复窗口大小不够的情况下的问题：
+
+![](products-too-narrow.jpg)
+
+## 商品图片
+
+这时我们把商品图片放进来，它应该和容器同等大小。
+
+![](product__image-todo.jpg)
+
+需要的唯一的技巧就是如何维持图片的宽高比。我们默认的 flexbox 设置会导致图片拉长：
+
+![](product-image-stretch.jpg)
+
+不幸的是，图片仅仅在水平方向（即 cross-axis）上被拉长了。为了让图片保持宽高比，我们给它一个固定的宽度：
+
+![](product-image-aspect-scale.jpg)
+
+现在图片已经和容器有一样的宽度了，那就无所谓 align-items 属性是 center、flex-start，亦或是 flex-end 了。
+
+注意：为什么 `stretch` 无法保持图片的原始比例的？通过下面这个算法逻辑，你将会知道如何计算图片的宽度：
+
+1. 确定原始图片本身的大小。使用原始大小计算宽高比。
+2. 如果明确给出了宽度（例如 100%）则使用给出的宽度；反之使用原始宽度。
+3. 调整图片高度，维持原来的宽高比。
+4. 将图片的宽度拉伸为容器宽度。  
+
+因为 stretch 总是最后执行，它会忽略图片的宽高比。若是 stretch 在缩放前执行，那就能够保持图片的相对比例啦！ 
+
+### 练习：调整产品图片
+
+一开始的代码：
+
+```html
+<div class="product">
+  <div class="product__display">
+    <img class="product__img" src="img/shoe1.jpg"/>
+  </div>
+</div> <!-- product -->
+```
+
+尽管我们在使用 border-box，然而所有 flex 元素的 margin 始终是加在 box 外部而不是内部的。当我们使用百分比布局时，`margin` 可能会通过增加元素的大小而破坏整个布局，以至于元素无法正确的容纳在容器之中。在这个例子中，如果有 margin 的话，你会发现两双鞋是无法占满整个容器的：
+
+![](product-broken-into-multiple-lines.jpg)
+
+为了避免这个问题，我们使用 padding 来扩展 box 内部空间。
+
+你的结果：
+
+![](product-image-set.jpg)
+
+### 练习：添加到购物车和价格
+
+调整 `product__display` 的结构至：
+
+```html
+<div class="product__display">
+  <img class="product__img" src="img/shoe1.jpg"/>
+  <a class="product__add">
+    <img class="product__add__icon" src="img/cart-icon.svg"/>
+  </a>
+
+  <div class="product__price">
+    $299
+  </div>
+</div>
+```
+
+注意：之前我们给 `.product` 添加了一个固定的高度，作为商品的占位用途。现在是时候把这个属性去掉了。
+
+你的结果：
+
+![](product-display-done.jpg)
+
+### 练习：商品名称和喜欢按钮
+
+![](product__description.jpg)
+
+更改 `.product` 结构：
+
+```html
+<div class="product">
+  <div class="product__display">
+    <img class="product__img" src="img/shoe1.jpg"/>
+    <a class="product__add">
+      <img class="product__add__icon" src="img/cart-icon.svg"/>
+    </a>
+
+    <div class="product__price">
+      $299
+    </div>
+  </div>
+
+  <div class="product__description">
+    <div class="product__name">
+      Marana E-Lite
+    </div>
+
+    <img class="product__heart" src="img/heart.svg"/>
+  </div>
+</div> <!-- product -->
+```
+
+这是应该一个左右的分栏结构。其中一部分需要扩展空间而另一部分则不需要。还记得如何实现吗？
+
+当商品名称很长的时候，测试你的布局是否正确。
+
+```html
+<div class="product__name">
+  Marana E-Lite Marana E-Lite Marana E-Lite Marana E-Lite Marana E-Lite
+</div>
+```
+
+你的结果：
+
+![](product__description-done.jpg)
+
+# 购物车中的物品
+
+现在我们来给购物车中的物品布局：
+
+![](cart-item--todo.jpg)
+
+布局的方式类似这样：
+
+![](cart-item--layout.jpg)
+
++ 图片需要占据容器宽度的 33%，能够根据屏幕自适应大小。
++ 商品名称和价格需要占据中间的位置。
++ 移入回收站的按钮需要足够大。
+
+### 练习：购物车中的物品
+
+HTML:
+
+```html
+<div class="cart-item">
+  <div class="cart-item__top-part">
+    <div class="cart-item__image">
+      <img  src="img/shoe1.jpg"/>
+    </div>
+
+    <div class="cart-item__top-part__middle">
+      <div class="cart-item__title">
+        Marana E-Lite
+      </div>
+
+      <div class="cart-item__price">
+        $299
+      </div>
+    </div>
+
+    <img class="cart-item__trash" src="img/trash-icon.svg"/>
+  </div> <!-- cart-item__top-part -->
+
+
+  <div class="cart-item__qty">
+    <div class="adjust-qty">
+      <a class="adjust-qty__button">-</a>
+      <div class="adjust-qty__number">2</div>
+      <a class="adjust-qty__button">+</a>
+    </div>
+  </div>
+
+</div> <!-- cart-item -->
+```
+
+你的结果：
+
+<video src="cart-items.mp4" controls></video>
+
+确保购物车中的物品是在购物车标题下滚动的：
+
+![](cart-item-scroll-under.jpg)
+
+# 结算
+
+![](checkout--todo.jpg)
+
+### 练习：结算元素
+
+这边依旧没有什么新内容。现在需要你来用 BEM 命名约定来写 HTML 了。一开始的模板：
+
+
+```html
+<div class="checkout">
+  <hr class="checkout__divider"/>
+
+  <input type="text" class="checkout__coupon-input" placeholder="coupon code"></input>
+
+  <!-- 其他的内容 -->
+
+</div> <!-- checkout -->
+```
+
+
+对于结算元素我们有三种不同的样式。通过 BEM 修饰符来命名他们。
+
+![](checkout__amount--variants.jpg)
+
++ `checkout__amount`
+  + 基础样式。
++ `checkout__price--strikeout`
+  + 对基础样式添加 `text-decoration: line-through`。
++ `checkout__price--saving`
+  + 更改 `font-weight` 和 `color` 属性。
+
+你的结果：
+
+<video src="checkout-done.mp4" controls></video>
+
+# 响应式调整
+
+我们离完成已经不远了。既然现在主要的部件已经在它们正确的位置上了，我们就能对不同大小的屏幕做一些布局上的调整了。
+
+唔，我们如何决定在不同屏幕大小上使用什么样的 Media 查询呢？下面介绍两种基本方法：
+
+1. 只对特定的设备添加调整：例如 Desktop，iPad 还有 iPhone。
+2. 持续性减小屏幕大小直到某些元素断行。不断重复修改调整。
+
+第二种方法看上去很烦人，你可能需要给小于等于 850px 的屏幕做一次调整，又要给小于等于 900px 的屏幕做一次调整，还要给小于等于 935px 的屏幕做另一次调整。在我们的练习中，你可以把这三种情况看做在基于 900px 屏幕的上的调整。最后一般只要增加两到三个 Media 查询就能完成不同屏幕的调整。如果需要细枝末节上的更改，可能需要 6 个左右的 Media 查询。
+
+从一个相当大的屏幕开始，逐渐把屏幕变小：
+
+<video src="responsive-checks.mp4" controls></video>
+
++ 1000px 的时候看上去还行。
++ 950px 的时候感觉到有一些限制，但依旧可以正常显示。
+
+900px 已经到了无法正常显示的边缘：
+
+![](sidebar-responsive-check-900px.jpg)
+
+
+800px 的时候，整个布局就彻底无效了：
+
+![](sidebar-responsive-check-800px.jpg)
+
+所以我们选择在 900px 和 1000px 中间进行修复布局的工作。950px 看上去是一个不错的选择。如果你喜欢的话也可以换一个不同的值。
+
+### 练习：调整侧边栏布局
+
+在 950px 的位置，调整下面的部分：
+
++ 将 `sidebar` 增加到 `40%` 的屏幕大小宽度。
++ 减少 `site__content` 至 `60%` 的屏幕大小宽度。
++ 调整 `product` 大小至 `100%` 的容器大小，使得一行只能有一件商品。
+
+```css
+@media (max-width: 950px) {
+  ...
+}
+```
+
+你的结果：
+
+<video src="responsive-layout--950px.mp4" controls></video>
+
+### 练习：移动端布局
+
+600px 的时候，布局再一次被打乱：
+
+![](sidebar-responsive-check-600px.jpg)
+
+我们来应用下面这些调整：
+
++ 右侧侧边栏调整为 `80%` 的屏幕宽度。
++ 隐藏左侧侧边栏。
++ 调整 `content__main` 至 100%。
++ （临时性地）将右侧侧边栏的不透明度调整为 0.3。这样我们能看到它的下面有什么内容。
+
+下一个练习我们将使用 JavaScript 来显示和隐藏右侧的侧边栏，这一步我们先调整它的布局。
+
+你的结果：
+
+![](responsive-layout-mobile.jpg)
+
+### 练习：增加右侧侧边栏的显示和隐藏的切换
+
+在移动端布局时，我们想要能够显示和隐藏右侧的侧边栏。给侧边栏加上一个切换的按钮：
+
+```html
+<a class="site__right-sidebar-toggle">
+  <img src="img/arrow-icon.svg"/>
+</a>
+```
+
+结算的侧边栏显示状态应该是个全局的状态。我们可以给 body 部分增加一个 class：
+
+```js
+var $toggle = document.querySelector(".site__right-sidebar-toggle");
+$toggle.addEventListener("click",function() {
+  document.body.classList.toggle("js-show-right-sidebar");
+});
+```
+
+基于这个全局的状态，我们能很方便的调节页面的样式：
+
+```css
+.site__right-sidebar-toggle {
+  /* 侧边栏隐藏时的样式 */
+}
+
+body.js-show-right-sidebar .site__right-sidebar-toggle {
+  /* 侧边栏显示时的样式 */
+}
+```
+
+一些其他的要求：
+
++ 侧边栏在非移动端需要一直显示。
++ 侧边栏切换显示和隐藏的按钮在非移动端需要隐藏。
+
+你的结果：
+
+<video src="sidebar-toggle.mp4" controls></video>
+
+# 设计细节
+
+功能上我们已经完成了。我们接下来添加几个透明遮罩来制作一些渐出的效果。
+
+两个基本颜色：
+
++ 结算侧边栏的背景 - `#C4CCDA == rgba(192,207,221,1)`
++ 整体的背景 - `#F7F8FA == rgba(247,248,250,1)`
+
+你需要对不同的遮罩使用使用线性渐变来调整 Alpha 值（即不透明度）。
+
+### 练习：购物车线性渐变/透明遮罩
+
+![](cart-overlays.jpg)
+
+### 练习：背景
+
+![](background-overlay.jpg)
+
+### 练习：为右侧侧边栏加上透明渐变
+
+![](sidebar-transparency.jpg)
+
+# 总结
+
++ 将图片的宽度设置为 100% 来填充容器，同时也能保持它的宽高比。
++ 使用百分比将容器划分为多个部分。
++ 通过不断减小窗口大小来调整响应式布局。
