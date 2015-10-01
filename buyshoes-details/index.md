@@ -414,7 +414,7 @@ We'll apply these tweaks:
 
 + Increase right sidebar to `80%` of screen.
 + Hide the left sidebar.
-+ Make `content__main` 100%.
++ Make `site__main` 100%.
 + (Temporarily) Change right sidebar's opacity to 0.3 so we can see what's beneath it.
 
 

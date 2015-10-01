@@ -137,13 +137,13 @@ Note: Why does `stretch` not maintain the aspect ratio of the image? The algorit
 1. 确定原始图片本身的大小。使用原始大小计算宽高比。
 2. 如果明确给出了宽度（例如 100%）则使用给出的宽度；反之使用原始宽度。
 3. 调整图片高度，维持原来的宽高比。
-4. 将图片的宽度拉伸为容器宽度。  
+4. 将图片的宽度拉伸为容器宽度。
 </cn>
 
 Because stretch happens last, it ignores the image's aspect ratio. If `stretch` happens before scaling, then the aspect ratio would've been maintained.
 
 <cn>
-因为 stretch 总是最后执行，它会忽略图片的宽高比。若是 stretch 在缩放前执行，那就能够保持图片的相对比例啦！ 
+因为 stretch 总是最后执行，它会忽略图片的宽高比。若是 stretch 在缩放前执行，那就能够保持图片的相对比例啦！
 </cn>
 
 ### Exercise: Set The Product Image
@@ -705,7 +705,7 @@ We'll apply these tweaks:
 
 + Increase right sidebar to `80%` of screen.
 + Hide the left sidebar.
-+ Make `content__main` 100%.
++ Make `site__main` 100%.
 + (Temporarily) Change right sidebar's opacity to 0.3 so we can see what's beneath it.
 
 <cn>
@@ -713,7 +713,7 @@ We'll apply these tweaks:
 
 + 右侧侧边栏调整为 `80%` 的屏幕宽度。
 + 隐藏左侧侧边栏。
-+ 调整 `content__main` 至 100%。
++ 调整 `site__main` 至 100%。
 + （临时性地）将右侧侧边栏的不透明度调整为 0.3。这样我们能看到它的下面有什么内容。
 </cn>
 
