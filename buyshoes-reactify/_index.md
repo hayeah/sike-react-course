@@ -824,6 +824,161 @@ Your result:
 
 ![](checkout-no-coupon.jpg)
 
+# Component Lifecycle
+
+The [component lifecycle](https://facebook.github.io/react/docs/working-with-the-browser.html#refs-and-finddomnode) hooks are useful when you need to interface with code that's outside of React views. For example:
+
++ Subscribe to events handler.
++ Set a timer.
++ Access to the actual browser DOM.
+
+Use the following hooks for setup and teardown:
+
++ `componentDidMount` - Any setup code.
++ `componentDidUpdate` - Do something whenever the view changes.
++ `componentWillUnmount` - Any cleanup code.
+
+## Accessing Browser DOM
+
+Many useful JavaScript plugins are not written with React. You often need access to the actual browser DOM in order to initialize these JavaScript plugins.
+
+You'd usually add DOM related JavaScript in the `componentDidMount` hook. When this method is called, you can be sure that the browser DOM element exists.
+
+One way to enable PerfectScroll for a content container is to add an id:
+
+```js
+let ComponentA = React.renderClass({
+  componentDidMount() {
+    let $content = document.querySelector("#content");
+    Ps.initialize($content);
+  },
+
+  render() {
+    return (
+      <div id="content">
+        a
+        lot
+        of
+        content
+      </div>
+    );
+  },
+});
+```
+
+There is a big problem though. Once the id `content` is used in ComponentA, we can't use it anywhere else. In a big project with many components and many team members, the team need to adopt a naming convention to avoid name collisions. BEM is one way to solve this problem:
+
+```js
+let ComponentA = React.renderClass({
+  componentDidMount() {
+    let $content = document.querySelector(".js-componentA__content");
+    Ps.initialize($content);
+  },
+
+  render() {
+    return (
+      <div className="js-componentA__content">
+        a
+        lot
+        of
+        content
+      </div>
+    );
+  },
+});
+```
+
+But if there are two of same components, like this:
+
+```
+let App = React.renderClass({
+  render() {
+    <div>
+      <ComponentA/>
+      <ComponentA/>
+    </div>
+  }
+});
+```
+
+Then ComponentA's `componentDidMount` method would be called twice, once for each instance of componentA.
+
+React's component lifecycle is designed for attaching JavaScript to one DOM at a time. The special `ref` property is like the `id` property, but only visible within a component.
+
+In general, where you might've used `id`, you can replace that with `ref`:
+
+
+```js
+let ComponentA = React.renderClass({
+  componentDidMount() {
+    let $content = React.findDOMNode(this.refs.content);
+    Ps.initialize($content);
+  },
+
+  render() {
+    return (
+      <div ref="content">
+        a
+        lot
+        of
+        content
+      </div>
+    );
+  }
+});
+```
+
+Since `ref` is local within a componentA, other components can also use the 'content' reference name:
+
+```js
+let AnotherComponent = React.renderClass({
+  render() {
+    return (
+      <div ref="content">
+        a different component with different content.
+      </div>
+    );
+  }
+});
+```
+
+See: [Refs and findDOMNode()](https://facebook.github.io/react/docs/working-with-the-browser.html#refs-and-finddomnode)
+
+### Exercise: Enable PerfectScroll
+
+Add more cart items so the shopping cart overflows:
+
+```
+let cartItems = {
+  "jameson-vulc": {
+    id: "jameson-vulc",
+    quantity: 1,
+  },
+
+  "marana-x-hook-ups": {
+    id: "marana-x-hook-ups",
+    quantity: 2,
+  },
+
+  "scout-womens-6": {
+    id: "scout-womens-6",
+    quantity: 2,
+  },
+
+  "scout-womens-coco-ho-5": {
+    id: "scout-womens-coco-ho-5",
+    quantity: 1,
+  },
+
+  "jameson-2-womens-8": {
+    id: "jameson-2-womens-8",
+    quantity: 1,
+  },
+};
+```
+
+Add a `ref` property to initialize the PerfectScroll plugin.
+
 # Summary
 
 + JSX is a syntatic sugar for `React.createElement`.
@@ -833,3 +988,5 @@ Your result:
 + Parent component passes data to child components using the `this.props` property.
   + Use ES6 destructuring to make your code more concise.
 + Use `key` to give child components a unique identity so React can reorder them.
++ Use `componentDidMount` to do setup after browser DOM is ready.
++ Replace `id` with `ref`.
