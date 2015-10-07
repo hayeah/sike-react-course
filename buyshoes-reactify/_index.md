@@ -10,8 +10,8 @@ In this lesson we are going to rewrite the `buyshoes` page in React. We'll cover
 + Virtual DOM with JSX.
 + Writing React components.
 + Using the `key` property to allow reordering.
-
-[Why React?](../why-react)
++ Component lifecycle hooks.
++ Using the `ref` property to access browser DOM.
 
 # Lesson StarterKit
 
@@ -824,6 +824,38 @@ Your result:
 
 ![](checkout-no-coupon.jpg)
 
+# Product Quantity Adjustment
+
+If a product is already in the shopping cart, it should display the quantity control instead of the add-to-cart button:
+
+![](products-with-quantity-control.jpg)
+
+### Exercise: Create QuantityControl Component
+
+Start with this HTML:
+
+```html
+<div className="adjust-qty">
+  <a className="adjust-qty__button">-</a>
+  <div className="adjust-qty__number">{quantity}</div>
+  <a className="adjust-qty__button">+</a>
+</div>
+```
+
+The `QuantityControl` component should accept a cartItem object as property:
+
+```html
+<QuantityControl item={item}/>
+```
+
+The component looks different depending on where it is used. Implement the `variant` property to determine which style to use:
+
+```html
+<QuantityControl item={item} variant="gray"/>
+```
+
+The "gray" variant is already styled with the `.adjust-qty--gray` BEM variant.
+
 # Component Lifecycle
 
 The [component lifecycle](https://facebook.github.io/react/docs/working-with-the-browser.html#refs-and-finddomnode) hooks are useful when you need to interface with code that's outside of React views. For example:
@@ -980,6 +1012,12 @@ let cartItems = {
 Add a `ref` property to initialize the PerfectScroll plugin.
 
 # Summary
+
+We've translated the `buyshoes` page to React. The page now uses real data, but it's still not that much different from a static page. We can't add or remove shopping cart items yet.
+
+But in fact, the "static page" is already 80% of the final product. When we use the flux architecture to implement adding & removing shopping cart items, you'll be surprised by how little we have to modify the existing views.
+
+Until then, here's a quick summary of the important ideas you should know from this lesson:
 
 + JSX is a syntatic sugar for `React.createElement`.
   + Can put virtual DO created JSX in variables, arrays, or return from function.
