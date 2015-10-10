@@ -106,7 +106,7 @@ The virtual DOM makes the "full page refresh" technique efficient. React detects
 <cn>
 就像浏览器刷新，这里也没有 DOM 操作。但是改变 `innerHTML` 的内容是一件效率很低的事情，因为它破坏了旧的 DOM 树，然后再去建立了一个新的 DOM 树。
 
-Virtual DOM 就让这种「整页刷新」的技术高效起来。React 会先检测到有哪些地方更新了，再只更新这些被更改的 DOM 元素。有必要时，React 也会增加、移除、重新排列 DOM 元素。 
+Virtual DOM 就让这种「整页刷新」的技术高效起来。React 会先检测到有哪些地方更新了，再只更新这些被更改的 DOM 元素。有必要时，React 也会增加、移除、重新排列 DOM 元素。
 </cn>
 
 With React, you get the simplicity of programming client-side as though you are always doing a full-page refresh, yet with the efficiency of direct DOM manipulation.
@@ -629,8 +629,7 @@ JSX 有点像其他的传统模版语言，比如 PHP：
 
 </cn>
 
-But in fact, JSX is a thin syntactic sugar coating for the virtual DOM API, which has a
-completely different programming model. The virtual DOM is a tree of ordinary JavaScript objects. There is a lot of flexibility in how we build the virtual DOM.
+But in fact, JSX is a thin syntatic sugar coating for the virtual DOM API, which has a completely different programming model. The virtual DOM is a tree of ordinary JavaScript objects. There is a lot of flexibility in how we build the virtual DOM.
 
 <cn>
 但是事实上，JSX 只是包含 Virtual DOM API 的一个简单的语法糖，它包含了一个完全不一样的编程模型。Virtual DOM 可被看作为包含 JavaScript 元素的一棵树。构建 Virtual DOM 会带来很多的便捷性。
@@ -832,7 +831,7 @@ Don't let the familiar HTML syntax deceive you. The essence of JSX is the `React
 ### Exercise: Create The App Component
 
 <cn>
-### 练习：创建 App 组件 
+### 练习：创建 App 组件
 </cn>
 
 Create the file `js/app.jsx`:
@@ -1571,7 +1570,7 @@ Your result:
 Note: If you look at the console, React complains that `key` prop is missing.
 
 <cn>
-注意：在终端中，React 会提醒缺少 `key` 属性。 
+注意：在终端中，React 会提醒缺少 `key` 属性。
 </cn>
 
 ```
@@ -2288,7 +2287,7 @@ See: [Refs and findDOMNode()](https://facebook.github.io/react/docs/working-with
 ### Exercise: Enable PerfectScroll
 
 <cn>
-### 练习：使用 PerfectScroll 
+### 练习：使用 PerfectScroll
 </cn>
 
 Add more cart items so the shopping cart overflows:
@@ -2402,7 +2401,7 @@ Until then, here's a quick summary of the important ideas you should know from t
 + 父组件通过 `this.props` 属性对子组件传值。
   + 使用 ES6 中的析构函数让代码更佳简洁。
 + 使用 `key` 给子组件一个独一无二的辨识属性，这能让 React 知道要对它们重新排序。
-+ 在 DOM 加载完毕后，使用 `componentDidMount` 方法来做初始化。 
-+ 使用 `ref` 替代 `id`。 
++ 在 DOM 加载完毕后，使用 `componentDidMount` 方法来做初始化。
++ 使用 `ref` 替代 `id`。
 </cn>
 
