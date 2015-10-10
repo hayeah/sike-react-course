@@ -2009,7 +2009,7 @@ The component looks different depending on where it is used. Implement the `vari
 The "gray" variant is already styled with the `.adjust-qty--gray` BEM variant.
 
 <cn>
-「gray」已经通过 BEM 中的 `.adjust-qty-gray` 样式所定义了。
+「gray」已经通过 BEM 中的 `.adjust-qty--gray` 样式所定义了。
 </cn>
 
 # Component Lifecycle

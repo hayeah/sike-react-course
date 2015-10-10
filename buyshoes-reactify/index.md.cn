@@ -907,7 +907,7 @@ let cartItems = {
 ```
 
 
-「gray」已经通过 BEM 中的 `.adjust-qty-gray` 样式所定义了。
+「gray」已经通过 BEM 中的 `.adjust-qty--gray` 样式所定义了。
 
 # 组件的生命周期
 
