@@ -342,8 +342,7 @@ JSX may resemble other conventional template languages, like PHP:
 
 
 
-But in fact, JSX is a thin syntactic sugar coating for the virtual DOM API, which has a
-completely different programming model. The virtual DOM is a tree of ordinary JavaScript objects. There is a lot of flexibility in how we build the virtual DOM.
+But in fact, JSX is a thin syntatic sugar coating for the virtual DOM API, which has a completely different programming model. The virtual DOM is a tree of ordinary JavaScript objects. There is a lot of flexibility in how we build the virtual DOM.
 
 
 

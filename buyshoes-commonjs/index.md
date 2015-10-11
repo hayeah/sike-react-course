@@ -1,43 +1,49 @@
-# Modular JavaScript
+# Modular JavaScript With CommonJS
 
-JavaScript is broken by default. `let` fixes common bugs caused by `var`. `=>` fixes common bugs caused by `this`. Having no way to break JavaScript into modules is another big problem that needs fixing.
+JavaScript is broken by default. `let` fixes common bugs caused by `var`, and `=>` fixes common bugs caused by `this`.
 
-Up to now, we've been using `<script>` to load the JavaScript files we need. It's actually a terrible way to do things.
+Up to now, we've been using `<script>` to load the JavaScript files we need. This is yet another big problem that needs fixing. The problems are:
 
-First, each `<script>` tag is one extra HTTP request, which slows down the page load.
++ Each each `<script>` tag is one extra HTTP request. Slows down page load.
++ No explicit dependency tree between files.
++ You need to specify the correct loading order.
++ All script shares the same namespace.
 
-Then you have to make sure that you load a library before you use it in your own code. If you use a jQuery plugin, you'd have to load the jQuery plugin after jQuery, but before your own app.
+In this lesson we'll use CommonJS break up `app.js` into smaller modules.
 
-Finally, because all scripts share the same global namespace, you have to make sure that these scripts don't accidentally define the same variable.
+# CommonJS Introduction
 
-A module system should solve three problems:
+CommonJS is the module system adopted by NodeJS/NPM. It's probably the most popular module system, and enjoys the best tools support. Don't confuse CommonJS with NPM, though.
 
-+ Dependencies. Each module should be declare what modules it depends on. The module system will then ensure that all dependencies are loaded in the correct order.
-+ Namespacing. Functions, classes, and variables in a file shouldn't pollute the global namespace.
-+ Bundling. Combine small modular files into one big bundle, so the browser only need to make one HTTP request to download it.
++ CommonJS - Breaks a project into smaller modules.
++ NPM - Create and install packages, which may or may not use CommonJS.
 
-# CommonJS
+CommonJS doesn't introduce any new syntax to JavaScript. The CommonJS API adds just two things:
 
-We'll focus our attention mostly on CommonJS, which is the module system adopted by NodeJS and NPM. Because of NodeJS' popularity, CommonJS is the most popular module system, and enjoys the best tool support.
-
-CommonJS doesn't introduce any new syntax. It adds the function `require` and the object `module`. ES6 module's design is heavily influenced by CommonJS, and almost exactly the same except for the special syntax `import` and `export`.
-
-The CommonJS API:
-
-+ `require` - A function used to load module dependencies.
-  + Equivalent to ES6 `import`.
++ `require` - A function used to load a module.
 + `module.exports` - The module's exported content.
-  + Equivalent to ES6 `export`.
 
-In a typical project, CommonJS and ES6 are interchangeable.
+Like ES6, you need to compile your CommonJS project into normal JavaScript that the browser can understand.
+
+### CommonJS Interop With ES6 Modules
+
+ES6 module's design is heavily influenced by CommonJS. Because they are so similar, Babel allows you to use either interchangeably.
+
+```js
+// CommonJS
+let foo = require("foo");
+
+// ES6
+import foo from "foo";
+```
+
+Babel will compile the ES6 `import` syntax to `require`.
 
 # Using CommonJS Module
 
-In CommonJS, each file you create is a module, and you can load these files with the `require` function. There's no special syntax creating or loading modules. Just plain JavaScript.
+Since CommonJS is built into NodeJS, we can use the `node` interpreter to experiment with it. Let's start with a simple module that provides mathematical constants.
 
-Since CommonJS is built into NodeJS, we'll use the `node` command to experiment with it. Let's start with a simple module that provides mathematical constants.
-
-Create the file `constants.js`:
+In CommonJS, each file you create is a module, there's no special syntax. Create the file `constants.js`:
 
 ```js
 // constants.js
@@ -54,17 +60,30 @@ module.exports = {
 
 This file is different from a file loaded with `<script>` in two ways:
 
-+ The file has its own toplevel scope. Normally the variables would be global, but here they are local to the module.
-  + Before you'd have to wrap your code in a closure. Now you don't have to.
-+ There is the special object `module.exports`. When you `require` this module, this object is the return value.
++ The file has its own namespace. No need to wrap your code in a closure.
++ There is the special object `module.exports`.
 
-Now let's try to load this module with `require`. First open a node shell:
+CommonJS modules don't have names; they are just files. To load them, you use the `require` function, and specify which file you want to load. When the module is loaded, the `require` function returns `module.exports` as the result.
+
+Let try to `require` the module `constants.js`. The value should be:
+
+```js
+{
+  pi: pi,
+  e: e,
+}
+```
+
+### Exercise: Load a module with require
+
+First open a node shell:
 
 ```
-$ node
+// babel-node supports ES6
+$ babel-node
 ```
 
-You can eval JavaScript with the node shell. Call `require` with the path of the module to load it:
+Call `require` with the path to the module file:
 
 ```
 > require("./constants")
@@ -78,103 +97,114 @@ The value of `module.exports` is returned. If you try to use `pi`, you get an er
 ReferenceError: pi is not defined
 ```
 
-This is because `require` doesn't modify the current scope. It only returns the value of the loaded module. You have to assign the result of require to a variable so you can use it:
+This is because `require` doesn't modify the current scope. It only returns the value of the loaded module.
+
+Create a new local variable `pi`:
 
 ```js
-> var pi = require("./constants").pi;
+> let pi = require("./constants").pi;
 > pi
 3.14159
 ```
 
-With ES6's destructuring assignments, you can concisely import the values more concisely, like this:
+Using ES6's destructuring we can create variables more concisely:
 
 ```js
 let {pi,e} = require("./constants");
 var pie = pi + e;
 ```
 
-ES6's own import syntax looks almost the same:
+### Exercise: ES6 import syntax
+
+The `import` is similar to CommonJS:
+
+```js
+> import "./constants";
+{ pi: 3.14159, e: 2.71828 }
+```
+
+And to create multiple variables at the same time:
 
 ```js
 import {pi,e} from "./constants";
 var pie = pi + e;
 ```
 
-By default, Babel compiles import to CommonJS's require:
+Use `babel` to compile the above code, you should see:
 
 ```js
 var _constants = require("./constants");
 var pie = _constants.pi + _constants.e;
 ```
 
-# Proejct Structure
+### Exercise: Add a new export value
 
-+ explain that relative path is relative to the current file.
-+ use an example project... probably.
-
-# Requiring NPM Package
+Add a new number to `constants.js`:
 
 ```js
-let React = require("react");
-let {pi,e} = require("./constants");
-let view = (
-  <div>
-    Hello CommonJS!
-  </div>
-);
-
-console.log(React.renderToString(view));
+// The golden ratio
+let phi = 1.61803;
 ```
 
-node doesn't understand JSX or ES6. We need to compile the file with babel first.
+From `babel-node`:
 
 ```
-babel hello.jsx -o hello.js
-node hello.js
+> import "./constants";
+{ pi: 3.14159, e: 2.71828, phi: 1.61803 }
 ```
 
-How does require know where to load React?
+Note: Remember to restart `babel-node`, or else you wan't see the new module value.
 
-```
-# this is the file specified in package.json's `main` property.
-> require.resolve("react")
-./node_modules/react/react.js
-```
+Question: If you `require` a module 3 times, how many times is the file evaluated?
 
 # Bundling With Browserify
 
-For NodeJS, it's not necessary to bundle the modules into a single file, since it's cheap for NodeJS to load the needed modules from disk one file at a time. This could translate to dozens or hundreds of HTTP requests in the browser.
+[Browserify](http://browserify.org/) is a tool that turns a CommonJS project into normal JavaScript that the browser can understand. Browserify does the followings:
 
-For the browser we'll use [browserify](http://browserify.org/) to package all the modules into a single file.
++ Collects all dependencies into a single file.
++ Provides fake `require` in the browser.
++ Ensures that a module is evaluated only once, and in the right order.
 
-Install it:
-
-```
-npm install browserify@11.2.0 --save-dev
-```
-
-Verify that it's installed:
+Install:
 
 ```
-$ browserify --version
-11.2.0
+npm install browserify@11.2.0 babelify@6.3.0 --save-dev
 ```
 
-Let's try bundling with browserify. First, create the `pie.js` file:
+By default browserify only understands ES5 (normal JavaScript). We've also installed `babelify` to extend browserify with the ability to process ES6 files.
+
+### Exercise: Bundling pie.js
+
+Let's try create a bundle with browserify. First, create the `pie.js` file:
 
 ```js
-var constants =  require("./constants");
-var pi = constants.pi;
-var e = constants.e;
-var pie = pi + e;
+let {pi,e} =  require("./constants");
+console.log("pie =",pi + e);
 ```
 
-The browserify command can process `pie.js` to find all the dependencies recursively. The bundled file looks like:
+Evaluating `pie.js` should print out its value:
 
 ```
-$ browserify pie.js
+$ babel-node pie.js
+pie = 5.85987
+```
+
+Create the bundle with browserify:
+
+```
+browserify --transform babelify pie.js --outfile pie-bundled.js
+```
+
++ `--transform babelify` - Use Babel to compile files before bundling.
++ `--outfile` - Writes result to the specified file.
+
+The result is:
+
+```js
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // constants.js
+"use strict";
+
 var pi = 3.14159;
 var e = 2.71828;
 
@@ -184,19 +214,281 @@ module.exports = {
   pi: pi,
   e: e,
 };
+
 },{}],2:[function(require,module,exports){
-var constants =  require("./constants");
-var pi = constants.pi;
-var e = constants.e;
-var pie = pi + e;
+"use strict";
+
+var _require = require("./constants");
+
+var pi = _require.pi;
+var e = _require.e;
+
+console.log("pie =", pi + e);
+
 },{"./constants":1}]},{},[2]);
 ```
 
-### Exercise: Use Browserify To Include Dependencies
+Run the above code in the browser to verify that it works!
 
-We are using `<script>` tags to include React and PerfectScroll.
+Notice how the modules are wrapped in a function to ensure a new scope:
 
-# Watchify
+```
+function(require,module,exports){
+  // module code.
+}
+```
+
+The CommonJS API `require` and `module` are passed into the module code as arguments.
+
+## DIY Require
+
+At the top of the bundle is a chunk of scary looking code:
+
+```js
+function e(t,n,r){function s(o,u) { ... }}
+```
+
+This defines how `require` loads modules. What require does is actually quite simple. Here is a simplified version of `require`:
+
+```js
+"use strict";
+
+// The bundled modules
+var modules = {
+  "./parent": function(module,require) {
+    module.exports = 'parent+' + require('./child');
+  },
+
+  "./child": function(module,require) {
+    module.exports = 'child';
+  },
+};
+
+// Use a cache to ensure that a module is evaluated just once.
+var cache = {};
+
+function require(path) {
+
+  // Return cached module if already loaded.
+  if(cache.hasOwnProperty(path)) {
+    return cache[path];
+  }
+
+  // This defines module.export
+  var module = {
+    exports: {}
+  };
 
 
+  // Evaluate the module.
+  var modfn = modules[path];
+  modfn(module,require);
+
+  // Cache the module value.
+  cache[path] = module.exports;
+
+  // Return the exported objects.
+  return module.exports;
+}
+
+console.log(require("./parent")); // => parent+child
+```
+
+The actual code is here: [prelude.js](https://github.com/substack/browser-pack/blob/aadeabea66feac48193d27d233daf1c85209357e/prelude.js).
+
+To learn more see: [How Browserify Works](http://benclinkinbeard.com/posts/how-browserify-works/).
+
+# Bundling BuyShoes Dependencies
+
+Let's bundle PerfectScrollbar and React with `app.jsx`.
+
+### Exercise: Bundling PerfectScrollbar and React
+
+Remove from `index.html`:
+
+```html
+<script type="text/javascript" src="node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.js"></script>
+<script type="text/javascript" src="node_modules/react/dist/react.js"></script>
+```
+
+In `app.jsx` add:
+
+```js
+const Ps = require("../node_modules/perfect-scrollbar/index");
+const React = require("../node_modules/react/react");
+```
+
+Use browserify to compile the bundle to `build/app.js`.
+
+Note: The require paths are relative to the module file. Depending on where a file is, the relative path to `node_modules` is different:
+
++ `app.jsx` - require("./node_modules/...")
++ `a/app.jsx` - require("../node_modules/...")
++ `a/b/app.jsx` - require("../../node_modules/...")
+
+# Require By Package Name
+
+We can also use the package name to `require` React and PerfectScrollbar:
+
+```js
+const Ps = require("perfect-scrollbar");
+const React = require("react");
+```
+
+Usually `require` loads a file by its path. If it's a package name, NodeJS uses the `require.resolve` function to find which file to load. See which file `require("react")` would load:
+
+```
+$ node
+> require.resolve("react")
+./node_modules/react/react.js
+```
+
+### Exercise: Use package name to bundle React and PerfectScrollbar
+
+The result should be the same as before.
+
+# Live-Edit Using Watchify
+
+Browserify doesn't have a `--watch` flag that automatically rebundles if a file change. A separate tool [watchify](https://github.com/substack/watchify) does that.
+
+Install:
+
+```
+npm install watchify@3.4.0 --save-dev
+```
+
+To use it, replace the browserify command with `watchify`. Everything else is the same:
+
+```
+watchify --transform babelify pie.js --outfile pie-bundled.js
+```
+
+### Exercise: Modify Makefile
+
++ Change `make js` to use watchify.
+
+BrowserSync should still work.
+
+# Modularize BuyShoes
+
+Our goal is to reduce `app.jsx` to just this:
+
+```js
+// When the window is loaded, render the App component.
+const App = require("./components/App");
+
+window.onload = () => {
+  React.render(<App/>,document.querySelector("#root"));
+}
+```
+
+### Exercise: Modularize Fake Data
+
+Create the file `js/data.js`:
+
+```js
+module.exports = {
+  cartItems: ...
+  products: ...
+}
+```
+
+Then import data into `js/app.jsx`.
+
+### Exercise: Modularize SiteTitle
+
+Put the `SiteTitle` component into its own module. We'll put all components in the `js/components` directory.
+
+First, create the directory `js/components`.
+
+Then create the file `js/components/SiteTitle.js`:
+
+```js
+const React = require("react");
+let SiteTitle = React.createClass({
+  render() {
+    return (
+      <div className="title">
+        <h2>Buy Me Shoes</h2>
+        <img className="title__heart" src="img/heart.svg" />
+      </div>
+    );
+  }
+});
+
+module.exports = SiteTitle;
+```
+
+Modify `app.jsx` to import this component.
+
+Note: The extension must be `.js`, not `.jsx`.
+
+### Exercise: Modularize Everything Else
+
+Turn all the components into modules.
+
+It'd be easier to start with a simple App, then migrate the components one by one. Start with the components commented out:
+
+```html
+<div className="site">
+  <div className="bg">
+    <div className="bg__img">
+    </div>
+  </div>
+
+  <div className="site__main">
+    <div className="site__left-sidebar">
+      <SiteTitle/>
+    </div>
+    <div className="site__content">
+      {/* <Products/> */}
+    </div> {/* site__content */}
+  </div> {/* site__main */}
+  <div className="site__right-sidebar">
+    {/* <Cart/> */}
+    {/* <Checkout/> */}
+  </div> {/* site__right-sidebar */}
+  <a className="site__right-sidebar-toggle">
+    <img src="img/arrow-icon.svg" />
+  </a>
+</div>
+```
+
++ `App` in `js/components/App.js`
++ `Cart` in `js/components/Cart.js`
++ `Products` in `js/components/Products.js`
++ etc.
+
+# Source Map For Debugging
+
+The bundled `build/app.js` is too big, making it hard to debug.
+
+![](no-sourcemap.jpg)
+
+Thankfully, we can ask browserify to generate [source map](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/), so Chrome can correlate between the JavaScript that runs in the browser, and the original source files you've written.
+
+Add the `--debug` option to browserify to generate Source Map. The command looks like:
+
+```
+browserify --debug --transform babelify pie.js --outfile pie-bundled.js
+```
+
+With source map enabled, Chrome can now shows you the original source files. `Cmd-P` to quickly find a file:
+
+<video src="cmd-p-find-file.mp4" controls></video>
+
+You can even set breakpoints:
+
+![](with-sourcemap.jpg)
+
+# Summary
+
+We've seen how we can break a big file into modules.
+
++ Every file is a CommonJS module.
++ CommonJS adds `require` and `module.exports`.
++ ES6 modules adds the `import` and `export` syntax.
++ Load a package by calling `require` with the path to a file, or with a package name.
++ The `require` path is relative to the requiring file.
++ Use browserify to bundle a CommonJS for the browser.
 

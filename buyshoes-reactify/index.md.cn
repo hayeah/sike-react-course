@@ -41,7 +41,7 @@ document.body.innerHTML = updatedHTML;
 
 就像浏览器刷新，这里也没有 DOM 操作。但是改变 `innerHTML` 的内容是一件效率很低的事情，因为它破坏了旧的 DOM 树，然后再去建立了一个新的 DOM 树。
 
-Virtual DOM 就让这种「整页刷新」的技术高效起来。React 会先检测到有哪些地方更新了，再只更新这些被更改的 DOM 元素。有必要时，React 也会增加、移除、重新排列 DOM 元素。 
+Virtual DOM 就让这种「整页刷新」的技术高效起来。React 会先检测到有哪些地方更新了，再只更新这些被更改的 DOM 元素。有必要时，React 也会增加、移除、重新排列 DOM 元素。
 
 有了 React，你就可以感受到客户端部分编程的简洁性——好像总是在做整个页面的刷新，却又能够高效快捷地直接操控 DOM 元素。
 
@@ -379,7 +379,7 @@ render() {
 
 不要让熟悉的 HTML 语法欺骗了你！JSX 最本质的东西就是 `React.createElement` 方法。
 
-### 练习：创建 App 组件 
+### 练习：创建 App 组件
 
 新建 `js/app.jsx` 文件：
 
@@ -713,7 +713,7 @@ return (
 
 ![](multiple-products.jpg)
 
-注意：在终端中，React 会提醒缺少 `key` 属性。 
+注意：在终端中，React 会提醒缺少 `key` 属性。
 
 ```
 警告：数组和迭代器中的每一个元素都应该有一个独一无二的 `key` 属性。检查 Products 的 render 方法。可以查看 https://fb.me/react-warning-keys 了解更多。
@@ -1036,7 +1036,7 @@ let AnotherComponent = React.renderClass({
 阅读：[Refs and findDOMNode()](https://facebook.github.io/react/docs/working-with-the-browser.html#refs-and-finddomnode)
 
 
-### 练习：使用 PerfectScroll 
+### 练习：使用 PerfectScroll
 
 向购物车里增加点商品能让其溢出：
 
@@ -1087,5 +1087,5 @@ let cartItems = {
 + 父组件通过 `this.props` 属性对子组件传值。
   + 使用 ES6 中的析构函数让代码更佳简洁。
 + 使用 `key` 给子组件一个独一无二的辨识属性，这能让 React 知道要对它们重新排序。
-+ 在 DOM 加载完毕后，使用 `componentDidMount` 方法来做初始化。 
-+ 使用 `ref` 替代 `id`。 
++ 在 DOM 加载完毕后，使用 `componentDidMount` 方法来做初始化。
++ 使用 `ref` 替代 `id`。
