@@ -64,4 +64,5 @@
 #lesson[day=1 name=buyshoes-layout project=buyshoes]
 #lesson[day=2 name=buyshoes-details project=buyshoes]
 #lesson[day=3 name=buyshoes-reactify project=buyshoes]
+#lesson[day=4 name=buyshoes-commonjs project=buyshoes]
 
