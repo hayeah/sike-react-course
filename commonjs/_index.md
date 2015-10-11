@@ -11,15 +11,6 @@ Up to now, we've been using `<script>` to load the JavaScript files we need. Thi
 
 In this lesson we'll use CommonJS break up `app.js` into smaller modules.
 
-In particular,
-
-+ Create CommonJS modules.
-+ Import CommonJS modules.
-+ Import modules from NPM packages.
-+ Organize your project modules into a tree.
-+ Use browserify to bundle modules into a single JavaScript file.
-+ Source map for debugging.
-
 # CommonJS Introduction
 
 CommonJS is the module system adopted by NodeJS/NPM. It's probably the most popular module system, and enjoys the best tools support. Don't confuse CommonJS with NPM, though.
@@ -490,11 +481,14 @@ You can even set breakpoints:
 
 ![](with-sourcemap.jpg)
 
-
-
 # Summary
 
-+ Dependencies. Each module should be declare what modules it depends on. The module system will then ensure that all dependencies are loaded in the correct order.
-+ Namespacing. Functions, classes, and variables in a file shouldn't pollute the global namespace.
-+ Bundling. Combine small modular files into one big bundle, so the browser only need to make one HTTP request to download it.
+We've seen how we can break a big file into modules.
+
++ Every file is a CommonJS module.
++ CommonJS adds `require` and `module.exports`.
++ ES6 modules adds the `import` and `export` syntax.
++ Load a package by calling `require` with the path to a file, or with a package name.
++ The `require` path is relative to the requiring file.
++ Use browserify to bundle a CommonJS for the browser.
 
