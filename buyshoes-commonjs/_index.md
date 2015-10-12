@@ -1,5 +1,7 @@
 # Modular JavaScript With CommonJS
 
+Note: I now recommend [Webpack](http://webpack.github.io) over browserify/watchify. Webpack is a lot faster if your project has a many dependencies. I don't have time to update this lesson to use "webpack" yet. The ideas are the same. It's easy to switch from Browserify to Webpack, so don't worry.
+
 JavaScript is broken by default. `let` fixes common bugs caused by `var`, and `=>` fixes common bugs caused by `this`.
 
 Up to now, we've been using `<script>` to load the JavaScript files we need. This is yet another big problem that needs fixing. The problems are:
