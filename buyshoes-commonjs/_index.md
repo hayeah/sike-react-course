@@ -1,6 +1,6 @@
 # Modular JavaScript With CommonJS
 
-Note: I now recommend [Webpack](http://webpack.github.io) over browserify/watchify. Webpack is a lot faster if your project has a many dependencies. I don't have time to update this lesson to use "webpack" yet. The ideas are the same. It's easy to switch from Browserify to Webpack, so don't worry.
+Note: I now recommend [Webpack](http://webpack.github.io) over browserify/watchify. Webpack is a lot faster if your project has a lot of dependencies. The ideas are the same. It's easy to switch from Browserify to Webpack, so don't worry.
 
 JavaScript is broken by default. `let` fixes common bugs caused by `var`, and `=>` fixes common bugs caused by `this`.
 
@@ -159,21 +159,32 @@ Note: Remember to restart `babel-node`, or else you wan't see the new module val
 
 Question: If you `require` a module 3 times, how many times is the file evaluated?
 
-# Bundling With Browserify
+# Bundling With Webpack
 
-[Browserify](http://browserify.org/) is a tool that turns a CommonJS project into normal JavaScript that the browser can understand. Browserify does the followings:
+[Webpack](http://webpack.github.io/) is a tool that turns a CommonJS project into normal JavaScript that the browser can understand.
 
-+ Collects all dependencies into a single file.
+There are other older/mature/popular tools like [Grunt](http://gruntjs.com/), [Gulp](http://gulpjs.com/), and [Browserify](https://github.com/substack/node-browserify), is it safe to use a relatively new tool like Webpack? Maybe next week another build tool would become popular. If your project is already using an existing tool, it's likely not worth the effort to convert to Webpack.
+
+Webpack is a complicated tool, with lots of [features](http://webpack.github.io/docs/) and [configuration options](http://webpack.github.io/docs/configuration.html). We'll avoid using the more advanced stuff, and focus on the core functionalities that all build tools would have:
+
++ Collects all CommonJS modules into a single file.
 + Provides fake `require` in the browser.
 + Ensures that a module is evaluated only once, and in the right order.
++ Converts ES6/JSX to ES5 (normal JavaScript).
+
+Because any future build tools should have these features, there is less risk of being locked into Webpack. Indeed, it takes almost no work to convert between using Browserify and Webpack!
 
 Install:
 
 ```
-npm install browserify@11.2.0 babelify@6.3.0 --save-dev
+npm install webpack@1.12.2 --save-dev
 ```
 
-By default browserify only understands ES5 (normal JavaScript). We've also installed `babelify` to extend browserify with the ability to process ES6 files.
+To be able to convert ES6/JSX to ES5, we'd also need to install the Webpack Babel plugin:
+
+```
+npm install babel-loader --save-dev
+```
 
 ### Exercise: Bundling pie.js
 
@@ -184,121 +195,177 @@ let {pi,e} =  require("./constants");
 console.log("pie =",pi + e);
 ```
 
-Evaluating `pie.js` should print out its value:
+Evaluating `pie.js` with NodeJS should print out its value:
 
 ```
 $ babel-node pie.js
 pie = 5.85987
 ```
 
-Create the bundle with browserify:
+Now let's make this work for the browser.
 
 ```
-browserify --transform babelify pie.js --outfile pie-bundled.js
+# webpack [entry-file] [bundle-file]
+$ webpack pie.js pie-bundle.js --module-bind "js=babel"
+webpack pie.js pie-bundle.js
+Hash: c499792d1a74823ee7da
+Version: webpack 1.12.2
+Time: 65ms
+        Asset     Size  Chunks             Chunk Names
+pie-bundle.js  1.69 kB       0  [emitted]  main
+   [0] ./pie.js 67 bytes {0} [built]
+   [1] ./constants.js 145 bytes {0} [built]
 ```
 
-+ `--transform babelify` - Use Babel to compile files before bundling.
-+ `--outfile` - Writes result to the specified file.
++ The `entry-file` - The entry of the project. Put `window.onload` here.
++ The `bundle-file` - The bundled file.
++ `--module-bind` - All files with the `.js` extension should be compiled with Babel.
 
-The result is:
+The bundled project is like:
 
 ```js
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// constants.js
-"use strict";
+/******/ (function(modules) {
 
-var pi = 3.14159;
-var e = 2.71828;
+/* webpack loader. omitted */
 
-var secretAnswer = 42;
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
 
-module.exports = {
-  pi: pi,
-  e: e,
-};
+  "use strict";
 
-},{}],2:[function(require,module,exports){
-"use strict";
+  var _require = __webpack_require__(1);
 
-var _require = require("./constants");
+  var pi = _require.pi;
+  var e = _require.e;
 
-var pi = _require.pi;
-var e = _require.e;
+  console.log("pie =", pi + e);
 
-console.log("pie =", pi + e);
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
 
-},{"./constants":1}]},{},[2]);
+  // constants.js
+  "use strict";
+
+  var pi = 3.14159;
+  var e = 2.71828;
+
+  module.exports = {
+    pi: pi,
+    e: e
+  };
+
+/***/ }
+/******/ ]);
 ```
 
-Run the above code in the browser to verify that it works!
+Run the bundled code in the browser to verify that it works!
 
 Notice how the modules are wrapped in a function to ensure a new scope:
 
 ```
-function(require,module,exports){
+function(module,exports,__webpack_require__){
   // module code.
 }
 ```
 
-The CommonJS API `require` and `module` are passed into the module code as arguments.
+Also, the `require` function is replaced with `__webpack_require__`.
 
-## DIY Require
+## Webpack Bootstrap
 
-At the top of the bundle is a chunk of scary looking code:
+Reading the `webpackBootstrap` code is a good way to understand exactly how CommonJS works.
 
-```js
-function e(t,n,r){function s(o,u) { ... }}
-```
-
-This defines how `require` loads modules. What require does is actually quite simple. Here is a simplified version of `require`:
+Modules are closures:
 
 ```js
-"use strict";
+// (function(modules) { ... })([modules])
+let modules = [
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
 
-// The bundled modules
-var modules = {
-  "./parent": function(module,require) {
-    module.exports = 'parent+' + require('./child');
-  },
+  "use strict";
 
-  "./child": function(module,require) {
-    module.exports = 'child';
-  },
-};
+  var _require = __webpack_require__(1);
 
-// Use a cache to ensure that a module is evaluated just once.
-var cache = {};
+  var pi = _require.pi;
+  var e = _require.e;
 
-function require(path) {
+  console.log("pie =", pi + e);
 
-  // Return cached module if already loaded.
-  if(cache.hasOwnProperty(path)) {
-    return cache[path];
-  }
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
 
-  // This defines module.export
-  var module = {
-    exports: {}
+  // constants.js
+  "use strict";
+
+  var pi = 3.14159;
+  var e = 2.71828;
+
+  module.exports = {
+    pi: pi,
+    e: e
   };
 
-
-  // Evaluate the module.
-  var modfn = modules[path];
-  modfn(module,require);
-
-  // Cache the module value.
-  cache[path] = module.exports;
-
-  // Return the exported objects.
-  return module.exports;
-}
-
-console.log(require("./parent")); // => parent+child
+/***/ }
+/******/ ]
 ```
 
-The actual code is here: [prelude.js](https://github.com/substack/browser-pack/blob/aadeabea66feac48193d27d233daf1c85209357e/prelude.js).
+The definition for `require` is like this:
 
-To learn more see: [How Browserify Works](http://benclinkinbeard.com/posts/how-browserify-works/).
+```js
+var installedModules = {};
+
+// The require function
+function __webpack_require__(moduleId) {
+
+  // Check if module is in cache
+  if(installedModules[moduleId])
+    return installedModules[moduleId].exports;
+
+  // Create a new module (and put it into the cache)
+  var module = installedModules[moduleId] = {
+    exports: {},
+    id: moduleId,
+    loaded: false
+  };
+
+  // Execute the module function
+  modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+  // Return the exports of the module
+  return module.exports;
+}
+```
+
++ It caches the module in `installedModules`, so each module is executed just once.
++ It returns the value of `module.exports` at the end.
+
+The most interesting line is the module execution:
+
+```js
+modules[moduleId].call(
+  // `this` is module.exports
+  module.exports,
+  // Make `module` available to the module code
+  module,
+  // Make `exports` available to the module code
+  module.exports,
+  // For recursive require.
+  __webpack_require__
+);
+```
+
+The only difference is that `__webpack_require__`  uses webpack's internal module id, which is the position of the module in the `modules` array.
+
+And what is the "entry file"? It's the module that is automatically evaluated when the bundle is loaded:
+
+```js
+return __webpack_require__(0);
+```
 
 # Bundling BuyShoes Dependencies
 
@@ -320,7 +387,7 @@ const Ps = require("../node_modules/perfect-scrollbar/index");
 const React = require("../node_modules/react/react");
 ```
 
-Use browserify to compile the bundle to `build/app.js`.
+Use Webpack to create the bundle to `build/app.js`. Bundling now takes somewhat longer because React is pretty big. Add the `--progress` option to the `webpack` command to see how many modules webpack had bundled.
 
 Note: The require paths are relative to the module file. Depending on where a file is, the relative path to `node_modules` is different:
 
@@ -349,27 +416,24 @@ $ node
 
 The result should be the same as before.
 
-# Live-Edit Using Watchify
+# Live-Edit
 
-Browserify doesn't have a `--watch` flag that automatically rebundles if a file change. A separate tool [watchify](https://github.com/substack/watchify) does that.
-
-Install:
+Webpack can automatically rebundle the project when you make changes. Just add the `--watch` option:
 
 ```
-npm install watchify@3.4.0 --save-dev
+$ webpack --watch --progress ...
 ```
 
-To use it, replace the browserify command with `watchify`. Everything else is the same:
+Because Webpack caches all the modules in memory, it needs to recompile only the module that had changed. In one of my projects, browserify+watchify takes 3~4 seconds to rebundle, but Webpack can do it in ~300ms.
 
-```
-watchify --transform babelify pie.js --outfile pie-bundled.js
-```
+### Exercise: Modify Makefile for live-edit.
 
-### Exercise: Modify Makefile
+When you edit a file,
 
-+ Change `make js` to use watchify.
+1. Webpack should compile and bundle the project.
+2. BrowserSync should see that bundle file had changed, and reload the browser.
 
-BrowserSync should still work.
+Change `make js` to make this happen.
 
 # Modularize BuyShoes
 
@@ -463,25 +527,43 @@ It'd be easier to start with a simple App, then migrate the components one by on
 
 # Source Map For Debugging
 
-The bundled `build/app.js` is too big, making it hard to debug.
+The bundled `build/app.js` is a huge file, making it hard to debug.
 
 ![](no-sourcemap.jpg)
 
-Thankfully, we can ask browserify to generate [source map](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/), so Chrome can correlate between the JavaScript that runs in the browser, and the original source files you've written.
+Thankfully, we can ask Webpack to generate [source map](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/), so Chrome can correlate between the JavaScript that runs in the browser, and the original source files you've written.
 
-Add the `--debug` option to browserify to generate Source Map. The command looks like:
+Add the `-d` option to the `webpack` command to enable the "development mode", which generates source map for your project.
 
-```
-browserify --debug --transform babelify pie.js --outfile pie-bundled.js
-```
+See: [Webpack CLI - development shortcut -d](https://webpack.github.io/docs/cli.html#development-shortcut-d)
 
-With source map enabled, Chrome can now shows you the original source files. `Cmd-P` to quickly find a file:
-
-<video src="cmd-p-find-file.mp4" controls></video>
-
-You can even set breakpoints:
+With source map enabled, Chrome can now shows you the original source files:
 
 ![](with-sourcemap.jpg)
+
+# Minified JavaScript
+
+For production, you'd want to:
+
+1. Make the bundle smaller. Removing comments and whitespace, etc.
+2. Obfuscate the source so it's harder for other people to borrow/steal it.
+
+[Uglify](https://github.com/mishoo/UglifyJS2) is the most popular tool for minifying JavaScript. Webpack make it super easy. Just add the `-p` option to enable production mode, and you'd get a final output like:
+
+```js
+!function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={exports:{},id:o,loaded:!1};return e[o].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}
+```
+
+Comparing the `-p` (production) vs `-d` (development), the file decreased from 710k to 188k:
+
+```
+-rw-r--r--  1 howard  staff   188K 12 Oct 19:57 bundle/app.js
+-rw-r--r--  1 howard  staff   710K 12 Oct 19:49 build/app.js
+```
+
+### Exercise: Create the minjs task
+
+Add the `minjs` task to Makefile. It should create `bundle/app.js`, which is the minified version of `build/app.js`.
 
 # Summary
 
@@ -492,5 +574,5 @@ We've seen how we can break a big file into modules.
 + ES6 modules adds the `import` and `export` syntax.
 + Load a package by calling `require` with the path to a file, or with a package name.
 + The `require` path is relative to the requiring file.
-+ Use browserify to bundle a CommonJS for the browser.
++ Use Webpack to bundle a CommonJS for the browser.
 
