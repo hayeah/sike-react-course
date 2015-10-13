@@ -1,7 +1,5 @@
 # Modular JavaScript With CommonJS
 
-Note: I now recommend [Webpack](http://webpack.github.io) over browserify/watchify. Webpack is a lot faster if your project has a lot of dependencies. The ideas are the same. It's easy to switch from Browserify to Webpack, so don't worry.
-
 JavaScript is broken by default. `let` fixes common bugs caused by `var`, and `=>` fixes common bugs caused by `this`.
 
 Up to now, we've been using `<script>` to load the JavaScript files we need. This is yet another big problem that needs fixing. The problems are:
@@ -188,7 +186,7 @@ npm install babel-loader --save-dev
 
 ### Exercise: Bundling pie.js
 
-Let's try create a bundle with browserify. First, create the `pie.js` file:
+Let's try create a bundle with webpack. First, create the `pie.js` file:
 
 ```js
 let {pi,e} =  require("./constants");
