@@ -1,3 +1,4 @@
+
 # 模块化 JavaScript 和 CommonJS
 
 JavaScript 生来有一些缺陷。`let` 修复了由 `var` 造成的常见问题，而 `=>` 修复了由 `this` 造成的常见问题。
@@ -561,7 +562,7 @@ module.exports = SiteTitle;
 -rw-r--r--  1 howard  staff   710K 12 Oct 19:49 build/app.js
 ```
 
-### 练习：新建 minjs 任务：
+### 练习：新建 minjs 任务
 
 在 Makefile 中添加 `minjs` 任务。该任务应该新建 `bundle/app.js`，它是 `build/app.js` 的压缩版本。
 

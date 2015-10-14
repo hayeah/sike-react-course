@@ -1,5 +1,7 @@
 # Modular JavaScript With CommonJS
 
+
+
 JavaScript is broken by default. `let` fixes common bugs caused by `var`, and `=>` fixes common bugs caused by `this`.
 
 Up to now, we've been using `<script>` to load the JavaScript files we need. This is yet another big problem that needs fixing. The problems are:
@@ -11,7 +13,11 @@ Up to now, we've been using `<script>` to load the JavaScript files we need. Thi
 
 In this lesson we'll use CommonJS break up `app.js` into smaller modules.
 
+
+
 # CommonJS Introduction
+
+
 
 CommonJS is the module system adopted by NodeJS/NPM. It's probably the most popular module system, and enjoys the best tools support. Don't confuse CommonJS with NPM, though.
 
@@ -25,7 +31,11 @@ CommonJS doesn't introduce any new syntax to JavaScript. The CommonJS API adds j
 
 Like ES6, you need to compile your CommonJS project into normal JavaScript that the browser can understand.
 
+
+
 ### CommonJS Interop With ES6 Modules
+
+
 
 ES6 module's design is heavily influenced by CommonJS. Because they are so similar, Babel allows you to use either interchangeably.
 
@@ -39,7 +49,11 @@ import foo from "foo";
 
 Babel will compile the ES6 `import` syntax to `require`.
 
+
+
 # Using CommonJS Module
+
+
 
 Since CommonJS is built into NodeJS, we can use the `node` interpreter to experiment with it. Let's start with a simple module that provides mathematical constants.
 
@@ -58,6 +72,8 @@ module.exports = {
 };
 ```
 
+
+
 This file is different from a file loaded with `<script>` in two ways:
 
 + The file has its own namespace. No need to wrap your code in a closure.
@@ -74,7 +90,11 @@ Let try to `require` the module `constants.js`. The value should be:
 }
 ```
 
+
+
 ### Exercise: Load a module with require
+
+
 
 First open a node shell:
 
@@ -83,6 +103,8 @@ First open a node shell:
 $ babel-node
 ```
 
+
+
 Call `require` with the path to the module file:
 
 ```
@@ -90,12 +112,16 @@ Call `require` with the path to the module file:
 { pi: 3.14159, e: 2.71828 }
 ```
 
+
+
 The value of `module.exports` is returned. If you try to use `pi`, you get an error:
 
 ```
 > pi
 ReferenceError: pi is not defined
 ```
+
+
 
 This is because `require` doesn't modify the current scope. It only returns the value of the loaded module.
 
@@ -107,6 +133,8 @@ Create a new local variable `pi`:
 3.14159
 ```
 
+
+
 Using ES6's destructuring we can create variables more concisely:
 
 ```js
@@ -114,7 +142,11 @@ let {pi,e} = require("./constants");
 var pie = pi + e;
 ```
 
+
+
 ### Exercise: ES6 import syntax
+
+
 
 The `import` is similar to CommonJS:
 
@@ -123,12 +155,16 @@ The `import` is similar to CommonJS:
 { pi: 3.14159, e: 2.71828 }
 ```
 
+
+
 And to create multiple variables at the same time:
 
 ```js
 import {pi,e} from "./constants";
 var pie = pi + e;
 ```
+
+
 
 Use `babel` to compile the above code, you should see:
 
@@ -137,7 +173,11 @@ var _constants = require("./constants");
 var pie = _constants.pi + _constants.e;
 ```
 
+
+
 ### Exercise: Add a new export value
+
+
 
 Add a new number to `constants.js`:
 
@@ -146,6 +186,8 @@ Add a new number to `constants.js`:
 let phi = 1.61803;
 ```
 
+
+
 From `babel-node`:
 
 ```
@@ -153,15 +195,23 @@ From `babel-node`:
 { pi: 3.14159, e: 2.71828, phi: 1.61803 }
 ```
 
+
+
 Note: Remember to restart `babel-node`, or else you wan't see the new module value.
 
 Question: If you `require` a module 3 times, how many times is the file evaluated?
 
+
+
 # Bundling With Webpack
+
+
 
 [Webpack](http://webpack.github.io/) is a tool that turns a CommonJS project into normal JavaScript that the browser can understand.
 
 There are other older/mature/popular tools like [Grunt](http://gruntjs.com/), [Gulp](http://gulpjs.com/), and [Browserify](https://github.com/substack/node-browserify), is it safe to use a relatively new tool like Webpack? Maybe next week another build tool would become popular. If your project is already using an existing tool, it's likely not worth the effort to convert to Webpack.
+
+
 
 Webpack is a complicated tool, with lots of [features](http://webpack.github.io/docs/) and [configuration options](http://webpack.github.io/docs/configuration.html). We'll avoid using the more advanced stuff, and focus on the core functionalities that all build tools would have:
 
@@ -172,11 +222,15 @@ Webpack is a complicated tool, with lots of [features](http://webpack.github.io/
 
 Because any future build tools should have these features, there is less risk of being locked into Webpack. Indeed, it takes almost no work to convert between using Browserify and Webpack!
 
+
+
 Install:
 
 ```
 npm install webpack@1.12.2 --save-dev
 ```
+
+
 
 To be able to convert ES6/JSX to ES5, we'd also need to install the Webpack Babel plugin:
 
@@ -184,7 +238,11 @@ To be able to convert ES6/JSX to ES5, we'd also need to install the Webpack Babe
 npm install babel-loader --save-dev
 ```
 
+
+
 ### Exercise: Bundling pie.js
+
+
 
 Let's try create a bundle with webpack. First, create the `pie.js` file:
 
@@ -193,12 +251,16 @@ let {pi,e} =  require("./constants");
 console.log("pie =",pi + e);
 ```
 
+
+
 Evaluating `pie.js` with NodeJS should print out its value:
 
 ```
 $ babel-node pie.js
 pie = 5.85987
 ```
+
+
 
 Now let's make this work for the browser.
 
@@ -218,6 +280,8 @@ pie-bundle.js  1.69 kB       0  [emitted]  main
 + The `entry-file` - The entry of the project. Put `window.onload` here.
 + The `bundle-file` - The bundled file.
 + `--module-bind` - All files with the `.js` extension should be compiled with Babel.
+
+
 
 The bundled project is like:
 
@@ -260,6 +324,8 @@ The bundled project is like:
 /******/ ]);
 ```
 
+
+
 Run the bundled code in the browser to verify that it works!
 
 Notice how the modules are wrapped in a function to ensure a new scope:
@@ -270,9 +336,15 @@ function(module,exports,__webpack_require__){
 }
 ```
 
+
+
 Also, the `require` function is replaced with `__webpack_require__`.
 
+
+
 ## Webpack Bootstrap
+
+
 
 Reading the `webpackBootstrap` code is a good way to understand exactly how CommonJS works.
 
@@ -312,6 +384,8 @@ let modules = [
 /******/ ]
 ```
 
+
+
 The definition for `require` is like this:
 
 ```js
@@ -339,6 +413,8 @@ function __webpack_require__(moduleId) {
 }
 ```
 
+
+
 + It caches the module in `installedModules`, so each module is executed just once.
 + It returns the value of `module.exports` at the end.
 
@@ -357,6 +433,8 @@ modules[moduleId].call(
 );
 ```
 
+
+
 The only difference is that `__webpack_require__`  uses webpack's internal module id, which is the position of the module in the `modules` array.
 
 And what is the "entry file"? It's the module that is automatically evaluated when the bundle is loaded:
@@ -365,11 +443,19 @@ And what is the "entry file"? It's the module that is automatically evaluated wh
 return __webpack_require__(0);
 ```
 
+
+
 # Bundling BuyShoes Dependencies
+
+
 
 Let's bundle PerfectScrollbar and React with `app.jsx`.
 
+
+
 ### Exercise: Bundling PerfectScrollbar and React
+
+
 
 Remove from `index.html`:
 
@@ -378,12 +464,16 @@ Remove from `index.html`:
 <script type="text/javascript" src="node_modules/react/dist/react.js"></script>
 ```
 
+
+
 In `app.jsx` add:
 
 ```js
 const Ps = require("../node_modules/perfect-scrollbar/index");
 const React = require("../node_modules/react/react");
 ```
+
+
 
 Use Webpack to create the bundle to `build/app.js`. Bundling now takes somewhat longer because React is pretty big. Add the `--progress` option to the `webpack` command to see how many modules webpack had bundled.
 
@@ -395,7 +485,11 @@ Note: The require paths are relative to the module file. Depending on where a fi
 + `a/app.jsx` - require("../node_modules/...")
 + `a/b/app.jsx` - require("../../node_modules/...")
 
+
+
 # Require By Package Name
+
+
 
 We can also use the package name to `require` React and PerfectScrollbar:
 
@@ -403,6 +497,8 @@ We can also use the package name to `require` React and PerfectScrollbar:
 const Ps = require("perfect-scrollbar");
 const React = require("react");
 ```
+
+
 
 Usually `require` loads a file by its path. If it's a package name, NodeJS uses the `require.resolve` function to find which file to load. See which file `require("react")` would load:
 
@@ -412,11 +508,19 @@ $ node
 ./node_modules/react/react.js
 ```
 
+
+
 ### Exercise: Use package name to bundle React and PerfectScrollbar
+
+
 
 The result should be the same as before.
 
+
+
 # Live-Edit
+
+
 
 Webpack can automatically rebundle the project when you make changes. Just add the `--watch` option:
 
@@ -426,7 +530,11 @@ $ webpack --watch --progress ...
 
 Because Webpack caches all the modules in memory, it needs to recompile only the module that had changed. In one of my projects, browserify+watchify takes 3~4 seconds to rebundle, but Webpack can do it in ~300ms.
 
+
+
 ### Exercise: Modify Makefile for live-edit.
+
+
 
 When you edit a file,
 
@@ -435,7 +543,11 @@ When you edit a file,
 
 Change `make js` to make this happen.
 
+
+
 # Modularize BuyShoes
+
+
 
 Our goal is to reduce `app.jsx` to just this:
 
@@ -448,7 +560,11 @@ window.onload = () => {
 }
 ```
 
+
+
 ### Exercise: Modularize Fake Data
+
+
 
 Create the file `js/data.js`:
 
@@ -461,7 +577,11 @@ module.exports = {
 
 Then import data into `js/app.jsx`.
 
+
+
 ### Exercise: Modularize SiteTitle
+
+
 
 Put the `SiteTitle` component into its own module. We'll put all components in the `js/components` directory.
 
@@ -485,11 +605,17 @@ let SiteTitle = React.createClass({
 module.exports = SiteTitle;
 ```
 
+
+
 Modify `app.jsx` to import this component.
 
 Note: The extension must be `.js`, not `.jsx`.
 
+
+
 ### Exercise: Modularize Everything Else
+
+
 
 Turn all the components into modules.
 
@@ -520,16 +646,24 @@ It'd be easier to start with a simple App, then migrate the components one by on
 </div>
 ```
 
+
+
 + `App` in `js/components/App.js`
 + `Cart` in `js/components/Cart.js`
 + `Products` in `js/components/Products.js`
 + etc.
 
+
+
 # Source Map For Debugging
+
+
 
 The bundled `build/app.js` is a huge file, making it hard to debug.
 
 ![](no-sourcemap.jpg)
+
+
 
 Thankfully, we can ask Webpack to generate [source map](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/), so Chrome can correlate between the JavaScript that runs in the browser, and the original source files you've written.
 
@@ -537,22 +671,32 @@ Add the `-d` option to the `webpack` command to enable the "development mode", w
 
 See: [Webpack CLI - development shortcut -d](https://webpack.github.io/docs/cli.html#development-shortcut-d)
 
+
+
 With source map enabled, Chrome can now shows you the original source files:
 
 ![](with-sourcemap.jpg)
 
+
+
 # Minified JavaScript
+
+
 
 For production, you'd want to:
 
 1. Make the bundle smaller. Removing comments and whitespace, etc.
 2. Obfuscate the source so it's harder for other people to borrow/steal it.
 
+
+
 [Uglify](https://github.com/mishoo/UglifyJS2) is the most popular tool for minifying JavaScript. Webpack make it super easy. Just add the `-p` option to enable production mode, and you'd get a final output like:
 
 ```js
 !function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={exports:{},id:o,loaded:!1};return e[o].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}
 ```
+
+
 
 Comparing the `-p` (production) vs `-d` (development), the file decreased from 710k to 188k:
 
@@ -561,11 +705,19 @@ Comparing the `-p` (production) vs `-d` (development), the file decreased from 7
 -rw-r--r--  1 howard  staff   710K 12 Oct 19:49 build/app.js
 ```
 
+
+
 ### Exercise: Create the minjs task
+
+
 
 Add the `minjs` task to Makefile. It should create `bundle/app.js`, which is the minified version of `build/app.js`.
 
+
+
 # Summary
+
+
 
 We've seen how we can break a big file into modules.
 
@@ -575,3 +727,5 @@ We've seen how we can break a big file into modules.
 + Load a package by calling `require` with the path to a file, or with a package name.
 + The `require` path is relative to the requiring file.
 + Use Webpack to bundle a CommonJS for the browser.
+
+

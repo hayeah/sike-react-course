@@ -8,7 +8,7 @@ JavaScript is broken by default. `let` fixes common bugs caused by `var`, and `=
 
 Up to now, we've been using `<script>` to load the JavaScript files we need. This is yet another big problem that needs fixing. The problems are:
 
-+ Each each `<script>` tag is one extra HTTP request. Slows down page load.
++ Each `<script>` tag is one extra HTTP request. Slows down page load.
 + No explicit dependency tree between files.
 + You need to specify the correct loading order.
 + All script shares the same namespace.
