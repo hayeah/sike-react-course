@@ -389,6 +389,8 @@ const React = require("../node_modules/react/react");
 
 使用 Webpack 来新建打包文件到 `build/app.js`。现在打包需要稍微长一点的时间，因为 React 实在是有点大。在 `webpack` 命令中添加 `--progress` 指令可以查看 webpack 已经打包了多少模块。
 
+注意: 加上 `--module-bind jsx=babel` 所以 Webpack 才会用 Babel 来编译 .jsx 文件.
+
 注意：require 的路径是和模块文件相关的。根据文件的位置，`node_modules` 的相对路径是不同的：
 
 + `app.jsx` - require("./node_modules/...")
