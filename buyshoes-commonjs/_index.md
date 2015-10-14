@@ -387,6 +387,8 @@ const React = require("../node_modules/react/react");
 
 Use Webpack to create the bundle to `build/app.js`. Bundling now takes somewhat longer because React is pretty big. Add the `--progress` option to the `webpack` command to see how many modules webpack had bundled.
 
+Note: Add `--module-bind jsx=babel` so Webpack would use babel for .jsx files.
+
 Note: The require paths are relative to the module file. Depending on where a file is, the relative path to `node_modules` is different:
 
 + `app.jsx` - require("./node_modules/...")
