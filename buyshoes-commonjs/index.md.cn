@@ -157,11 +157,11 @@ let phi = 1.61803;
 
 问题：如果 `require` 一个模块三次，文件会执行几次？
 
-# Bundling With Webpack
+# 使用 Webpack 打包
 
 [Webpack](http://webpack.github.io/) 是一个将 CommonJS 项目转换成浏览器可读的标准 JavaScript 的工具。
 
-既然已经有了其他 旧的/成熟的/流行的工具如 [Grunt](http://gruntjs.com/)， [Gulp](http://gulpjs.com/)， 和 [Browserify](https://github.com/substack/node-browserify)， 使用一个像 Webpack 的相对新的工具安全吗？说不定下一周又会有一个新的工具流行起来。如果你的项目已经在使用某个已有的工具，转换到 Webpack 并不是太值得。
+既然已经有了其他 旧的/成熟的/流行的工具如 [Grunt](http://gruntjs.com/)，[Gulp](http://gulpjs.com/)，和 [Browserify](https://github.com/substack/node-browserify)， 使用一个像 Webpack 的相对新的工具安全吗？说不定下一周又会有一个新的工具流行起来。如果你的项目已经在使用某个已有的工具，转换到 Webpack 并不是太值得。
 
 Webpack 是一个复杂的工具，有很多的 [功能](http://webpack.github.io/docs/) 和 [配置项](http://webpack.github.io/docs/configuration.html)。我们将避免使用高级的内容，而集中在所有构建工具都有的核心功能上：
 
@@ -215,8 +215,8 @@ pie-bundle.js  1.69 kB       0  [emitted]  main
    [1] ./constants.js 145 bytes {0} [built]
 ```
 
-+ The `entry-file` - 项目的入口文件。将 `window.onload` 放在这里。
-+ The `bundle-file` - 打包后的文件。
++ `entry-file` - 项目的入口文件。将 `window.onload` 放在这里。
++ `bundle-file` - 打包后的文件。
 + `--module-bind` - 所有拓展名为 `.js` 的文件都应该用 Babel 来编译。
 
 打包后的项目应该像是这样的：
@@ -317,7 +317,7 @@ let modules = [
 ```js
 var installedModules = {};
 
-// The require 函数
+// require 函数
 function __webpack_require__(moduleId) {
 
   // 检查模块是否在缓存中
