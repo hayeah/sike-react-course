@@ -6,7 +6,7 @@ JavaScript is broken by default. `let` fixes common bugs caused by `var`, and `=
 
 Up to now, we've been using `<script>` to load the JavaScript files we need. This is yet another big problem that needs fixing. The problems are:
 
-+ Each each `<script>` tag is one extra HTTP request. Slows down page load.
++ Each `<script>` tag is one extra HTTP request. Slows down page load.
 + No explicit dependency tree between files.
 + You need to specify the correct loading order.
 + All script shares the same namespace.
@@ -188,7 +188,7 @@ npm install babel-loader --save-dev
 
 ### Exercise: Bundling pie.js
 
-Let's try create a bundle with browserify. First, create the `pie.js` file:
+Let's try create a bundle with Webpack. First, create the `pie.js` file:
 
 ```js
 let {pi,e} =  require("./constants");
@@ -575,4 +575,3 @@ We've seen how we can break a big file into modules.
 + Load a package by calling `require` with the path to a file, or with a package name.
 + The `require` path is relative to the requiring file.
 + Use Webpack to bundle a CommonJS for the browser.
-
