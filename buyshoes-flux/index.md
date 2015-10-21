@@ -1,283 +1,727 @@
-# Buyshoes
+# Getting Started With Flux
 
-+ I think it'd be nice if the lesson could retrace flux's origin. sort of "hey, i could've invented flux too!"
+Our shopping cart is just a static page. In this lesson, we'll use Flux to make it possible to add and remove shopping cart items.
 
+If you are new to Flux, the best way to get started is to imitate the example apps Facebook provided:
 
++ [Todo Flux App](https://facebook.github.io/flux/docs/todo-list.html#content)
++ [Chat Flux App](https://github.com/facebook/flux/tree/master/examples/flux-chat/js)
 
-# lesson strategy
+Looking at these two apps, you might find Flux to be somewhat verbose and over-engineered. To better understand why Flux is designed that way, we will pretend that Flux doesn't exist and implement our own Flux framework from scratch.
 
-important ideas are:
+At first, our code would follow a more conventional coding style, similar to MVC. As we implement our shopping cart application, though, we'll discover new needs. By refactoring our code to satisfy these needs, we would eveolve our app to be closer and closer to the real Flux.
 
-+ semantic action. indirect manipulation of state. possibly pub/sub
-+ store is "domain state". single source of truth.
-  + no cascading. snapshot view while processing an action. state transition T(state,action).
-+ pub/sub of store changes to view.
+The Flux architecture has four parts:
 
-I think it's good to introduce the classic flux architecture.
+![](flux-simple-f8-diagram-1300w.png)
 
-+ Realistically speaking, BuyShoes doesn't need all that.
-+ Can I think of an interesting example for the Action->Store pub/sub?
+In this lesson we'll focus on Store->View. In other words, when we change the application data, the views should update.
 
-It probably makes sense to break into two parts, where 1 is store->view pub/sub, the other is action->store pub/sub.
+# Lesson StarterKit
 
-
-dispatcher adds two things:
-
-1. do not cascade.
-  + testing is easier
-  + easier to understand.
-2. assert order of message delivery.
-
-
-I think the granularity of flux varies. It could be very fine, or rather coarse.
-
-+ fine - each model. each variable is a store.
-+ granular - a "domain" or subsystem is a store.
-
-If too fine, can seen overwrought.
-
-
-
-immutable
-
-
-sugar, data structure, store->view pub/sub, action->store pub/sub, integration with view
-
-flux
-  store data structure: any
-  state transition: any
-  store->view pub/sub: yes.
-  action->store pub/sub: yes
-  multiple dispatchers
-  getter: store getter functions
-
-alt
-  same as flux, with sugar.
-
-redux
-  data structure: immutable
-  state transition: stateless/pure reduce
-  store->view pub/sub: yes
-  action->store pub/sub: no
-  no dispatcher
-  getter: props from root component
-
-baobab
-  data structure: immutable
-  state transition: stateless/pure setter
-  store->view pub/sub: yes
-  action->store pub/sub: no
-  no dispatcher
-  getter: cursor or getter functions
-
-
-+ remote/async API integration in "smart actions".
-  + optimistic update
-+ pub/sub action->store.
-  + concern 1: undo
-  + concern 2: user behavioural monitoring / logging
-
-
-Also... normalizing data.
-
-
-
-
-http://stackoverflow.com/a/25648726
-
-
-part 1: store->view pubsub
+We have provided a reference implementation for the `buyshoes` page.
 
 ```
-let carItems = {[productId]: {quantity, productId}};
-
-getCartItems()
+git clone https://github.com/hayeah/sikeio-buyshoes-startkit.git sikeio-buyshoes-react
+cd sikeio-buyshoes-react
+git checkout flux-start
 ```
 
-```
-// cartAction
-addCartItem(prductId) {
-  // direct manipulation + event emitter
+You could use your own if you want.
+
+# Flux Is Events Driven
+
+
+The procedural programming model is what we are most used to. We tell the program to do one command after another:
+
+```js
+main() {
+  doX()
+  doY()
+  doZ()
 }
 ```
 
-part 2: action->store pubsub
+Another way to structure a program is with the event-driven architecture. The computer waits for something to happen, then it responds to the event. Suppose we are building a home automation system:
 
-```
-function addCartItem(productId) {
-  AppDispatcher.dispatch({type:"addCartItem",productId})
-}
++ When X happens, do Y.
++ When the windows open, turn off the air conditioner.
++ When "howard" wakes up, make coffee.
++ When "howard" start working, turn off music.
 
-// cartAction
-_addCartItem(prductId) {
-  // direct manipulation + event emitter
-}
+This is called [inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control), because you no longer tell the program when to do something. All that the program does is responding to what happens in the world.
 
-dispatcher.subscribe((action) => {
-  if(action.type == "addCartItem") {
-    _addCartItem(action.productId);
+User interface is another good fit for event-driven architecture, since all it does is responding to user interactions:
+
++ When user does X, application should do Y.
++ When user clicks "add to cart" button, add product to the shopping cart.
++ When user clicks on "trash can" button, remove product from the shopping cart.
+
+MVC is procedural. The controller is the brain, telling different parts of the system to do as it commands.
+
+Flux is an events-driven publish/subscribe system (pubsub). When a user interacts with the application, a message is broadcasted throughout the entire system. Any component of the system can decide whether it should respond or ignore an event. There is no centralized control.
+
+The key advantage of publish/subscribe is that it's super extensible. Because the system is decentralized, you can easily add new features without modifying any existing code.
+
+# Keeping PubSub Simple With Flux
+
+But because there's no clear logical flow, a pubsub system can be horribly confusing. In a complicated pubsub system, an event could trigger more events, like spreading a gossip (or contagious disease):
+
+![](rumour-spreading.jpg)
+
+It can be extremely difficult to trace the chain of events back to the original source. Unless we impose discipline in how we structure a pubsub systen, it could easily become an impossible to understand mess.
+
+Flux restricts its pubsub system by enforcing the four-steps "unidirectional flow" convention:
+
+![](flux-simple-f8-diagram-1300w.png)
+
++ The only way to initiate an update cycle is by creating an action.
++ Stores can ONLY receive events from the dispatcher.
++ Views can ONLY receive events from stores.
+
+With these restrictions in place, the Flux pub/sub system looks like:
+
+![](unidirectional-flow.jpg)
+
+### No Cascading Allowed
+
+A store should never never NEVER cause other stores to update ("no cascading"). Let's see an example of how cascading might be useful, so we can appreciate what exactly it is we need to avoid.
+
+Suppose I want to `like` a product, the MVC code might look like:
+
+```js
+let likedProducts = {
+  products: [],
+
+  addProduct(product) {
+    this.products.push(product);
+
+    // Update the associated view
+    updateLikedProductsView();
   }
-});
+}
+
+let product = {
+  setLiked() {
+    this.liked = true;
+    likedProducts.addProduct(this);
+
+    // Update the associated view
+    updateProductView();
+  }
+}
+
+product.setLiked();
 ```
 
+1. Call `product.setLiked()`
+2. `product` updates its associated view.
+3. `product` adds itself to `likedProducts`.
+4. `likedProducts` updates its associated view.
 
+This seems like perfectly reasonable code, but you are not allowed to do this with Flux. When we build our shopping cart, please remember the following 3 important rules:
 
+1. Store should never update other stores.
+2. Store should never update other stores.
+3. Store should never update other stores.
 
+# The Store Pattern
 
+A store is simply a set of functions to read and write data in the module. It's like a mini database.
 
+Facebook's original Flux is more a pattern than a framework.  Rather than creating the `Store` class, we'll use plain JavaScript:
 
+```js
+// From NodeJS standard library
+const EventEmitter = require("events");
+function emitChange() {
+  emitter.emit("change");
+}
 
+// The store's private data. Only accessible inside the module.
+let _data = [];
+// There can be other pieces of data you want the store to control.
+let _foo = new Foo();
 
-+ waitFor is really only useful to coordinate the update orders of multiple stores.
+let _bar = new Bar();
 
-+
+let emitter = new EventEmitter();
 
+module.exports = {
+  // Reader API
+  getData() {
+    return _data;
+  },
 
-ya. the original flux is totally overwrought.
+  // Writer API
+  modifyData(data) {
+    _data = data;
 
+    // Every writer method should emit the "change" event.
+    emitChange();
+  },
 
-+ action -> dispatcher -> store -> view
-  + each stage is a many to many relationship.
+  // Views can subscribe to "change" events.
+  addChangeListener(callback) {
+    emitter.addListener("change",callback);
+  },
 
-+ the idea that event emitter shouldn't immediately update. should wait for coaelce.
-  + hmm. not using setImmediate?
-    + actually, this is a baobab feature. looking at the events library out there, most doesn't use setImmediate.
-  + what's an event library that coaleces callbacks?
+  removeChangeListener(callback) {
+    emitter.removeListener("change",callback);
+  },
+}
+```
 
-i still don't really get waitFor... how else could it be?
++ There can be many reader methods.
++ There can be many writer methods.
++ All store should have the `addChangeListener` and `removeChangeListener` methods.
++ Never allow the outside world to modify the store's internal data directly.
++ The views would get data from a store by calling its reader methods.
 
-+ why not write a function that update two stores?
-+ why not let a store listen on another store?
-+ why not one store?
 
-What is this "cascading update" boogeyman?
+Rather than having one store for the whole app, you usually create many stores to serve different needs.
 
+This is the first version of the pattern, which we will refactor as we make progress.
 
-+ We originally set out to deal correctly with derived data
+### The NodeJS "events" Module
 
-+ MVC — marking a single thread as read would update the thread model, and then also need to update the unread count model.
+[EventEmitter](https://nodejs.org/api/events.html) is from NodeJS' standard library. Webpack would automatically find the `events` module from NodeJS, so you don't need to install the "events" package with npm.
 
-+ Control is inverted with stores: the stores accept updates and reconcile them as appropriate, rather than depending on something external to update its data in a consistent way.
-  + why not functions? ADT
+The EventEmitter API is similar to how you might respond to a click event:
 
-+ Stores have no direct setter methods like setAsRead(), but instead have only a single way of getting new data into their self-contained world: the callback they register with the dispatcher.
-  + why not functions? ADT
+```js
+function handleClick(event) {
+  console.log("target",event.target);
+  console.log("type",event.type);
+}
+button.addEventListener("click",handleClick);
+```
 
-here's another piece of the puzzle:
+We can use EventEmitter to create a fake button:
 
-+ action creators — dispatcher helper methods — are used to support a semantic API that describes all changes that are possible in the application.
-  + why not functions? ADT
+```js
+const EventEmitter = require("events");
 
-I see. So the key to understand this is "semantic API". It's pub-sub at both ends. A dispatcher accepts a whole suite of user actions (semantic actions). This is a product oriented way to think about it. User can DO something, but there's no explicit code to glue user actions to data manipulation.
+let fakeButton = new EventEmitter()
 
-For example, you might have the original subsystem of stores to handle user actions and update UI. Another team might want to build another subsystem for tracing and debugging. with pubsub they don't need to know about each other.
+function handleClick(event) {
+  console.log("target",event.target);
+  console.log("type",event.type);
+}
 
-The "dispatcher" is really just event-emitter + waitFor. If there's no need to enforce update order, you could've used event-emitter. The dispatcher mechanism is almost like AOP.
+fakeButton.addListener("click",handleClick);
 
-+ the use for `waitFor` is relatively clear. If thread list and thread unread count are handled by different stores, you'd want thread-list to update before unread count does.
-  + which means both stores have to listen to the "open-thread" action.
+// Fake a click event
+let event = {target: fakeButton, type: "click"};
+fakeButton.emit("click");
+```
 
+# Implement Search Suggestions
 
-so... what is the cascading problem? why are they hell-bent on stores not being able to update each other?
+Now let's see how Flux works in practice. We'll build a search input box with auto suggestions:
 
-+ When updates can only change data within a single round, the system as a whole becomes more predictable.
+<video src="search-suggestions.mp4" controls></video>
 
-hmmm... let me just come up with a cascading scenario... multiple boards trello.
+We'll build this feature twice.
 
-update something that updates something else.. i think they just mean at the model level. what is it like?
+1. First time, using a centralized controller (MVC).
+2. Second time, using EventEmitter (Flux).
 
-I mean all their presentations they give the same example:
+The actual functionality is the same. These two examples only differ by how the pieces of code are glued together.
 
-+ thread list
-+ notifications count
+# Search Suggestions With Controller
 
-They talk about how the unread count had always been buggy. How hard could that possibly be? So weird.
+[Search Suggestions MVC - Codepen Demo](http://codepen.io/hayeah/pen/pjdpPP?editors=001)
 
-Dispatcher enfroces this in code. While an action is being dispatched, you can't dispatch another.
+The MVC version of the "search suggestions" uses a centralized controller to glue the parts together:
 
-+ A dispatch causes an application-wide transformation of application state.
-  + This is a moment in time, creating a snapshot of change. This is easy to reason about.
-  + We cannot dispatch while dispatching and preserve this simplicity. Thus, any corollary change must be driven by the original action.
+![](mvc-search-suggestions.jpg)
 
-This is a good explanation of flux: http://stackoverflow.com/a/27267083
+First, `SearchInputView` calls `updateSearchInput` whenever its input changes:
 
-ok... I think i get it now...
+```js
+class SearchInputView extends React.Component {
+  onChange(e) {
+    let value = e.target.value;
+    suggestionController.updateSearchInput(value);
+  }
 
-+ the pub/sub mechanism is for decoupling
-+ "no cascading" maintains the simple programming model. one action one change. no chasing the rabbit hole.
-+ store is not orm. it's a collection of domain models.
-+ action is the data that get passed around. message passing basically.
+  render() {
+    return <input onChange={this.onChange.bind(this)} placeholder="enter country name"/>;
+  }
+};
+```
 
-# redux
+The controller uses the RemoteAPI to get the matching suggestions:
 
-hmm. dispatcher is tied to the store. then why the hell do you even use pubsub?
-  + i think it's an odd outcome of on reducers are structured. messages travel through the reducer tree.
+```js
+let suggestionController = {
+  updateSearchInput(queryString) {
+    RemoteAPI.fetchSuggestions(queryString,(suggestions) => {
+      this.receivedSuggestions(suggestions);
+    });
+  },
+}
+```
 
-+ just one store.
-+ could have many reducers.
- + oh i see. every action would cause the state to be rebuilt. [combineReducers](http://rackt.github.io/redux/docs/api/combineReducers.html) is a way to "shard" the reducers by keys.
+When the RemoteAPI returns with the result, the controller updates the store and the view:
 
-+ ya. recording `actions` as simple messages is pretty cool. can record every changes that ever happen to the UI.
+```js
+let suggestionController = {
+  updateSuggestionsDisplayView() {
+    // Forces the React component to re-render.
+    this.suggestionsDisplayView.forceUpdate();
+  },
 
-+ i think it's fair to say that redux is flux without the dispatcher pub/sub. one store.
-  + the reducer composition technique removes the need for immutable datastructure library.
+  receivedSuggestions(suggestions) {
+    suggestionsStore.setSuggestions(suggestions);
+    this.updateSuggestionsDisplayView();
+  },
+}
+```
 
-Dan Abramov writes [The Case For Flux](https://medium.com/@dan_abramov/the-case-for-flux-379b7d1982c6). It argues well for why there should be a single source of data. But I still don't see why the action->store->view update cycle should be flat.
+The `suggestionStore` is just a getter/setter API for an array of strings:
 
+```js
+// Normally the store is in a module. Here we use closure.
+let suggestionsStore = (() => {
 
+  let _suggestions = [];
 
-# normalizr
+  // We could replace `return` with module
+  // module.exports = { ... }
 
-more trouble than it's worth...
+  return {
+    // Reader API
+    getSuggestions() {
+      return _suggestions;
+    },
 
-https://github.com/gaearon/normalizr
+    // Writer API
+    setSuggestions(suggestions) {
+      _suggestions = suggestions;
+    }
+  };
+})();
+```
 
-interesting. turns nested JSON structure into normalized "tables", sort of.
+The `SuggestionsDisplayView` registers itself with the controller when it's mounted:
 
-# path to flux
+```js
+class SuggestionsDisplayView extends React.Component {
+  componentDidMount() {
+    suggestionController.setSuggestionsDisplayView(this);
+  }
+};
+```
 
-+ pub/sub store->view
-  + this is easy to understand
-+ pub/sub action->store
-  + aspect programming. decoupled systems. don't need to change the API
-+ no cascading
-  + this is kinda a refactoring step. lift all nested store updates (by stores) to the toplevel, so they listen in on actions instead.
+When the controller tells the `SuggestionsDisplayView` to update, it reads the latest data from `suggestionsStore`:
+
+```js
+class SuggestionsDisplayView extends React.Component {
+  render() {
+    let suggestions = suggestionsStore.getSuggestions();
+    ...
+  }
+};
+```
 
-+ waitFor
-  + ok. I can finally think of a non-artificial example.
+# Search Suggestions With EventEmitter
 
-### waitFor and multiple stores
+[Search Suggestions - EventEmitter Codepen Demo](http://codepen.io/hayeah/pen/NGwXXb?editors=001)
 
-Say you want a generic notification count.
+Now we remove the controller, and glue code together with pubsub instead:
 
-There can be many subsystems that produce notifications:
+![](events-search-suggestions.jpg)
 
-1. new message from friends
-2. ads. "new coupon for you!"
-3. system notifications. "please refresh browser to update"
+Note: In "real" Flux, actions would use pubsub to cause stores to update. For now we'll keep it simple by allowing actions to call stores directly.
 
-the notification widget needs to provide previews to these events, in the order that they are received.
+First the input box triggers the action `updateSearchQuery`:
 
-the actions are:
+```js
+class SearchInputView extends React.Component {
+  onChange(e) {
+    let value = e.target.value;
+    updateSearchQuery(value);
+  }
 
-+ system-notification-new
-+ system-notification-read
+  render() {
+    return (
+      <p>
+        Country Name: <br/>
+        <input onChange={this.onChange.bind(this)} placeholder="enter country name"/>
+      </p>
+    );
+  }
+};
+```
 
-+ message-new
-+ message-read
+The action `updateSearchQuery` fetches the data from server:
 
-MessageStore subscribes to message-*
+```js
+// Action
+function updateSearchQuery(query) {
+  RemoteAPI.fetchSuggestions(query,(suggestions) => {
+    receiveSuggestions(suggestions);
+  });
+}
+```
 
-NotificationStore subscrbies to message-* and system-notification-*
+When the suggestions return from the server, the action `receiveSuggestions` is triggered. This action would cause the store to update:
 
-The MessageAction class doesn't need to change when NotificationStore decides to plugin.
+```
+function receiveSuggestions(suggestions) {
+  suggestionsStore.setSuggestions(suggestions);
+}
+```
 
-+ waitFor is necessary here because NotificationStore
-  + this is NotificationStore needs to access data from MessageStore.
-  + waitFor is for read-dependencies only.
+The store is mostly the same as before. The only difference is that the setter method `setSuggestions` now emits the `change` event:
 
+```js
+let suggestionsStore = (() => {
+  let _suggestions = [];
 
+  let emitter = new EventEmitter();
 
+  return {
+    getSuggestions() {
+      return _suggestions;
+    },
 
+    setSuggestions(suggestions) {
+      _suggestions = suggestions;
+      emitter.emit("change");
+    },
 
+    addChangeListener(callback) {
+      emitter.addListener("change",callback);
+    },
+  };
+})();
+```
+
+Finally, the `SuggestionsDisplayView` listens to the `suggestionsStore`.
+
+```js
+class SuggestionsDisplayView extends React.Component {
+  componentDidMount() {
+    suggestionsStore.addChangeListener(this.forceUpdate.bind(this));
+  }
+};
+```
+
+The `SuggestionsDisplayView` reads the latest data from the `suggestionStore` whenever it has to renreder:
+
+```js
+class SuggestionsDisplayView extends React.Component {
+  render() {
+    let suggestions = suggestionsStore.getSuggestions();
+    ...
+  }
+};
+```
+
+# Extending The Search Suggestions
+
+Let's practice Flux by adding a few additional features. You can do these exercises directly in Codepen by forking the original code:
+
+![](codepen-fork.jpg)
+
+The codepen editor embeds the page in an iframe, so debugging is difficult. There's a debug mode that opens your code in a new window without the iframe:
+
+![](codepen-enter-debug-mode.jpg)
+
+You can also take a look at the JavaScript settings. The forked codepen project should inherit the same JavaScript settings:
+
++ Uses Babel.
++ Included React 14.0.
++ Included EventEmitter.
+
+![](codepen-javascript-settings.jpg)
+
+### Exercise: Show the length of the query string.
+
+Fork the demo: [Search Suggestions - EventEmitter Codepen Demo](http://codepen.io/hayeah/pen/NGwXXb?editors=001)
+
+Add a the `QueryLengthView` component to the lenght of the search string:
+
+```js
+class QueryLengthView extends React.Component {
+  componentDidMount() {
+    queryStore.addChangeListener(this.forceUpdate.bind(this));
+  }
+
+  render() {
+    let query = queryStore.getQuery();
+
+    return (
+      <div>Query length: {query.length}</div>
+    );
+  }
+}
+
+let App = () => {
+  return (
+    <div>
+      <SearchInputView/>
+      <QueryLengthView/>
+      <SuggestionsDisplayView/>
+    </div>
+  )
+}
+```
+
+You'll need to:
+
++ Create the `queryStore`.
++ Modify `updateSearchQuery` so it causes `queryStore` to update.
+
+Your result:
+
+<video src="search-query-length-display.mp4" controls></video>
+
+### Exercise: Sum population and area of matching countries
+
+The countries data has the population and area of each country:
+
+```js
+ window.countriesData = [
+  {
+    "countryCode": "AD",
+    "countryName": "Andorra",
+    "population": "84000",
+    "areaInSqKm": "468.0"
+  },
+  {
+    "countryCode": "AE",
+    "countryName": "United Arab Emirates",
+    "population": "4975593",
+    "areaInSqKm": "82880.0"
+  },
+  ...
+]
+```
+
+Create a component to display the sums of all the countries that match the query string.
+
+```js
+class MatchingCountriesSummaryView extends React.Component {
+  componentDidMount() {
+    ...
+  }
+
+  render() {
+    ...
+
+    return (
+      <div>
+        <h3>Matching countries ({countries.length})</h3>
+        <p>total area: {areaSum} </p>
+        <p>total population: {populationSum} </p>
+      </div>
+    );
+  }
+}
+```
+
+Your result:
+
+<video src="search-query-sum-area-population.mp4" controls></video>
+
+Question: Which of a,e,i,o,u has the greatest population sum?
+
+### Exercise: Be able to select a suggestion
+
+When you click on a suggestion, the input box's value should be replaced. We want `SearchInputView` update whenever the `queryStore` changes.
+
+There are now two separate paths that `SearchInputView` could be updated:
+
+1. SearchInputView could modify itself by triggering `updateSearchQuery`.
+2. SuggestionDisplayView triggering `updateSearchQuery`.
+
+![](search-update-search-query.jpg)
+
+
+The first case where SearchInputView could trigger its own update makes it a [controlled component](https://facebook.github.io/react/docs/forms.html#controlled-components). It looks like:
+
+```js
+class SearchInputView extends React.Component {
+
+  // ...
+
+  onChange(e) {
+    let value = e.target.value;
+    updateSearchQuery(value);
+  }
+
+  render() {
+    let query = queryStore.getQuery();
+
+    return (
+      <p>
+        Country Name: <br/>
+        <input value={query} onChange={this.onChange.bind(this)} placeholder="enter country name"/>
+      </p>
+    );
+  }
+};
+```
+
+The circular update of the controlled component is a little strange. It goes like this:
+
+1. The input element updates the store (or `this.state`) with a new value.
+2. The store notifies the input component that it changed.
+3. The new value of the store (or `this.state`) is now circled back to the input component, and sets the value.
+
+This maintains the unidirectional flow.
+
+Your result:
+
+<video src="search-suggestion-select.mp4" controls></video>
+
+Question: How can you limit the user's query input to a maximum length of 10 characters? Can you add a single line in `SearchInputView` to impose this limit?
+
+# Implement Shopping Cart With Flux
+
+We'll start using Flux to implement the shopping cart functionality.
+
+For now, to keep it simple, we'll allow views to call the store's writer methods directly. In other words, the "actions" are the same as the store's writer methods.
+
+In the future we'll refactor the app so actions and stores are glued together with pub/sub instead of direct function calls.
+
+### Exercise: Be able to add products to shopping cart
+
+We'll put all the stores the `js/stores` directory. Create the file `js/stores/CartStore.js`:
+
+```js
+const EventEmitter = require("events");
+
+let emitter = new EventEmitter();
+
+function emitChange() {
+  emitter.emit("change");
+}
+
+let _cartItems = {
+  // "jameson-vulc": {
+  //   id: "jameson-vulc",
+  //   quantity: 1,
+  // },
+};
+
+module.exports = {
+  // Reader methods
+  ...
+
+  // Writer methods. These are the "actions".
+  ...
+
+  addChangeListener(callback) {
+    emitter.addListener("change",callback)
+  },
+
+  removeChangeListener(callback) {
+    emitter.removeListener("change",callback)
+  },
+}
+```
+
+All the stores you create would look similar to the above.
+
+
+The Flux components are:
+
++ Action: `addCartItem(productId)`.
++ Store: `CartStore`.
++ Views: `Products` and `Cart`.
+
+They should be glued together like this:
+
++ Clicking the "add to cart" button should trigger the `addCartItem` action.
++ `addCartItem` should cause the `CartStore` to update.
++ The `CartStore` should notify `Products` and `Cart` of changes by calling `emitChange`.
++ The `Products` and `Cart` components should read cart items from `CartStore`.
+
+Instead of calling `CartStore.addCartItem`, we should call an action by its name:
+
+```js
+const CartStore = require("./CartStore");
+const {addCartItem} = CartStore;
+
+addCartItem(productId);
+```
+
+When we refactor the actions to an independent module, we could change the require, and keep everything else the same:
+
+```
+const CartStore = require("./CartStore");
+const {addCartItem} = require("./actions");
+
+addCartItem(productId);
+
+```
+
+Your result:
+
+<video src="addCartItem.mp4" controls></video>
+
+### Exercise: Be able to remove products to shopping cart
+
+Add the `removeCartItem(productId)` action.
+
+Use the delete operator to remove a key from object.
+
+```js
+delete object[key]
+```
+
+Your result:
+
+<video src="removeCartItem.mp4" controls></video>
+
+### Exercise: Be able to adjust quantities
+
+Add the `updateCartItemQuantity(productId,quantity)` action. It works like this:
+
+```js
+// increase by 1
+updateCartItemQuantity(productId,quantity+1);
+
+// decrease by 1
+updateCartItemQuantity(productId,quantity-1);
+```
+
++ In the `CartStore` make sure that quantity can never be less than 1.
++ `QuantityControl` does not need to listen to the store, since its parent is already listening.
+
+Your result:
+
+<video src="updateCartItemQuantity.mp4" controls></video>
+
+### Exercise: Update Checkout's subtotal calculation
+
+Finally, Checkout component's subtotal should also update.
+
+You should ensure that only 2 decimal digits are displayed (rather than something liek 59.999967):
+
+```js
+subtotal.toFixed(2);
+```
+
+Your result:
+
+<video src="update-checkout-subtotal.mp4" controls></video>
+
+# Summary
+
+We've used Flux to connect the views with changing data. It's worth mentioning again that the views are exactly the same as before, yet they can automatically update the UI with the latest data.
+
+Isn't it great that we didn't have to add any code to update the DOM manually?
+
++ Flux is events-driven. It removes the centralized controller.
++ We've used EventEmitter to glue together stores and views.
++ The unidirectional flow from actions to stores to views.
++ A store should never update other stores.
+
+Our Flux code is very simple, making it easy to see what exactly is going on. We'll make it a bit more elegant in the next lesson.
 
