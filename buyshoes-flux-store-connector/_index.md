@@ -1,4 +1,4 @@
-# Connecting Stores And Views With Ease
+# Connecting Stores And Views
 
 We've turned the shopping cart into a Flux app. But connecting views to stores is clumsy and verbose:
 
@@ -28,11 +28,11 @@ class FooView extends React.Component {
 
 All the code we'll have to write is only about 50~60 lines, but these work at a higher level of abstractions.
 
-+ We'll create a component that accepts a function as its body.
++ We'll create a wrapper component that accepts a function as its body.
 + We'll define a function that returns a component definition.
 + Finally, we'll define a function that returns a function that takes a component definition and returns another component definition. Confused? Me too.
 
-In other worrds, we'll have some fun with React metaprogramming!
+In other words, we'll have some fun with React metaprogramming!
 
 # Separation of Concerns
 
@@ -550,9 +550,9 @@ Note: Remember to restart webpack.
 
 ### Exercise: Implement the `@connect` decorator
 
-Create the decorator function in `js/components/connect.js`.
+Create the `connect` decorator function in `js/components/connect.js`.
 
-Then refactor `Products.js` again:
+Then refactor `Products.js` again to use the decorator:
 
 ```js
 @connect(CartStore,"cartItems")
@@ -580,6 +580,7 @@ Clicking the heart in the left sidebar should toggle between showing all product
 Create `ProductStore.js`.
 
 ```js
+// For now, hardwire the `_products` variable with all the available products.
 let _products = ...;
 
 let _showOnlyLike = false;
@@ -602,14 +603,23 @@ module.exports = {
 }
 ```
 
+The Products component should connect to 3 stores:
+
+```js
+@connect(CartStore,"cartItems")
+@connect(LikeStore,"likeItems")
+@connect(ProductStore,"filteredProducts")
+class ConnectedProducts extends Products {};
+
+module.exports = ConnectedProducts;
+```
+
 Your result:
 
 <video src="filter-liked-items.mp4" controls></video>
 
-For now, hardwire the `_products` variable with all the available products.
-
 # Summary
 
-Instead of hardwiring stores into view components, we used 3 different techniques to separate the view and the data. By keeping the view components dumb, we can mroe easily reuse them in different situations.
+Instead of hardwiring stores into view components, we used 3 different techniques to separate the view and the data. By keeping the view components dumb, we can more easily reuse them in different situations.
 
 
