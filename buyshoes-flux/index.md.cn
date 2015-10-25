@@ -1,0 +1,723 @@
+
+# 开始使用 Flux
+
+我们的购物车目前只是一个静态页面。在本课中，我们将使用 Flux 来让它能够添加和删除购物车内的商品。
+如果你没有接触过 Flux，那么最好的开始方法是模仿 Facebook 提供的应用例子：
+
++ [Todo Flux App](https://facebook.github.io/flux/docs/todo-list.html#content)
++ [Chat Flux App](https://github.com/facebook/flux/tree/master/examples/flux-chat/js)
+
+观察这两个应用，你也许会发现 Flux 有点啰嗦且过度设计了。为了更好的理解为什么 Flux 要这样设计，我们将假设 Flux 并不存在，从零开始实现我们自己的 Flux 框架。
+
+一开始我们的代码将遵循一个更加常见的代码风格，类似于 MVC。然而，在我们实现购物车应用时，我们会发现新的需求。通过重构代码来满足需求的方式，我们将把应用进化到和真正的 Flux 越来越接近。
+
+Flux 的结构由以下四个部分组成：
+
+![](flux-simple-f8-diagram-1300w.png)
+
+在本课中，我们将把注意力集中在 Store->View 上。换句话说，当我们修改应用的数据时，view 将会改变。
+
+# 课程的启动包
+
+我们提供了一个 `buyshoes` 页面的参考实现。
+
+```
+git clone https://github.com/hayeah/sikeio-buyshoes-startkit.git sikeio-buyshoes-react
+cd sikeio-buyshoes-react
+git checkout flux-start
+```
+
+你也可以使用自己的代码。
+
+# Flux 是事件驱动的
+
+面向过程的编程模型是我们最习惯的。我们告诉程序依次执行命令：
+
+```js
+main() {
+  doX()
+  doY()
+  doZ()
+}
+```
+
+另一种构建程序的方式是通过事件驱动的架构。计算机等待某种事情的发生，然后相应这个事件。假设我们在构建一个家庭自动化系统：
+
++ 当 X 发生时，执行 Y；
++ 当窗户打开时，关闭空调；
++ 当 "howard" 醒来时，煮咖啡；
++ 当 "howard" 开始工作时，关闭音乐。
+
+这叫做 [控制反转](https://zh.wikipedia.org/wiki/%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC)，因为你不需要告诉程序什么时候做什么事情。程序做的所有事情只是响应世界上发生的事情。
+
+用户界面是另一个适合事件驱动架构的场景，因为它做的所有事情都是响应用户交互：
+
++ 当用户做 X 动作时，应用应该执行 Y；
++ 当用户点击 "add to cart" 按钮时，向购物车添加商品；
++ 当用户点击 "trash can" 按钮时，将商品从购物车中去掉。
+
+MVC 是过程化的。控制器是大脑，告诉系统的其他部分去执行它的指令。
+
+Flux 是一个事件驱动的 发布/订阅 系统（pubsub）。当用户和应用交互时，有一条消息将广播到整个系统中。任何系统中的组件都可以决定应该接受还是忽略该事件。没有中心控制。
+
+发布/订阅系统的最大好处是它非常适合扩展。因为系统是去中心化的，你可以轻松的添加新的功能，而不需要修改任何已有的代码。
+
+# 应用 Flux 保持简单的发布订阅
+
+但是因为没有一个明确的逻辑流，一个发布订阅系统可能会很令人困惑。在一个复杂的发布订阅系统中，一个事件可以触发更多的事件，就像散布流言一样（或者是传染病）：
+
+![](rumour-spreading.jpg)
+
+沿着事件链条追溯到最初的源头是非常困难的。除非我们强加一些构建发布订阅系统的的规则，否则它将很容易变成一团不可理解的乱麻。
+
+Flux 通过强制使用四步"单向流"的约定，来约束它的发布订阅系统：
+
+![](flux-simple-f8-diagram-1300w.png)
+
++ 初始化一个更新循环的唯一方法是创建一个 action；
++ Store **只能** 从 dispatcher 处接受事件；
++ View **只能** 从 store 处接受事件。
+
+在这样的约束下，Flux 的发布订阅系统看上去是这样的：
+
+![](unidirectional-flow.jpg)
+
+
+### 不允许层叠
+
+一个 store 永远永远永远不会更新其它的 store（“不要层叠”）。让我们来看一个可能用到层叠的例子，这样我们能领会我们要避免怎么做。
+
+假设我希望可以 `喜欢` 一个商品，MVC 的代码看上去是这样子的：
+
+```js
+let likedProducts = {
+  products: [],
+
+  addProduct(product) {
+    this.products.push(product);
+
+    // 更新关联的 view
+    updateLikedProductsView();
+  }
+}
+
+let product = {
+  setLiked() {
+    this.liked = true;
+    likedProducts.addProduct(this);
+
+    // 更新关联的 view
+    updateProductView();
+  }
+}
+
+product.setLiked();
+```
+
+1. 调用 `product.setLiked()`
+2. `product` 更新它关联的 view
+3. `product` 将它自己添加到 `likedProducts`
+4. `likeProducts` 更新它关联的 view
+
+这看上去是极为合理的代码，但是 Flux 不允许你这么干。当我们构建购物车时，请记住以下3条重要的规则：
+
+1. Store 永远不会更新其它的 store
+2. Store 永远不会更新其它的 store
+3. Store 永远不会更新其它的 store
+
+# Store 模式
+
+一个 store 仅仅就是一组对模块内数据进行读写的函数。它像一个迷你的数据库。
+
+Facebook 最初的 Flux 更像是一个模式而不是框架。我们用原生的 JavaScript 来代替创建 `Store` 类：
+
+```js
+// 从 NodeJS 标准库中得到
+const EventEmitter = require("events");
+function emitChange() {
+  emitter.emit("change");
+}
+
+// store 的私有数据。只能在模块内可取得。
+let _data = [];
+// 可能有其他你希望 store 控制的数据
+let _foo = new Foo();
+
+let _bar = new Bar();
+
+let emitter = new EventEmitter();
+
+module.exports = {
+  // 读方法 API
+  getData() {
+    return _data;
+  },
+
+  // 写方法 API
+  modifyData(data) {
+    _data = data;
+
+    // 每个写方法都应该发出一个 "change" 事件
+    emitChange();
+  },
+
+  // View 可以订阅 "change" 事件
+  addChangeListener(callback) {
+    emitter.addListener("change",callback);
+  },
+
+  removeChangeListener(callback) {
+    emitter.removeListener("change",callback);
+  },
+}
+```
+
++ 有很多读方法
++ 有很多写方法
++ 所有的 store 都应该有 `addChangeListener` 和 `removeChangeListener` 方法
++ 永远不允许外部世界直接修改 store 内部的数据
++ view 通过调用 store 的读方法来获得其数据
+
+通常你会创建多个 store 来满足不同的需求，而不是在整个应用中只用一个 store。
+
+这是 store 模式的第一个版本，我们会在之后的进程中重构它。
+
+### NodeJS 的 "events" 模块
+
+[EventEmitter](https://nodejs.org/api/events.html) 是 NodeJS 的一个标准库。Webpack 会从 NodeJS 中自动找到 `events` 模块，所以你不需要用 npm 安装 "events" 包。
+
+EventEmitter 的 API 和你（译者注：用 DOM）响应一个点击事件是一样的：
+
+```js
+function handleClick(event) {
+  console.log("target",event.target);
+  console.log("type",event.type);
+}
+button.addEventListener("click",handleClick);
+```
+
+我们可以使用 EventEmitter 来创建一个假按钮：
+
+```js
+const EventEmitter = require("events");
+
+let fakeButton = new EventEmitter()
+
+function handleClick(event) {
+  console.log("target",event.target);
+  console.log("type",event.type);
+}
+
+fakeButton.addListener("click",handleClick);
+
+// 虚构一个 click 事件
+let event = {target: fakeButton, type: "click"};
+fakeButton.emit("click");
+```
+
+# 实现搜索建议
+
+现在让我们来看下 Flux 在实践中如何工作。我们将构建一个带有自动建议的搜索输入框：
+
+<video src="search-suggestions.mp4" controls></video>
+
+我们将实现这个功能两次。
+
+1. 第一次，用一个集中的 controller 实现（MVC）
+2. 第二次，用 EventEmitter（Flux）
+
+（两个版本）的实际功能是一样的。这两个例子的区别只是在于各部分代码之间是如何连接的。
+
+# 用 Controller 实现搜索建议
+
+[搜索建议 MVC - Codepen Demo](http://codepen.io/hayeah/pen/pjdpPP?editors=001)
+
+MVC 版本的 "搜索建议" 使用了一个集中的 controller 来将各个部分粘结在一起：
+
+![](mvc-search-suggestions.jpg)
+
+首先，`SearchInputView` 在输入框变化时调用 `updateSearchInput` 方法：
+
+```js
+class SearchInputView extends React.Component {
+  onChange(e) {
+    let value = e.target.value;
+    suggestionController.updateSearchInput(value);
+  }
+
+  render() {
+    return <input onChange={this.onChange.bind(this)} placeholder="enter country name"/>;
+  }
+};
+```
+
+controller 使用 RemoteAPI 来得到对应的搜索建议：
+
+```js
+let suggestionController = {
+  updateSearchInput(queryString) {
+    RemoteAPI.fetchSuggestions(queryString,(suggestions) => {
+      this.receivedSuggestions(suggestions);
+    });
+  },
+}
+```
+
+当 RemoteAPI 返回结果时，controller 更新 store 和 view：
+
+```js
+let suggestionController = {
+  updateSuggestionsDisplayView() {
+    // 强制 React 组件重新渲染
+    this.suggestionsDisplayView.forceUpdate();
+  },
+
+  receivedSuggestions(suggestions) {
+    suggestionsStore.setSuggestions(suggestions);
+    this.updateSuggestionsDisplayView();
+  },
+}
+```
+
+`suggestionStore` 只是一个供字符串数组使用的读写 API：
+
+```js
+// 通常 store 是在模块中的。在这里我们使用闭包
+let suggestionsStore = (() => {
+
+  let _suggestions = [];
+
+  // 我们可以用模块代替 `return`
+  // module.exports = { ... }
+
+  return {
+    // 读方法 API
+    getSuggestions() {
+      return _suggestions;
+    },
+
+    // 写方法 API
+    setSuggestions(suggestions) {
+      _suggestions = suggestions;
+    }
+  };
+})();
+```
+
+`SuggestionsDisplayView` 在加载后将自身注册到 controller 中：
+
+```js
+class SuggestionsDisplayView extends React.Component {
+  componentDidMount() {
+    suggestionController.setSuggestionsDisplayView(this);
+  }
+};
+```
+
+当 controller 通知 `SuggestionsDisplayView` 更新时，它从 `suggestionsStore` 中读取最新的数据：
+
+```js
+class SuggestionsDisplayView extends React.Component {
+  render() {
+    let suggestions = suggestionsStore.getSuggestions();
+    ...
+  }
+};
+```
+
+# 应用 EventEmitter 实现搜索建议
+
+[搜索建议 - EventEmitter Codepen Demo](http://codepen.io/hayeah/pen/NGwXXb?editors=001)
+
+现在我们将 controller 去掉，然后用发布订阅模式来将代码连结起来：
+
+![](events-search-suggestions.jpg)
+
+注意：在 “真正的” Flux 中，action 会利用发布订阅使 store 更新。目前我们先简单地让 action 直接调用 store。
+
+首先输入框触发 action `updateSearchQuery`：
+
+```js
+class SearchInputView extends React.Component {
+  onChange(e) {
+    let value = e.target.value;
+    updateSearchQuery(value);
+  }
+
+  render() {
+    return (
+      <p>
+        Country Name: <br/>
+        <input onChange={this.onChange.bind(this)} placeholder="enter country name"/>
+      </p>
+    );
+  }
+};
+```
+
+`updateSearchQuery` 这个 action 从服务器中读取数据：
+
+```js
+// Action
+function updateSearchQuery(query) {
+  RemoteAPI.fetchSuggestions(query,(suggestions) => {
+    receiveSuggestions(suggestions);
+  });
+}
+```
+
+当服务器返回建议（数据）时，`receiveSuggestions` 这个 action 被触发。这个 action 将让 store 更新：
+
+```js
+function receiveSuggestions(suggestions) {
+  suggestionsStore.setSuggestions(suggestions);
+}
+```
+
+store 的代码和之前几乎是一样的。唯一的区别在于写方法 `setSuggestions` 现在发出 `change` 事件：
+
+```js
+let suggestionsStore = (() => {
+  let _suggestions = [];
+
+  let emitter = new EventEmitter();
+
+  return {
+    getSuggestions() {
+      return _suggestions;
+    },
+
+    setSuggestions(suggestions) {
+      _suggestions = suggestions;
+      emitter.emit("change");
+    },
+
+    addChangeListener(callback) {
+      emitter.addListener("change",callback);
+    },
+  };
+})();
+```
+
+最后，`SuggestionDisplayView` 监听 `suggestionStore` 的变化。
+
+```js
+class SuggestionsDisplayView extends React.Component {
+  componentDidMount() {
+    suggestionsStore.addChangeListener(this.forceUpdate.bind(this));
+  }
+};
+```
+
+当需要渲染时，`SuggestionsDisplayView` 从 `suggestionStore` 中读取最新的数据：
+
+```js
+class SuggestionsDisplayView extends React.Component {
+  render() {
+    let suggestions = suggestionsStore.getSuggestions();
+    ...
+  }
+};
+```
+
+# 扩展搜索建议功能
+
+让我们通过添加一些额外的功能来练习 Flux。你可以直接通过 fork 以下的源代码来在 Codepen 上直接完成练习：
+
+![](codepen-fork.jpg)
+
+codepen 编辑器在一个 iframe 中嵌套了页面，所以 debug 会有点困难。幸好有一个 debug 模式可以在一个新窗口里打开你的代码，不需要 iframe：
+
+![](codepen-enter-debug-mode.jpg)
+
+你还可以看一下 JavaScript 的设置。fork 的 codepen 项目应该继承了相同的 JavaScript 设置：
+
++ 使用 Babel；
++ 包含 React 14.0；
++ 包含 EventEmitter。
+
+![](codepen-javascript-settings.jpg)
+
+### 练习：显示查询字符串的长度
+
+Fork 这个 demo: [Search Suggestions - EventEmitter Codepen Demo](http://codepen.io/hayeah/pen/NGwXXb?editors=001)
+
+添加一个 `QueryLengthView` 组件对应显示搜索字符串的长度：
+
+```js
+class QueryLengthView extends React.Component {
+  componentDidMount() {
+    queryStore.addChangeListener(this.forceUpdate.bind(this));
+  }
+
+  render() {
+    let query = queryStore.getQuery();
+
+    return (
+      <div>Query length: {query.length}</div>
+    );
+  }
+}
+
+let App = () => {
+  return (
+    <div>
+      <SearchInputView/>
+      <QueryLengthView/>
+      <SuggestionsDisplayView/>
+    </div>
+  )
+}
+```
+
+你需要：
+
++ 创建 `queryStore`。
++ 修改 `updateSearchQuery` 这样它会让 `queryStore` 更新。
+
+效果如下：
+
+<video src="search-query-length-display.mp4" controls></video>
+
+### 练习：将匹配到的国家的人口和面积加起来
+
+国家的数据包括各个国家的人口和区域：
+
+```js
+ window.countriesData = [
+  {
+    "countryCode": "AD",
+    "countryName": "Andorra",
+    "population": "84000",
+    "areaInSqKm": "468.0"
+  },
+  {
+    "countryCode": "AE",
+    "countryName": "United Arab Emirates",
+    "population": "4975593",
+    "areaInSqKm": "82880.0"
+  },
+  ...
+]
+```
+
+创建一个组件来显示所有匹配搜索字符串的国家的（人口和区域面积）的总和。
+
+```js
+class MatchingCountriesSummaryView extends React.Component {
+  componentDidMount() {
+    ...
+  }
+
+  render() {
+    ...
+
+    return (
+      <div>
+        <h3>Matching countries ({countries.length})</h3>
+        <p>total area: {areaSum} </p>
+        <p>total population: {populationSum} </p>
+      </div>
+    );
+  }
+}
+```
+
+效果如下：
+
+<video src="search-query-sum-area-population.mp4" controls></video>
+
+问题：a,e,i,o,u 这五个查询字符串，那个得到的总和最大？
+
+### 练习：选择一个搜索建议
+
+当你点击一个建议时，输入框的值应该被（这个值）代替。我们希望 `SearchInputView` 在每次 `queryStore` 变化时进行更新。
+
+有两个办法可以让 `SearchInputView` 更新：
+
+1. SearchInputView 触发 `updateSearchQuery` 来更新自己。
+2. SuggestionDisplayView 触发 `updateSearchQuery`。
+
+![](search-update-search-query.jpg)
+
+第一种情况中，SearchInputView 可以触发自己的 update，这让它成为一个 [controlled component](https://facebook.github.io/react/docs/forms.html#controlled-components)。它看上去是这样的：
+
+```js
+class SearchInputView extends React.Component {
+
+  // ...
+
+  onChange(e) {
+    let value = e.target.value;
+    updateSearchQuery(value);
+  }
+
+  render() {
+    let query = queryStore.getQuery();
+
+    return (
+      <p>
+        Country Name: <br/>
+        <input value={query} onChange={this.onChange.bind(this)} placeholder="enter country name"/>
+      </p>
+    );
+  }
+};
+```
+
+controlled component 的循环更新有一点奇怪。它的流程是这样的：
+
+1. input 元素用一个新的值更新 store（或者 `this.state`）；
+2. store 告诉 input 组件它被更新了；
+3. store 的新值（或者 `this.state`）现在又循环回到 input 组件，并设置它的值。
+
+这样就维持了（数据的）单向流动。
+
+效果如下：
+
+<video src="search-suggestion-select.mp4" controls></video>
+
+问题：如何才能限制用户的请求字符串不超过10个字符？你能否在 `SearchInputView` 中添加一行来加入这个限制？
+
+# 用 Flux 实现购物车
+
+我们将用 Flux 来实现购物车的功能了。
+
+目前，为简洁起见，我们允许 view 直接调用 store 的写方法。换句话说，"actions" 和 store 的写方法是一样的。
+
+在将来的课程中，我们将重构应用，这样 action 和 store 会用发布订阅模式来连结，以取代直接的函数调用。
+
+### 练习：向购物车添加商品
+
+我们把所有的 store 都放置在 `js/stores` 目录下。创建文件 `js/stores/CartStore.js`：
+
+```js
+const EventEmitter = require("events");
+
+let emitter = new EventEmitter();
+
+function emitChange() {
+  emitter.emit("change");
+}
+
+let _cartItems = {
+  // "jameson-vulc": {
+  //   id: "jameson-vulc",
+  //   quantity: 1,
+  // },
+};
+
+module.exports = {
+  // 读方法
+  ...
+
+  // 写方法。这些就是 "action"
+  ...
+
+  addChangeListener(callback) {
+    emitter.addListener("change",callback)
+  },
+
+  removeChangeListener(callback) {
+    emitter.removeListener("change",callback)
+  },
+}
+```
+
+你创建的所有 store 都会和上面的看上去差不多。
+
+Flux 组件是：
+
++ Action: `addCartItem(productId)`.
++ Store: `CartStore`.
++ View: `Products` and `Cart`.
+
+它们连结在一起应该是：
+
++ 点击 "add the cart" 按钮会触发 `addCartItem` action；
++ `addCartItem` 会让 `CartStore` 更新；
++ `CartStore` 会通过调用 `emitChange` 方法通知 `Products` 和 `Cart` 数据的变更；
++ `Products` 和 `Cart` 组件会从 `CartStore` 中读取购物车条目。
+
+我们用 action 的名字来调用它，而不是调用 `CartStore.addCartItem`：
+
+```js
+const CartStore = require("./CartStore");
+const {addCartItem} = CartStore;
+
+addCartItem(productId);
+```
+
+当我们将 action 重构到一个独立模块时，我们可以只修改 require，而其他部分保持不变：
+
+```js
+const CartStore = require("./CartStore");
+const {addCartItem} = require("./actions");
+
+addCartItem(productId);
+
+```
+
+效果如下：
+
+<video src="addCartItem.mp4" controls></video>
+
+### 练习：可以从购物车中删除商品
+
+添加 `removeCartItem(productId)` 这个 action。
+
+使用 delete 操作符来从一个对象中删除一个键。
+
+```js
+delete object[key]
+```
+
+效果如下：
+
+<video src="removeCartItem.mp4" controls></video>
+
+### 练习：可以调整数量
+
+添加 `updateCartItemQuantity(productId,quantity)` 这个 action。它的用法如下：
+
+```js
+// 增加1
+updateCartItemQuantity(productId,quantity+1);
+
+// 减少1
+updateCartItemQuantity(productId,quantity-1);
+```
+
++ 在 `CartStore` 中，要保证数量不能少于1
++ `QuantityControl` 不需要监听 store，因为它的 parent 已经在监听了。
+
+效果如下：
+
+<video src="updateCartItemQuantity.mp4" controls></video>
+
+### 练习：更新 结算 中 小计部分 的计算值
+
+最后，结算组件的小计金额也需要更新。
+
+你可以保证只显示两位小数（而不是显示像 59.999967 的数）：
+
+```js
+subtotal.toFixed(2);
+```
+
+结果如下：
+
+<video src="update-checkout-subtotal.mp4" controls></video>
+
+# 总结
+
+我们用 Flux 来将变化的数据和 view 连接起来。值得再次一提的是，view 和之前是一模一样的，但是现在它们可以根据最新的数据来更新 UI。
+
+我们不需要添加任何的代码来手动更新 DOM 了，是不是很棒？
+
++ Flux 是事件驱动的。它去掉了集中的 controller；
++ 我们用 EventEmitter 来将 store 和 view 连结起来；
++ 从 action 到 store 到 view 的单向流；
++ 一个 store 永远不会更新其他的 store
+
+我们的 Flux 代码非常简单，很容易能看到到底是怎么回事。我们会在下一课中让代码变得优雅一点。

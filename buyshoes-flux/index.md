@@ -29,8 +29,8 @@ git checkout flux-start
 
 You could use your own if you want.
 
-# Flux Is Events Driven
 
+# Flux Is Events Driven
 
 The procedural programming model is what we are most used to. We tell the program to do one command after another:
 
@@ -69,7 +69,7 @@ But because there's no clear logical flow, a pubsub system can be horribly confu
 
 ![](rumour-spreading.jpg)
 
-It can be extremely difficult to trace the chain of events back to the original source. Unless we impose discipline in how we structure a pubsub systen, it could easily become an impossible to understand mess.
+It can be extremely difficult to trace the chain of events back to the original source. Unless we impose discipline in how we structure a pubsub system, it could easily become an impossible to understand mess.
 
 Flux restricts its pubsub system by enforcing the four-steps "unidirectional flow" convention:
 
@@ -369,7 +369,7 @@ function updateSearchQuery(query) {
 
 When the suggestions return from the server, the action `receiveSuggestions` is triggered. This action would cause the store to update:
 
-```
+```js
 function receiveSuggestions(suggestions) {
   suggestionsStore.setSuggestions(suggestions);
 }
@@ -410,7 +410,7 @@ class SuggestionsDisplayView extends React.Component {
 };
 ```
 
-The `SuggestionsDisplayView` reads the latest data from the `suggestionStore` whenever it has to renreder:
+The `SuggestionsDisplayView` reads the latest data from the `suggestionStore` whenever it has to renderer:
 
 ```js
 class SuggestionsDisplayView extends React.Component {
@@ -443,7 +443,7 @@ You can also take a look at the JavaScript settings. The forked codepen project 
 
 Fork the demo: [Search Suggestions - EventEmitter Codepen Demo](http://codepen.io/hayeah/pen/NGwXXb?editors=001)
 
-Add a the `QueryLengthView` component to the lenght of the search string:
+Add a the `QueryLengthView` component to the length of the search string:
 
 ```js
 class QueryLengthView extends React.Component {
@@ -589,6 +589,7 @@ For now, to keep it simple, we'll allow views to call the store's writer methods
 
 In the future we'll refactor the app so actions and stores are glued together with pub/sub instead of direct function calls.
 
+
 ### Exercise: Be able to add products to shopping cart
 
 We'll put all the stores the `js/stores` directory. Create the file `js/stores/CartStore.js`:
@@ -653,7 +654,7 @@ addCartItem(productId);
 
 When we refactor the actions to an independent module, we could change the require, and keep everything else the same:
 
-```
+```js
 const CartStore = require("./CartStore");
 const {addCartItem} = require("./actions");
 
