@@ -757,7 +757,6 @@ GPU 可以平行地组合所有像素：
 
 ```js
 TweenMax.fromTo("#box",1, {
-
   css: {
     // Uses CSS3 transform
     x: "-200px",
@@ -772,7 +771,7 @@ TweenMax.fromTo("#box",1, {
   repeat: -1,
   yoyo: true,
   ease: Power2.easeInOut,
-}
+});
 ```
 
 <cn>
@@ -794,12 +793,12 @@ TweenMax.fromTo("#box",1, {
   repeat: -1,
   yoyo: true,
   ease: Power2.easeInOut,
-}
+});
 ```
 
 </cn>
 
-[Codepen Demo](http://codepen.io/hayeah/full/YyGzva/)
+[Codepen Demo](http://codepen.io/hayeah/pen/Oyvwqv)
 
 TweenMax animates the `transform3d` property to enable GPU acceleration. Using the rendering monitor, you can see that the "green rectangles" are gone, there is no more browser repaint. Futhermore, turn on "show composited layer border", you'd see that the element has an orange border, meaning that it's a 3D layer, accelerated by the GPU:
 
@@ -822,7 +821,7 @@ To learn more see: [High Performance Animations](http://csstriggers.com/)
 
 <cn>
 
-[Codepen Demo](http://codepen.io/hayeah/full/YyGzva/)
+[Codepen Demo](http://codepen.io/hayeah/pen/Oyvwqv)
 
 TweenMax 通过使用 `transform3d` 属性来启用 GPU 加速。使用 rendering 监控器，你可以看到“green rectangles”没了，不再有浏览器重绘了。此外，启用“show composited layer border”，你会看到元素有一个橙色边框，意为它是个 3D 图层，被 GPU 加速：
 
