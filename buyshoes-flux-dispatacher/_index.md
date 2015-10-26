@@ -4,11 +4,11 @@ We've seen how Flux uses EventEmitter to connect stores and views, so if a piece
 
 ![](store-views-pubsub.jpg)
 
-In this lesson we'll see add pubsub between actions and stores, so one action can trigger multiple stores to update:
+In this lesson we'll add pubsub between actions and stores, so one action can trigger multiple stores to update:
 
 ![](action-stores-pubsub.jpg)
 
-Usually there is a single dispatcher for your app, and every action goes through it.
+Usually there is a single dispatcher for the app. The dispatcher basically an EventEmitter that glues together an action and stores.
 
 # So Much Loose Coupling!
 
@@ -16,22 +16,16 @@ Usually there is a single dispatcher for your app, and every action goes through
 
 Why so much pubsub?
 
-+ It's "plug and play" architecture, so we can add and remove modules without changing any code.
++ It's "plug and play" architecture, so we can add and remove modules without changing any other code.
 + Modules are better isolated. The only way to communicate with a module is by sending it an event. In other words, [Message Passing](https://en.wikipedia.org/wiki/Message_passing).
 + Modules can control exactly how they could be triggered, by choosing which events to listen to.
 
-Although you have to write more lines of code for each module, the app as a whole becomes simpler. B
+Even though there is more boilerplate to write, the app as a whole is simpler.
 
-ut for a small to medium sized app, the benefits of action-store pubsub could be more theoretical than real. The supposed benefits of pubsub may sound more like:
-
-+ blah blah blah blah~
-
-In this lesson we'll add two additional features:
+But for a small to medium sized app, the benefits of action-store pubsub could feel more theoretical than real. In this lesson we'll make these ideas more concrete by building two additional features:
 
 + Logging service. To log all actions a user have taken.
 + Undo service. To be able to undo add to cart and remove from cart actions.
-
-Even though our codebase is small, we'll see how action-store pubsub makes it easy to add these two features.
 
 # The Central Dispatcher
 
@@ -103,7 +97,17 @@ let handlers = {
 
 Previously we allowed views to call the store's writer API, now the only way to trigger store update is by passing action events through dispatchers.
 
-Let's see how this extra layer of indirection changes the structure of our app. Consider the `addCartItem` and `removeCartItem` actions. Without using the dispatcher, we'd wire in three different services directly into the action:
+# Multiple Plug And Play Services
+
+The previous example is one action, one dispatcher, and one store. It may seem superflous to turn it into a pubsub architecture. Now let's look at an example that involves multiple actions and multiple action receivers.
+
+We have the `addCartItem` and `removeCartItem` actions. These actions should trigger 3 different services:
+
+1. CartStore should update the shopping cart's data.
+2. The logging service should print the actions taken.
+3. UndoStore should save the history, so we can revert to a previous state.
+
+Without using the dispatcher, we'd wire in three different services directly into the actions:
 
 ```js
 // hardwired actions
@@ -124,7 +128,12 @@ function removeCartItem(productId) {
 }
 ```
 
-With the dispatcher, the two actions only emit events:
+There are two problems.
+
+1. The logic is centralized in these functions.
+2. LoggingService and UndoStore has to be repeated for each action.
+
+We can use the dispatcher to decentralize, by making the actions to only emit events:
 
 ```js
 function addCartItem(productId) {
@@ -136,7 +145,7 @@ function removeCartItem(productId) {
 }
 ```
 
-These actions don't need to specify what exactly need to be done. Individual modules can choose to handle the action events however they want:
+Then it's up to individual modules to decide how the actions should be handled:
 
 ```js
 // plug-and-play modules:
@@ -251,7 +260,7 @@ Please modify the following three actions to use the dispatcher:
 + removeCartItem
 + updateCartItemQuantity
 
-The shopping cart functionality should be the same as before. You'll need to make quite a few changes:
+You'll need to make quite a few changes:
 
 + `actions.js` -  Dispatch action objects to the dispatcher.
 + `AppDispatcher.js` -  An instance of Dispatcher, shared by the whole app.
@@ -259,6 +268,8 @@ The shopping cart functionality should be the same as before. You'll need to mak
 + `LoggingService.js` is the logging service as defined above.
   + Call `enableLogging` to start the logging service.
 + Modify the `CartStore.js` writer API to be private.
+
+Triggering any of these 3 actions should update the UI, as well as printing to the console.
 
 Your result:
 
@@ -274,13 +285,15 @@ Install it with npm.
 npm install flux@2.1.1
 ```
 
-The API of our DIY dispatcher is exactly the same. You can replace the DIY dispatcher with the dispatcher from Flux:
+You can replace the DIY Dispatcher with the Dispatcher from Flux (they have the same API):
 
 ```
 const {Dispatcher} = require("flux");
 ```
 
-Your code should work as before. Now let's see in what order the subscribers receive an event. Create the file `test-dispatch-order.js`,
+Your code should still work.
+
+Now let's see in what order the subscribers receive an event. Create the file `test-dispatch-order.js`,
 
 ```
 let dispatcher = new Dispatcher();
@@ -323,7 +336,7 @@ A { type: 'test' }
 B { type: 'test' }
 ```
 
-We can use `waitFor` to enforce an order. Here C waits for B, and B waits for C:
+We can use `waitFor` to enforce an order. Here C waits for B, and B waits for A:
 
 ```
 let tokenC = dispatcher.register((action) => {
@@ -341,7 +354,7 @@ let tokenB = dispatcher.register((action) => {
 });
 ```
 
-So we always get the same output:
+This setup gurantees that the subscribers will run in the order of A, B, C:
 
 ```
 A { type: 'test' }
@@ -349,9 +362,9 @@ B { type: 'test' }
 C { type: 'test' }
 ```
 
-Without `waitFor`, the order of action handling depends on which modules are loaded first. Using `waitFor` is a much better solution than trying to get a module to load before others.
+Without `waitFor`, the order of action handling depends on the order in which modules are loaded. Using `waitFor` is a much better solution than trying to get one particular module to load before other modules.
 
-In general, stores should be designed so it doesn't matter which one get to run the action first. You should use `waitFor` only for special circumstances.
+In general, stores should be designed so it doesn't matter which one get to run the action first. You should only use `waitFor` for special circumstances.
 
 # Undo Service
 
@@ -446,3 +459,26 @@ import UndoStore from "./UndoStore"
 Your result:
 
 <video src="undo.mp4" controls></video>
+
+# Summary
+
+This lesson concludes our introduction to Flux.
+
+Flux has two different pubsubs, solving two different sets of problems.
+
++ Store-View pubsub connects many views to the same data.
++ Action-Store pubsub connects many functionalities to the same action.
+
+Facebook is at one end of the extreme, where one action could trigger many stores, and each store could trigger many views to update.
+
+A framework like Redux is at the other end of the extreme, where one action could trigger one store, and one store could trigger one view to update.
+
+Common to all Flux frameworks, though, is the unidirection flow from action to store, and from store to view.
+
+And remember, NEVER allow stores to update other stores.
+
+
+
+
+
+
