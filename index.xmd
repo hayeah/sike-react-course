@@ -70,3 +70,4 @@
 
 #lesson[day=2 name=buyshoes-flux project=buyshoes]
 #lesson[day=4 name=buyshoes-flux-store-connector project=buyshoes]
+#lesson[day=5 name=buyshoes-flux-dispatcher project=buyshoes]

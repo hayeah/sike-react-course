@@ -1,8 +1,6 @@
 # Action To Store PubSub With Dispatcher
 
-<cn>
-# Action To Store PubSub With Dispatcher
-</cn>
+
 
 We've seen how Flux uses EventEmitter to connect stores and views, so if a piece of data changes, multiple views would update:
 

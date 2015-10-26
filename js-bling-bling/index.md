@@ -378,7 +378,6 @@ So changing our TweenMax code to use CSS transform:
 
 ```js
 TweenMax.fromTo("#box",1, {
-
   css: {
     // Uses CSS3 transform
     x: "-200px",
@@ -393,12 +392,12 @@ TweenMax.fromTo("#box",1, {
   repeat: -1,
   yoyo: true,
   ease: Power2.easeInOut,
-}
+});
 ```
 
 
 
-[Codepen Demo](http://codepen.io/hayeah/full/YyGzva/)
+[Codepen Demo](http://codepen.io/hayeah/pen/Oyvwqv)
 
 TweenMax animates the `transform3d` property to enable GPU acceleration. Using the rendering monitor, you can see that the "green rectangles" are gone, there is no more browser repaint. Futhermore, turn on "show composited layer border", you'd see that the element has an orange border, meaning that it's a 3D layer, accelerated by the GPU:
 
