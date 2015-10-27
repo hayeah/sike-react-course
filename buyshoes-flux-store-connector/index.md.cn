@@ -35,7 +35,7 @@ class FooView extends React.Component {
 
 换句话说，我们将从 React 元编程中获得很多乐趣！
 
-# 化解疑虑
+# 职责分离
 
 我们重构只是为了写更少的代码。
 
@@ -62,7 +62,7 @@ class FooView extends React.Component {
 
 如果在你的应用中所有的组件都是如此「笨拙」，那么你的应用也会更容易被理解。
 
-连接 Store 和 View，我们需要创建一个容器元素：
+连接 Store 和 View，我们需要创建一个 wrapper 容器元素：
 
 ```js
 class FooViewStoreWrapper extends React.Component {
@@ -78,9 +78,9 @@ class FooViewStoreWrapper extends React.Component {
 ```
 
 
-这种约定将我们的两个疑虑划分到了所对应的两个组件中：
+这种约定将两个不同的职责分离到了所对应的两个组件中：
 
-1. `FooView` 渲染实际的师徒。它并不关心参数从哪里来。
+1. `FooView` 渲染实际的视图。它并不关心参数从哪里来。
 2. `FooViewStoreWrapper` 将 Store 的数据传递给 `FooView`。它并不知道实际会渲染出什么 View。
 
 这种职责分离就是我们设计的奥义。当然，手动写这种 Store 的容器是一件乏味的活，所以我们想要创造 `@connect` 装饰器（Decorator）：

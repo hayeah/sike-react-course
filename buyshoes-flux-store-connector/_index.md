@@ -83,7 +83,7 @@ In other words, we'll have some fun with React metaprogramming!
 # Separation of Concerns
 
 <cn>
-# 化解疑虑
+# 职责分离
 </cn>
 
 We are not doing this refactoring just to write less code.
@@ -158,7 +158,7 @@ class FooViewStoreWrapper extends React.Component {
 ```
 
 <cn>
-连接 Store 和 View，我们需要创建一个容器元素：
+连接 Store 和 View，我们需要创建一个 wrapper 容器元素：
 
 ```js
 class FooViewStoreWrapper extends React.Component {
@@ -181,9 +181,9 @@ This convention separates two concerns into two components:
 2. `FooViewStoreWrapper` passes the latest store data to `FooView`. It doesn't know what the view would render.
 
 <cn>
-这种约定将我们的两个疑虑划分到了所对应的两个组件中：
+这种约定将两个不同的职责分离到了所对应的两个组件中：
 
-1. `FooView` 渲染实际的师徒。它并不关心参数从哪里来。
+1. `FooView` 渲染实际的视图。它并不关心参数从哪里来。
 2. `FooViewStoreWrapper` 将 Store 的数据传递给 `FooView`。它并不知道实际会渲染出什么 View。
 </cn>
 
