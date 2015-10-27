@@ -1,0 +1,650 @@
+
+# 连接 Store 和 View
+
+我们已经将购物车转化成了一个 Flux 应用，但是连接 Store 和 View 是一件笨拙而又繁琐的事情：
+
+```js
+class FooView extends React.Component {
+  componentDidMount() {
+    FooStore.addChangeListener(this.forceUpdate.bind(this));
+  }
+
+  render() {
+    let fooData = FooStore.getFooData();
+  }
+}
+```
+
+这节课我们来做一个 [JavaScript Decorator](https://github.com/wycats/javascript-decorators) 来连接 View 和 Store：
+
+```js
+@connect(FooStore,"fooData");
+class FooView extends React.Component {
+  render() {
+    let {fooData} = this.props;
+    return <div>Foo data is: {fooData}</div>;
+  }
+}
+```
+
+我们将要写的代码可能只有 50 到 60 行，但是这些代码是高度抽象的：
+
++ 我们将会创建一个 wrapper 组件，使其能将任意一个函数作为它的内容。
++ 我们将定义一个函数用于返回一个组件的定义。
++ 最后，我们还会定义一个函数，用于返回一个返回值是另一个组件的定义、并自身带有一个组件的定义的函数。有点绕，不过不要紧！
+
+换句话说，我们将从 React 元编程中获得很多乐趣！
+
+# 化解疑虑
+
+我们重构只是为了写更少的代码。
+
+真正的原因是我们可以将整个应用看作是静态的，然后再来写 React 代码。我们可以创建单独的组件就像是 Flux Store 并还没有对接上来一样。
+
+组件应该是「笨拙」的。它只会将参数作为输入，然后将渲染出的 UI 作为输出：
+
+```js
+class FooView extends React.Component {
+  render() {
+    let {fooData} = this.props;
+    return <div>Foo data is: {fooData}</div>;
+  }
+}
+```
+
+
+这么「笨拙」的组件看上去只依赖于输入的参数。和 Store 已经连接的组件相比，它有更好的复用性，因为可以传递任何的参数：
+
++ 参数可以从 Store 中来。
++ 参数可以从单元测试中来。
++ 参数可以从其继承的父元素组件中来。
+
+
+如果在你的应用中所有的组件都是如此「笨拙」，那么你的应用也会更容易被理解。
+
+连接 Store 和 View，我们需要创建一个容器元素：
+
+```js
+class FooViewStoreWrapper extends React.Component {
+  componentDidMount() {
+    FooStore.addChangeListener(this.forceUpdate.bind(this));
+  }
+
+  render() {
+    let fooData = FooStore.getFooData();
+    return <FooView fooData={fooData}/>
+  }
+}
+```
+
+
+这种约定将我们的两个疑虑划分到了所对应的两个组件中：
+
+1. `FooView` 渲染实际的师徒。它并不关心参数从哪里来。
+2. `FooViewStoreWrapper` 将 Store 的数据传递给 `FooView`。它并不知道实际会渲染出什么 View。
+
+这种职责分离就是我们设计的奥义。当然，手动写这种 Store 的容器是一件乏味的活，所以我们想要创造 `@connect` 装饰器（Decorator）：
+
+```js
+@connect(FooStore,"fooData");
+class FooView extends React.Component {
+  render() {
+    let {fooData} = this.props;
+    return <div>Foo data is: {fooData}</div>;
+  }
+}
+```
+
+# ConnectedStore 组件
+
+第一步就是要创建一个可以复用的 wrapper 组件，能够从一个 Store 中获取数据，还能将数据传递给一个 View。我们暂且叫它 `ConnectedStore`。
+
+
+`ConnectedStore` 用于重构一个需要从 Store 中读取数据的 View。例如 `TimerView` 从 `TimerStore` 中读取了 `currentTime` 和 `currentTick` 属性。 
+
+```js
+class TimerView extends React.Component {
+  componentDidMount() {
+    TimerStore.addChangeListener(this.forceUpdate.bind(this));
+  }
+
+  render() {
+    let currentTime = TimerStore.currentTime();
+    let currentTick = TimerStore.currentTick();
+
+    return (
+      <div>
+        <p>Time: {currentTime.toString()}</p>
+        <p>Tick: {currentTick}</p>
+      </div>
+    );
+  }
+}
+```
+
+
+这个视图将每秒更新时间和计数器：
+
+[TimerView Demo](http://codepen.io/hayeah/pen/OyQQJV?editors=001)
+
+<video src="TimerView.mp4" controls autoplay></video>
+
+我们并不想让 TimerView 从 TimerStore 读取数据了，将它改为从 `this.props` 中读取数据：
+
+```js
+class TimerView extends React.Component {
+  render() {
+    let {currentTime,currentTick} = this.props;
+    return (
+      <div>
+        <p>Time: {currentTime.toString()}</p>
+        <p>Tick: {currentTick}</p>
+      </div>
+    );
+  }
+}
+```
+
+
+现在的 `TimerView` 就是一个「笨拙的组件」。它对 TimeStore 的内容一无所知。
+
+那么我们如何利用 `ConnectedStore` 来传递数据给 TimerView 呢？通过约定，我们会让 Store 的方法名和 View 的属性名保持一致：
+
++ `TimeStore.currentTime()` -> `this.props.currentTime`
++ `TimeStore.currentTick()` -> `this.props.currentTick`
+
+
+然后我们就能这么使用 wrapper 组件了：
+
+```js
+<ConnectedStore store={TimerStore} propNames={["currentTime","currentTick"]}>
+  {props => <TimerView {...props}/>}
+</ConnectedStore>
+```
+
+
+
++ `store` - 通过调用 `addChangeListener` 连接 TimerStore。
++ `propNames` - 从 Store 中读取这些数据。
++ `props => ...` - 当 Store 改变时，读取数据并调用这个函数来重新渲染 View。
+
+
+如果上面的格式看上去很古怪，看一下 JavaScript：
+
+```js
+React.createElement(
+  ConnectedStore,
+  { store: FooStore, propNames: ["dataA", "dataB"] },
+  function (props) {
+    return React.createElement(Foo, props);
+  }
+);
+```
+
+
+所以内容就是一个函数，通过  wrapper 组件中的 `this.props.children` 来连接：
+
+
+```js
+// 当 Store 更改时，组件应该重新渲染。
+class ConnectedStore extends React.Component {
+
+  ...
+
+  render() {
+    // `children` 属性是一个函数。
+    let contentRenderFunction = this.props.children;
+
+    // 1. 从 Store 中读取并调用对应的函数。
+    // 2. 给 `contentRenderFunction` 传递数据。
+
+    ...
+
+    return contentRenderFunctions(storeProps);
+  }
+}
+```
+
+### 练习：实现 ConnectedStore 组件
+
+做这个练习可以 Fork [TimerView - ConnectedStore Exercise](http://codepen.io/hayeah/pen/ZbrrgV?editors=001) 代码。
+
+整个应用现在是静止不动的：
+
+```js
+let App = () => {
+  let propValues = {
+    currentTime: new Date(),
+    currentTick: 0
+  };
+
+  return (
+    <TimerView {...propValues}/>
+  )
+}
+```
+
+
+使用 `ConnectedStore` 来替换：
+
+```js
+let App = () => {
+  return (
+    <ConnectedStore store={TimerStore} propNames={["currentTime","currentTick"]}>
+      {propValues => <TimerView {...propValues}/>}
+    </ConnectedStore>
+  )
+}
+```
+
+
+你的结果：
+
+<video src="TimerView.mp4" controls autoplay></video>
+
+### 练习：使用 ConnectedStore 重构 Cart 组件
+
+首先请新建文件：`js/components/ConnectedStore`。然后将你实现的 wrapper 组件放进去。
+
+然后修改你的 Cart 组件，使之不再和 `CartStore` 有任何关系。它能直接从 `this.props.cartItems` 中获取 `cartItems`：
+
+```js
+class Cart extends React.Componente {
+  render() {
+    let {cartItems} = this.props;
+    // ...
+  }
+}
+```
+
+
+修改 `CartStore`，遵循 `ConnectedStore` 中的命名约定：
+
+```js
+module.exports = {
+  // Read 方法
+  getCartItems() {
+    return _cartItems;
+  },
+
+  // getCartItems 方法的别名
+  cartItems() {
+    return _cartItems;
+  },
+}
+```
+
+导出 `ConnectedCart` 组件而不是 Cart 组件：
+
+```js
+class ConnectedCart extends React.Component {
+  render() {
+    return (
+      <ConnectedStore ...>
+        ...
+      </ConnectedStore>
+    );
+  }
+}
+
+module.exports = ConnectedCart;
+```
+
+# 喜欢的商品
+
+到现在为止我们只有 `CartStore`。现在我们来创建 `LikeStore` 来存放我们喜欢的商品。
+
+你应当先在 `Products` 组件中实现这个功能，再使用 `ConnectedStore` 将它重构。
+
+[下载 Heart Icon](heart-liked.svg)
+
+![](heart-liked.svg)
+
+### 练习：实现喜欢的功能
+
+
++ 创建 `LikeStore`。
++ `Products` 应当和 LikeStore 还有 ProductStore 相关联。
+
+你的结果：
+
+<video src="like-items.mp4" controls></video>
+
+### 练习：将 Product 组件转化成「笨拙」的组件
+
+正如前面所提到的，我们将 Store 和 View 职责上的忧虑分开了：
+
+```js
+// View 组件
+class Products extends React.Component {
+  render() {
+    let {cartItems,likeItems} = this.props;
+    ...
+  }
+}
+
+// Store 组件
+class ConnectedProducts extends React.Component {
+  render() {
+    return (
+      ...
+    );
+  }
+}
+
+module.exports = ConnectedProducts;
+```
+
+
+我们需要一个同时能够连接 LikeStore 和 CartStore 的组件，但是 `ConnectedStore` 一次只能连接一个组件，不是吗？为了连接两个 Store，将两个 `ConnectedStore` 组件堆叠起来，就像这样：
+
+```js
+<ConnectedStore store={store2}>
+  {propsOfStore1 => {
+    return (
+      <ConnectedStore store={store2}>
+        {propsOfStore2 => {
+          ...
+        }}
+      </ConnectedStore>
+    )
+  }}
+</ConnectedStore ...>
+```
+
+
+这很丑！接下来我们会修复这个问题。
+
+# ConnectedComponent 组件工厂
+
+尽管我们已经做好了 `ConnectedStore` 这个 wrapper 组件，我们仍然需要手写代码：
+
+```js
+class Foo extends React.Component {
+
+}
+
+class ConnectedFoo extends React.Component {
+  render() {
+    return (
+      <ConnectedStore store={FooStore} propNames={["fooData1","fooData2"]}>
+        {fooProps => <Foo {...fooProps}/>}
+      </ConnectedStore>
+    )
+  }
+}
+
+module.exports = ConnectedFoo;
+```
+
+现在我们想进一步简化这个步骤。我们需要一个函数来自动生成所需要的数据组件：
+
+```js
+class Foo extends React.Component {
+  // ...
+}
+
+module.exports = MakeConnectedComponent(Foo,FooStore,"fooData1","fooData2");
+```
+
+
+### 练习：使用 MakeConnectedComponent 来重构 Cart.js
+
+新建 `js/components/MakeConnectedComponent.js`。我们需要导出一个能够返回一个连接组件定义的函数：
+
+```js
+function MakeConnectedComponent(ViewComponent,store,...propNames) {
+  // 注意：ViewComponent 这个参数必须大写，为什么？
+
+  // TODO：定义 ConnectedViewComponent
+
+  // 返回 Component
+  return ConnectedViewComponent;
+}
+
+module.exports = MakeConnectedComponent;
+```
+
+使用这个函数来去掉 `ConnectedCart` 的数据组件：
+
+```js
+/*
+
+// 不再需要了
+class ConnectedCart extends React.Component {
+  ...
+}
+
+module.exports = ConnectedCart;
+*/
+
+module.exports = MakeConnectedComponent(Cart,CartStore,"cartItems");
+```
+
+问题：ViewComponent 这个参数必须大写，为什么？如果是小写的会发生什么问题？
+
+提示：在 JavaScript 中，类（Class）由函数构成。类在其作用域中能够捕获变量和参数。
+
+```js
+(function() {
+  let foo = 10;
+
+  class Foo {
+    // 返回 `foo` 的值。
+    getFoo() {
+      return foo;
+    }
+  }
+
+  return Foo;
+})();
+```
+
+
+提示：不使用 `class`，你可以使用 [stateless function component](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components) 来实现。
+
+提示：不！要！想！太！多！其实很容易。
+
+### 练习：MakeConnectedComponent 应该是可嵌套的
+
+使用 `MakeConnectedComponent` 重写 `Products`。像这样连接两个 Store：
+
+```js
+module.exports =
+  MakeConnectedComponent(
+    MakeConnectedComponent(Products,CartStore,"cartItems"),
+    LikeStore,"likeItems");
+```
+
+
+我们将这一句分离出来，看一下究竟发生了什么：
+
+```js
+innerComponent = MakeConnectedComponent(Products,CartStore,"cartItems");
+outterComponent = MakeConnectedComponent(innerComponent,LikeStore,"likeItems");
+module.exports = outterComponent;
+```
+
+
+1. outterComponent 连接了 LikeStore，为 innerComponent 传递了 `likeItems` 参数。
+2. innerComponent 连接了 CartStore，接收从 outterComponent 传进来的 `likeItems` 参数，和 Store 中的 `cartItems` 参数。
+
+MakeConnectedComponent 能够正确地合并从外界传进来的参数和从 Store 传递过来的参数。
+
+使用 JSX 你可以这样合并：
+
+```js
+<Foo {...propsA} {...propsB}/>
+```
+
+
+# Connect 装饰器
+
+最后我们将定义一个 JavaScript 装饰器来让一个组件连接多个 Store。格式看上去像这样：
+
+```js
+// 注意：行末没有「；」
+@connect(LikeStore,"likeItems")
+@connect(CarStore,"cartItems")
+class ConnectedProducts extends Products {}
+
+module.exports = ConnectedProducts;
+```
+
+我们可以定义这样一个装饰器方法：
+
+```js
+function connect(store,...cartItems) {
+  return (klass) => {
+
+    // 计算 klassReplacement
+
+    return klassReplacement;
+  };
+}
+```
+
+
+这个方法将一个装饰器方法作为一个参数并且返回另一个函数。返回的函数会替代之前的装饰器方法。
+
+要看这是怎么工作的，我们需要使用 babel 编译一下 ConnectedProducts。将类的定义放入 `connected-products.js` 然后编译：
+
+```
+// Stage 0 会开启 ES7 中所有的实验性特性，包括了装饰器。
+babel --stage 0 connected-products.js
+```
+
+
+输出：
+
+
+```js
+var ConnectedProducts = (function (_Products) {
+  _inherits(ConnectedProducts, _Products);
+
+  function ConnectedProducts() {
+    _classCallCheck(this, _ConnectedProducts);
+
+    _get(Object.getPrototypeOf(_ConnectedProducts.prototype), "constructor", this).apply(this, arguments);
+  }
+
+  var _ConnectedProducts = ConnectedProducts;
+
+  /*
+  注意到被替换了两次。
+  */
+  ConnectedProducts = connect(CarStore, "cartItems")(ConnectedProducts) || ConnectedProducts;
+  ConnectedProducts = connect(LikeStore, "likeItems")(ConnectedProducts) || ConnectedProducts;
+
+
+  return ConnectedProducts;
+})(Products);
+```
+
+重点是 `ConnectedProducts` 如何被替换了两次。这很让人困扰：
+
+```js
+connect(CarStore, "cartItems")(ConnectedProducts)
+```
+
+我们改写一下让函数表现得更清楚一点：
+
+```js
+var calculateClassReplacement;
+
+// `connect` 返回一个函数，用于计算替代 ConnectedProducts 的替代物
+calculateClassReplacement = connect(CarStore, "cartItems");
+ConnectedProducts = calculateClassReplacement(ConnectedProducts);
+
+calculateClassReplacement = connect(LikeStore, "likeItems");
+ConnectedProducts = calculateClassReplacement(ConnectedProducts);
+
+return ConnectedProducts;
+```
+
+
+为了在 Webpack 下也能使用装饰器格式，启用 `stage=0` 的选项：
+
+```
+webpack ... --module-bind "js=babel?stage=0"
+```
+
+
+注意：记得重启 Webpack。
+
+### 练习：实现 `@connect` 装饰器
+
+在 `js/components/connect.js` 中创建 `connect` 装饰器方法：
+
+使用装饰器重构 `Products.js`：
+
+```js
+@connect(CartStore,"cartItems")
+@connect(LikeStore,"likeItems")
+class ConnectedProducts extends Products {};
+
+module.exports = ConnectedProducts;
+```
+
+
+
+你也可以不使用装饰器格式来重写：
+
+```js
+class ConnectedProducts extends Products {};
+ConnectedProducts = connect(LikeStore,"likeItems")(ConnectedProducts);
+ConnectedProducts = connect(CartStore,"cartItems")(ConnectedProducts);
+module.exports = ConnectedProducts;
+```
+
+# 筛选出喜欢的商品
+
+点击左边侧边栏的心可以在显示所有商品和只显示喜欢的商品中切换。
+
+### 练习：筛选出喜欢的产品
+
+新建 `ProductStore.js`。
+
+```js
+// 现在先暂时硬编码，将 `_products` 和所有可用的商品关联起来。
+let _products = ...;
+
+let _showOnlyLike = false;
+
+module.exports = {
+  // Reader 函数
+  products() {
+    // 返回所有的商品
+  },
+
+
+  filteredProducts() {
+    // 根据 _showOnlyLike 筛选出过滤后的商品
+  },
+
+  // 行为
+  toggleShowOnlyLike() {
+
+  },
+}
+```
+
+Products 组件和三个 Store 相关联：
+
+```js
+@connect(CartStore,"cartItems")
+@connect(LikeStore,"likeItems")
+@connect(ProductStore,"filteredProducts")
+class ConnectedProducts extends Products {};
+
+module.exports = ConnectedProducts;
+```
+
+你的结果：
+
+<video src="filter-liked-items.mp4" controls></video>
+
+
+# 总结
+
+不同于硬编码将 Store 和 View 组件连接起来，我们使用了三种不同的技术来分离视图和数据的职责。通过使用这种「笨拙」的视图组件，我们能够在不同情况下，更加容易地复用这些组件。

@@ -1,5 +1,7 @@
 # Connecting Stores And Views
 
+
+
 We've turned the shopping cart into a Flux app. But connecting views to stores is clumsy and verbose:
 
 ```js
@@ -14,6 +16,8 @@ class FooView extends React.Component {
 }
 ```
 
+
+
 In this lesson we'll create a [JavaScript decorator](https://github.com/wycats/javascript-decorators) to connect views and stores:
 
 ```js
@@ -26,19 +30,29 @@ class FooView extends React.Component {
 }
 ```
 
+
+
 All the code we'll have to write is only about 50~60 lines, but these work at a higher level of abstractions.
 
 + We'll create a wrapper component that accepts a function as its body.
 + We'll define a function that returns a component definition.
 + Finally, we'll define a function that returns a function that takes a component definition and returns another component definition. Confused? Me too.
 
+
+
 In other words, we'll have some fun with React metaprogramming!
 
+
+
 # Separation of Concerns
+
+
 
 We are not doing this refactoring just to write less code.
 
 The real reason is so we can go back to writing React as though the app is completely static. We should create our components as though there isn't any Flux stores to connect to.
+
+
 
 A component should be "dumb". It takes props as input, and renders the UI as output:
 
@@ -51,13 +65,19 @@ class FooView extends React.Component {
 }
 ```
 
+
+
 A dumb component like this doesn't depend on anything except its props. It is more reusable than a component that's connected to the store, for the simple reason that anybody can pass props to it.
 
 + The props could come from a store.
 + The props could come from a unit test.
 + The props could come from a parent component.
 
+
+
 Your app would be much easier to understand if all of your components are "dumb" like this.
+
+
 
 To connect stores to views we could create wrapper components:
 
@@ -74,10 +94,14 @@ class FooViewStoreWrapper extends React.Component {
 }
 ```
 
+
+
 This convention separates two concerns into two components:
 
 1. `FooView` renders the actual view. It doesn't care where its props are from.
 2. `FooViewStoreWrapper` passes the latest store data to `FooView`. It doesn't know what the view would render.
+
+
 
 This separation of responsibilities is our goal. Of course, writing the store wrappers manually is incredibly tedious, and that's why we'd want to create the `@connect` decorator:
 
@@ -92,9 +116,15 @@ class FooView extends React.Component {
 ```
 
 
+
+
 # The ConnectedStore Component
 
+
+
 Our first step is to create a reusable wrapper component that could read data from a store, and pass the data down to a view. Let's call this wrapper component `ConnectedStore`.
+
+
 
 The `ConnectedStore` component can be used to refactor a view that reads data from a store. The `TimerView` reads `currentTime` and the `currentTick` from the `TimerStore`:
 
@@ -119,11 +149,15 @@ class TimerView extends React.Component {
 }
 ```
 
+
+
 It updates the time and tick counter every second:
 
 [TimerView Demo](http://codepen.io/hayeah/pen/OyQQJV?editors=001)
 
 <video src="TimerView.mp4" controls autoplay></video>
+
+
 
 We don't want TimerView to read data from TimerStore anymore, so let's make it read data from `this.props`:
 
@@ -141,12 +175,18 @@ class TimerView extends React.Component {
 }
 ```
 
+
+
 Now `TimerView` is a "dumb components". It doesn't know anything about the TimeStore.
+
+
 
 How do we use the `ConnectedStore` to pass data to TimerView? By convention, we'll make the store's reader names and the view's property names to be the same:
 
 + `TimeStore.currentTime()` -> `this.props.currentTime`
 + `TimeStore.currentTick()` -> `this.props.currentTick`
+
+
 
 Then we could use the wrapper component like this:
 
@@ -156,9 +196,13 @@ Then we could use the wrapper component like this:
 </ConnectedStore>
 ```
 
+
+
 + `store` - Should connect to TimerStore by calling `addChangeListener`.
 + `propNames` - Should read these data from the store.
 + `props => ...` - Everytime the store emits "change", read data from the store, and call this function to render the view.
+
+
 
 If the syntax looks weird to you, see the plain JavaScript output:
 
@@ -171,6 +215,8 @@ React.createElement(
   }
 );
 ```
+
+
 
 So the body is a function, which can be accessed as `this.props.children` in the wrapper component:
 
@@ -194,9 +240,15 @@ class ConnectedStore extends React.Component {
 }
 ```
 
+
+
 ### Exercise: Implement the ConnectedStore component
 
+
+
 Do this exercise by forking [TimerView - ConnectedStore Exercise](http://codepen.io/hayeah/pen/ZbrrgV?editors=001).
+
+
 
 The App is currently static:
 
@@ -213,6 +265,8 @@ let App = () => {
 }
 ```
 
+
+
 Replace it with `ConnectedStore`:
 
 ```js
@@ -225,17 +279,23 @@ let App = () => {
 }
 ```
 
+
+
 Your result:
 
 <video src="TimerView.mp4" controls autoplay></video>
 
+
+
 ### Exercise: Refactor Cart component to use ConnectedStore
+
+
 
 First, create `js/components/ConnectedStore`, and put the wrapper components you've implemented there.
 
 Then modify the Cart components so it no longers depends on the `CartStore`. It should get `cartItems` directly from `this.props.cartItems`:
 
-```
+```js
 class Cart extends React.Componente {
   render() {
     let {cartItems} = this.props;
@@ -243,6 +303,8 @@ class Cart extends React.Componente {
   }
 }
 ```
+
+
 
 Modify `CartStore` to follow the `ConnectedStore` naming convention:
 
@@ -260,6 +322,8 @@ module.exports = {
 }
 ```
 
+
+
 Instead of exporting the Cart component, export the `ConnectedCart` component:
 
 ```js
@@ -276,9 +340,15 @@ class ConnectedCart extends React.Component {
 module.exports = ConnectedCart;
 ```
 
+
+
 # Liked Products
 
+
+
 So far the only store we have is the `CartStore`. Now we are going to create the `LikeStore` so we can like products.
+
+
 
 You will first implement the feature directly in the `Products` component, then refactor it with `ConnectedStore`.
 
@@ -286,17 +356,26 @@ You will first implement the feature directly in the `Products` component, then 
 
 ![](heart-liked.svg)
 
+
+
 ### Exercise: Implement The Like Feature
+
+
 
 + Create the `LikeStore`.
 + `Products` should connect to LikeStore and ProductStore.
+
 
 
 Your result:
 
 <video src="like-items.mp4" controls></video>
 
+
+
 ### Exercise: Turn Products component into a dumb component
+
+
 
 Separate the view and store concerns as we've done previously:
 
@@ -321,6 +400,8 @@ class ConnectedProducts extends React.Component {
 module.exports = ConnectedProducts;
 ```
 
+
+
 We need to connect both LikeStore and CartStore, but `ConnectedStore` can connect to one store at a time. To connect to both stores, nest two `ConnectedStore` components like this:
 
 ```js
@@ -337,9 +418,15 @@ We need to connect both LikeStore and CartStore, but `ConnectedStore` can connec
 </ConnectedStore ...>
 ```
 
+
+
 This is ugly, which we'll fix it next!
 
+
+
 # The "ConnectedComponent" Component Factory
+
+
 
 Although we've built the `ConnectedStore` wrapper component, we still build the data component by hand:
 
@@ -361,6 +448,8 @@ class ConnectedFoo extends React.Component {
 module.exports = ConnectedFoo;
 ```
 
+
+
 Now we want to simplify this one step further. We can use a function to construct the data component automatically:
 
 ```js
@@ -371,7 +460,11 @@ class Foo extends React.Component {
 module.exports = MakeConnectedComponent(Foo,FooStore,"fooData1","fooData2");
 ```
 
+
+
 ### Exercise: Refactor "Cart.js" with the "MakeConnectedComponent" function
+
+
 
 Create `js/components/MakeConnectedComponent.js`. It should export a function that returns the definition of a connected component.
 
@@ -387,6 +480,8 @@ function MakeConnectedComponent(ViewComponent,store,...propNames) {
 
 module.exports = MakeConnectedComponent;
 ```
+
+
 
 Use this function to remove the `ConnectedCart` data component:
 
@@ -405,11 +500,15 @@ module.exports = MakeConnectedComponent(Cart,CartStore,"cartItems");
 ```
 
 
+
+
 Question: The argument "ViewComponent" must be uppercase. Why? What if it's lowercase?
+
+
 
 Hint: A class in JavaScript is implemented with functions. It can capture variables and arguments in its scope.
 
-```
+```js
 (function() {
   let foo = 10;
 
@@ -424,11 +523,19 @@ Hint: A class in JavaScript is implemented with functions. It can capture variab
 })();
 ```
 
+
+
 Hint: Instead of using `class`, you could also use a [stateless function component](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components) to implement this.
+
+
 
 Hint: Don't overthink, it's easy.
 
+
+
 ### Exercise: MakeConnectedComponent should be nestable.
+
+
 
 Rewrite the `Products` with `MakeConnectedComponent`. Connect to two stores like this:
 
@@ -439,6 +546,8 @@ module.exports =
     LikeStore,"likeItems");
 ```
 
+
+
 Let's break this out to make it easier to explain what's going on.
 
 ```js
@@ -448,18 +557,28 @@ module.exports = outterComponent;
 ```
 
 
+
+
 1. The outterComponent is connected to LikeStore, and passes `likeItems` to innerComponent
-2. The innerComponent is connected to CartStore, it receivies `likeItems` from outterComponent, and `cartItems` from the store.
+2. The innerComponent is connected to CartStore, it receives `likeItems` from outterComponent, and `cartItems` from the store.
+
+
 
 MakeConnectedComponent should correctly merge the props it receives from outside with the props it receives from the store.
 
+
+
 With JSX, you can merge two sets of properties like this:
 
-```
+```js
 <Foo {...propsA} {...propsB}/>
 ```
 
+
+
 # The "Connect" Decorator
+
+
 
 Finally, we'll define a JavaScript decorator to connect a component to multiple stores. The syntax looks like this:
 
@@ -472,9 +591,11 @@ class ConnectedProducts extends Products {}
 module.exports = ConnectedProducts;
 ```
 
+
+
 We can define the decorator as a function:
 
-```
+```js
 function connect(store,...cartItems) {
   return (klass) => {
 
@@ -485,7 +606,11 @@ function connect(store,...cartItems) {
 }
 ```
 
+
+
 This function receives the decorator arguments, and returns a function. The returned function replaces the decorated class with something else.
+
+
 
 To see how this works, we could compile the ConnectedProducts class with babel. Put the class definition in `connected-products.js`, and compile:
 
@@ -494,9 +619,11 @@ To see how this works, we could compile the ConnectedProducts class with babel. 
 babel --stage 0 connected-products.js
 ```
 
+
+
 The output:
 
-```
+```js
 var ConnectedProducts = (function (_Products) {
   _inherits(ConnectedProducts, _Products);
 
@@ -519,15 +646,19 @@ var ConnectedProducts = (function (_Products) {
 })(Products);
 ```
 
-The key is how `ConnectedProducts` is replaced twice. The double function invokation may be confusing:
+
+
+The key is how `ConnectedProducts` is replaced twice. The double function invocation may be confusing:
 
 ```js
 connect(CarStore, "cartItems")(ConnectedProducts)
 ```
 
+
+
 We can rewrite it to make it little bit clearer:
 
-```
+```js
 var calculateClassReplacement;
 
 // `connect` returns a function that calculates the replacement for ConnectedProducts
@@ -540,17 +671,27 @@ ConnectedProducts = calculateClassReplacement(ConnectedProducts);
 return ConnectedProducts;
 ```
 
+
+
 To make the decorator syntax works for webpack, enable the `stage=0` option:
 
 ```
 webpack ... --module-bind "js=babel?stage=0"
 ```
 
+
+
 Note: Remember to restart webpack.
+
+
 
 ### Exercise: Implement the `@connect` decorator
 
+
+
 Create the `connect` decorator function in `js/components/connect.js`.
+
+
 
 Then refactor `Products.js` again to use the decorator:
 
@@ -562,6 +703,8 @@ class ConnectedProducts extends Products {};
 module.exports = ConnectedProducts;
 ```
 
+
+
 You could also write it without using the decorator syntax:
 
 ```js
@@ -571,11 +714,19 @@ ConnectedProducts = connect(CartStore,"cartItems")(ConnectedProducts);
 module.exports = ConnectedProducts;
 ```
 
+
+
 # Liked Products Filtering
+
+
 
 Clicking the heart in the left sidebar should toggle between showing all products or showing only liked products.
 
+
+
 ### Exercise: Filter products by whether it's liked
+
+
 
 Create `ProductStore.js`.
 
@@ -603,6 +754,8 @@ module.exports = {
 }
 ```
 
+
+
 The Products component should connect to 3 stores:
 
 ```js
@@ -614,12 +767,21 @@ class ConnectedProducts extends Products {};
 module.exports = ConnectedProducts;
 ```
 
+
+
 Your result:
 
 <video src="filter-liked-items.mp4" controls></video>
 
+
+
 # Summary
 
+
+
 Instead of hardwiring stores into view components, we used 3 different techniques to separate the view and the data. By keeping the view components dumb, we can more easily reuse them in different situations.
+
+
+
 
 
