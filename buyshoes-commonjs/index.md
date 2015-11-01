@@ -235,8 +235,10 @@ npm install webpack@1.12.2 --save-dev
 To be able to convert ES6/JSX to ES5, we'd also need to install the Webpack Babel plugin:
 
 ```
-npm install babel-loader --save-dev
+npm install babel-loader@5.3.3 --save-dev
 ```
+
+Note: Babel has just [upgraded to 6.0](https://babeljs.io/blog/2015/10/29/6.0.0/), to be compatible with the former lesson we lock `babel-loader` to 5.x.
 
 
 

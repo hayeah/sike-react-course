@@ -182,8 +182,10 @@ npm install webpack@1.12.2 --save-dev
 要将 ES6/JSX 转换为 ES5，我们还需要安装 Webpack Babel 插件：
 
 ```
-npm install babel-loader --save-dev
+npm install babel-loader@5.3.3 --save-dev
 ```
+
+注意：Babel 刚刚[升级到了 6.0](https://babeljs.io/blog/2015/10/29/6.0.0/)。为了和之前的课程一致，我们在这里将 `babel-loader` 的版本限定在 5.x。
 
 ### 练习：打包 pie.js
 
