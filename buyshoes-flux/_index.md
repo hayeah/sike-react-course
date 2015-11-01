@@ -855,7 +855,7 @@ The codepen editor embeds the page in an iframe, so debugging is difficult. Ther
 You can also take a look at the JavaScript settings. The forked codepen project should inherit the same JavaScript settings:
 
 + Uses Babel.
-+ Included React 14.0.
++ Included React 0.14.
 + Included EventEmitter.
 
 ![](codepen-javascript-settings.jpg)
@@ -873,7 +873,7 @@ codepen 编辑器在一个 iframe 中嵌套了页面，所以 debug 会有点困
 你还可以看一下 JavaScript 的设置。fork 的 codepen 项目应该继承了相同的 JavaScript 设置：
 
 + 使用 Babel；
-+ 包含 React 14.0；
++ 包含 React 0.14；
 + 包含 EventEmitter。
 
 ![](codepen-javascript-settings.jpg)

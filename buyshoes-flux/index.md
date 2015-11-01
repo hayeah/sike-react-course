@@ -434,7 +434,7 @@ The codepen editor embeds the page in an iframe, so debugging is difficult. Ther
 You can also take a look at the JavaScript settings. The forked codepen project should inherit the same JavaScript settings:
 
 + Uses Babel.
-+ Included React 14.0.
++ Included React 0.14.
 + Included EventEmitter.
 
 ![](codepen-javascript-settings.jpg)
