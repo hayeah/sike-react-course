@@ -12,7 +12,7 @@ For example, if you want to vertically center some content, there isn't one way 
 
 最初的 CSS [可视化渲染模型](http://www.w3.org/TR/WD-CSS2/cover.html#toc) 起草与 1998 年。在当时大部分页面都是文件类型，制作运行在浏览器中的应用还是一个相当激进的想法。从那时, Web 已经有了多次的进化，但是我们仍旧用着来自 1998 年陈旧的的布局引擎。虽然说 CSS2 是被一个通用的技术，社区有巨大的知识沉淀，但开发起来实在是个巨大的痛苦。
 
-举个例子，如果你想垂直居中些内容，CSS2 并没有一种通用的方法来做这个布局。不太特殊情况可能需要不同的方法：
+举个例子，如果你想垂直居中些内容，CSS2 并没有一种通用的方法来做这个布局。不通的情况可能需要不同的方法：
 
 ![](css-vertical-centering.jpg)
 
