@@ -12,7 +12,7 @@ To become a competent frontend developer, you have to learn all kinds of weird, 
 
 Flexbox, in contrast, was designed specifically for creating UI for the modern web. It is not simple, and just like any other complex layout engine, you'd sometime find it behaving in surprising ways. Almost always, though, there's a straightforward explanation why.
 
-It does take practice to use flexbox well. But compared to traditional layout with CSS, flexbox is so much easier!
+It does take practice to use flexbox well. But compared to traditional layout with CSS, Flexbox is so much easier!
 
 
 
@@ -244,8 +244,6 @@ Your result:
 
 
 # Flex-Grow And Stretch
-
-{ya fuck. flex-grow is unwieldly. it grows to unbounded length if there's too much text content. so stupid.}
 
 Our next goal is to divide the page into two equal parts:
 

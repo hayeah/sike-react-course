@@ -2,19 +2,19 @@
 
 # Flexbox 布局
 
-最初的 CSS [可视化渲染模型](http://www.w3.org/TR/WD-CSS2/cover.html#toc) 起草与 1998 年，那时候大部分页面都是文档，而且制作运行在浏览器中的应用是一个激进的想法。Web 从那之后已经进化多次了，但是我们仍旧用着同样陈旧的来自 1998 年的布局引擎。CSS 2 是被公认的技术，社区知识内容有很多（bad translation），这是巨大的痛苦。
+最初的 CSS [可视化渲染模型](http://www.w3.org/TR/WD-CSS2/cover.html#toc) 起草与 1998 年。在当时大部分页面都是文件类型，制作运行在浏览器中的应用还是一个相当激进的想法。从那时, Web 已经有了多次的进化，但是我们仍旧用着来自 1998 年陈旧的的布局引擎。虽然说 CSS2 是被一个通用的技术，社区有巨大的知识沉淀，但开发起来实在是个巨大的痛苦。
 
-举个例子，如果你想垂直居中某些内容，没有一种确定的方法来实现它，但有很多种在特殊情况下工作的方法：
+举个例子，如果你想垂直居中些内容，CSS2 并没有一种通用的方法来做这个布局。不太特殊情况可能需要不同的方法：
 
 ![](css-vertical-centering.jpg)
 
 
 
-为了成为一名称职的前端开发者，你需要去学习各种各样古怪、丑陋、不自然的敲门来处理不同的布局需求。
+为了成为一名称职的前端开发者，你需要去学习各种各样古怪、丑陋、不自然的小技巧来处理不同的布局需求。
 
-Flexbox，相反，是被特别设计为现代 web 创造 UI 的。它并不简单，而且就像其他复杂的布局系统一样，你有时候会发现它的行为令人惊讶。但是几乎所有情况下，总有一个简单的解释为什么。
+相比之下，Flexbox 是专门为现代 Web UI 设计的布局机制。它并不简单。和其他复杂的布局系统一样，使用的时候你可能会遇到出乎意料的布局结果。但是几乎所有情况下，“奇怪” 的布局行为总有一个简单的解释。
 
-需要实践才能把 flexbox 用好。但是相比于传统 CSS 布局方法，flexbox 简单多了！
+Flexbox 还是需要多上手才能用好。但是相比于传统 CSS 布局方法，Flexbox 简单多了！
 
 
 
@@ -50,39 +50,39 @@ Flexbox，相反，是被特别设计为现代 web 创造 UI 的。它并不简�
 
 # Flex 介绍
 
-[Flexbox 完整指南](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) 里有所有有关 flexbox 的 CSS 属性的总结。这篇文章的讲解对于初次接触 Flexbox 相关属性的人来说信息量有点过大（bad translation）。
+[Flexbox 完整指南](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) 里有所有和 Flexbox 的相关 CSS 属性的总结。这篇文章的讲解对于初次接触 Flexbox 来说信息量有点过大，很难一次消化。
 
-所以我们先从 Flexbox 的三个属性开始：`flex-direction`，`align-items`，`justify-content`。
+因此，我们先挑 Flexbox 的三个属性开始介绍：`flex-direction`，`align-items`，`justify-content`。
 
 
 
-+ `flex-direction` - 子元素是水平排列还是垂直排列。
++ `flex-direction` - 决定子元素是水平排列还是垂直排列。
 
   ![](flex-direction.jpg)
 
-+ `align-items` 和 `justify-content` - 控制着子元素如何在父容器中排列。
++ `align-items` 和 `justify-content` - 控制着子元素在父容器中如何布局。
 
   ![](flex-align-justify.jpg)
 
 
-+ 把元素在容器里同时水平和垂直居中：
++ 把元素在容器里同时水平和垂直居中的姿势：
 
   ![](flex-centering.jpg)
 
 
 
-对齐属性 `align-items` 和 `justify-content` 很容易混在一起使用。
+`align-items` 和 `justify-content` 着两个属性很容易混淆。
 
-+ `justify-content` - 控制着元素应该放在箭头的什么位置。
-  + 这是 flex 容器的“主轴”。
-+ `align-items` - 控制着箭头应该放在容器的什么位置。
-  + 这是 flex 容器的“横轴”。
++ `justify-content` - 控制着元素应该放在箭头上的什么位置。
+  + 这是 flex 容器的 “主轴”。
++ `align-items` - 控制着箭头本身应该放在容器的什么位置。
+  + 这是 flex 容器的 “横轴”。
 
 
 
-因此 `align-items: center` 意为根据 flex-direction 的值，决定水平居中或者垂直居中。一个帮助我们记住这个方法是理解 `align-self` 属性。
+所以说 `align-items: center` 可能根据 flex-direction 的值不同，而意味着水平居中或者垂直居中。理解 `align-self` 属性这个属性的含义可以帮助我们推理出 align-items 到底是影响垂直还是水平布局。
 
-`align-self` 可以对 flex 容器中得一个特殊的元素的 `align-item` 赋不同的值。
+`align-self` 可以对 Flex 容器中某个指定的元素的赋与不同的 `align-item` 值。
 
 
 
@@ -94,24 +94,26 @@ Flexbox，相反，是被特别设计为现代 web 创造 UI 的。它并不简�
 }
 
 .red {
-  /* 只有一个元素那就是 `flex-start` */
+  /* 指定该元素为 `flex-start`  */
   align-self: flex-start;
 }
 ```
 
 
 
-`align-self` 应该做了些什么？`align-self`不应该把 item 沿着 flex-direction（主轴）移动，否则 `.red` 元素的顺序会改变：
+以设计的角度来说，`align-self` 应该做什么？`align-self` 不应该把 item 沿着 flex-direction（主轴）移动，否则 `.red` 元素的顺序可能会改变：
 
 ![](align-self-bad-design.jpg)
 
 
 
-`align-self` 应该把元素按照横轴轴的方向移动，因此行的水平顺序保持相同：
+`align-self` 应该把元素按照横轴的方向移动，因此保持元素的顺序:
 
 ![](flex-align-self.jpg)
 
-根据这个原因，很简单就能记住 `align-self` 的方向。而且 `align-items` 和 `align-self` 方向相同。
+了解了这个道理就能记住 `align-self` 的方向。而 `align-items` 理应和 `align-self` 的方向相同。
+
+道理是这样的。现实情况还是会搞混。试试看，效果对了就好啦~
 
 
 
@@ -165,7 +167,7 @@ a:hover {
 
 这个网页有四个部分。你应该让每个章节的宽高和屏幕一样。
 
-为了让它们可见度更高，你可以暂时把它们的背景设为红色：
+为了让它们可见度更高，你可以暂时把它们的背景设为红色半透明：
 
 
 
@@ -178,7 +180,7 @@ a:hover {
 
 
 
-这些部分应该看起来像：
+这些区域块应该看起来这样：
 
 <video src="fullpage-sections.mp4" controls></video>
 
@@ -186,7 +188,7 @@ a:hover {
 
 ### 练习：标题和 Logo
 
-把下面的代码添加到第一个部分：
+把下面的代码添加到第一个区域块：
 
 
 
@@ -205,14 +207,14 @@ a:hover {
 
 ### 练习：导航链接
 
-因为元素在单一的 flex 容器只能按照一个方向排列，如果一些元素垂直排列，一些其他的元素水平排列，你需要嵌套使用 flex 容器。
+因为元素在一个 flex 容器内只能按照一个方向来排列，如果你需要一些元素垂直排列，一些其他的元素水平排列，那你就要嵌套 flex 容器。
 
 ![](flex-nesting.jpg)
 
 
 
 + 添加一个水平 flex 容器容纳导航链接。
-+ 添加 padding 让它们分开。
++ 添加 padding 让它们有间隔。
 
 
 
@@ -242,15 +244,13 @@ a:hover {
 
 
 
-# Flex-Grow 和延伸
-
-{呀，我靠。flex-grow 笨死了。如果内容太多，它会变得无限长。太蠢了。}
+# Flex-Grow 如何拉长元素
 
 我们下一个目标是把页面分为两个相等的部分：
 
 ![](left-right-partitions-no-content.jpg)
 
-完成这项工作的直接方式是把宽度设置为 50%，高度设置为 100%。但是在这个练习中，我们将要使用 flexbox。首先，让我们把下面的 html 添加到第二部分：
+完成这项工作最直观的方式是把宽度设置为 50%，高度设置为 100%。但是为了练习，我们要用 flexbox 来做。首先，让我们把下面的 html 添加到第二个区域块：
 
 
 
@@ -276,11 +276,11 @@ a:hover {
 
 
 
-一开始，这两个容器就很大，足够容纳它们的文字内容：
+一开始，这两个容器刚好足够大包围它们的文字内容：
 
 ![](flex-grow-none.jpg)
 
-如果你想要移除它们的内容，他们会折叠成一个 0x0 的盒子（尝试下！）。
+如果移除了它们的内容，这些容器会折叠成一个 0x0 的盒子（尝试下！）。
 
 
 
@@ -291,19 +291,19 @@ a:hover {
 
 
 
-正如 `align-items` 和 `justify-content`，它们的行为取决于 flex direction：
+正如 `align-items` 和 `justify-content`，它们的具体行为取决于 flex direction：
 
 ![](flex-and-stretch.jpg)
 
 
 
-为什么 `flex-grow` 是个数字？如果 `flex-grow` 为 0，那个元素就不会扩大。否则，这个数字就是元素应该拉伸覆盖可用空间的比例。
+为什么 `flex-grow` 是个数字呢？如果 `flex-grow` 为 0，那个元素就不会扩大。不为 0，这个数字代表一个元素拉伸覆盖可用空间该有的比例：
 
 ![](flex-grow-factor.jpg)
 
 
 
-就具体的例子而言，我们可以让第一个容器占有 1/3 的空间，让第二个容器占有 2/3 的空间：
+具体举个例子，我们可以让第一个容器占有 1/3 的空间，让第二个容器占有 2/3 的空间：
 
 
 
@@ -333,20 +333,20 @@ a:hover {
 
 
 
-注：确保这些容器是空得。如果一个容器内容的数量超过了其他容器，这个容器就会比其他的大。
+注：你得确保这些容器是空的。如果一个容器内容比另外一个容器多，那内容多的容器就会比较大。
 
 ![](flex-basis-auto.jpg)
 
-我们讲在下个课程中修复这个问题。
+我们会在下个练习修复这个问题。
 
 
 
-# Flex 基础
+# Flex Basis 属性
 
-Flexbox 的大小由两个因素决定：
+Flexbox 容器的高宽由两个因素决定：
 
-1. Flexbox 中的内容有多少。
-2. 父容器中有多少空闲空间。如果 `flex-grow` 为非零值，它会扩大填满这些空间。
+1. Flexbox 中有多少的内容。
+2. 父容器中有多少空闲空间。如果 `flex-grow` 非零，占满所以空闲空间。
 
 
 
@@ -361,37 +361,37 @@ Flexbox 的大小由两个因素决定：
 
 
 
-它扩张来适配一行的内容，从左容器中挤出去了：
+它扩张得很长，来包围一整行的内容，结果就把左边的容器挤出去了：
 
 <video src="flex-basis-auto-greedy.mp4" controls loop></video>
 
 
 
-理解这种行为的关键是“空闲空间”的数量是在容器适配内容扩张之后才计算的：
+理解这种行为的关键是 “空闲空间” 有多少是在容器适配内容之后才计算的：
 
 ![](flex-basis-auto-free-spzce.jpg)
 
 
 
-然后空闲空间根据 `flew-grow` 因素划分。这就解释了为什么容器宽度不同：
+然后计算出来的空闲空间会根据 `flew-grow` 因素来瓜分。这就解释了为什么之前两个容器的宽度会不一样：
 
 ![](flex-basis-auto.jpg)
 
 
 
-当计算空闲空间时，我们可以使用 `flex-basis` 属性覆盖 flexbox 的大小。如果我们给子元素设置了 `flex-basis: 0`，当它们的父容器计算空闲空间时，它们的宽度就好像为零一样。空闲空间（整个父容器的宽度）后来被这两个子元素分割了：
+我们可以使用 `flex-basis` 来指定计算空闲空间时 flexbox 应该是什么尺寸。如果我们给两个子元素设置了 `flex-basis: 0`，当它们的父容器计算空闲空间时，它们的宽度就好像为零一样。之后，空闲空间（整个父容器的宽度）才会被这两个子元素瓜分：
 
 ![](flex-basis-zero.jpg)
 
 
 
-`flex-basis` 属性就像是 flexbox 的最小值。它决定了 flexbox 给自己保留多少空间。默认的 `flex-basis: auto` 意为“保留尽可能多的空间来适配内容”。`flex-basis: 50px` 意为保留 50 像素，但是如果有更多空闲空间就会扩大。
+`flex-basis` 属性就好像是 flexbox 的最小值。它决定了 flexbox 给自己保留多少空间。默认的 `flex-basis: auto` 意为“保留尽可能多的空间来适配内容”。`flex-basis: 50px` 意为保留 50 像素，但是如果有更多空闲空间就会扩大。
 
 
 
 ### 练习：适应 Flex-Basis
 
-添加到第二部分：
+添加到第二区域块：
 
 ```html
 <div class="iphone-demo">
@@ -410,7 +410,7 @@ Flexbox 的大小由两个因素决定：
 
 
 
-添加到第三部分：
+添加到第三区域块：
 
 ```html
 <div class="iphone-demo">
@@ -435,9 +435,9 @@ Flexbox 的大小由两个因素决定：
 
 # Android 即将到来
 
-### 练习：添加“Android Is Here”
+### 练习：添加 “Android Is Here”
 
-在最后的部分，添加：
+在最后的区域块，添加：
 
 ```html
 <h1>Android Is Here</h1>
@@ -451,7 +451,7 @@ Flexbox 的大小由两个因素决定：
 
 # Flex: 1
 
-在 ReactNative 里你会经常看到神秘的设定 `flex: 1` 来扩大一个 flexbox。`flex` 是同时设置 `flex-grow`，`flex-shrink` 和 `flex-basis` 的简写。默认为：
+在使用 ReactNative 时你会经常看到一个神秘的设定 `flex: 1`，用了来扩大一个 flexbox。`flex` 是一个简写，同时设置 `flex-grow`，`flex-shrink` 和 `flex-basis` 三个属性。它们的默认值为：
 
 ```css
 flex: 0 1 auto;
@@ -464,7 +464,7 @@ flex-basis: auto;
 
 
 
-`flex: 1` 意为 `flex: 1 1 auto`，或者写为完整形式：
+`flex: 1` 意为 `flex: 1 1 auto`。全写出来如下：
 
 ```css
 flex-grow: 1;
@@ -476,17 +476,17 @@ flex-basis: auto;
 
 # 总结
 
-有很多属性和可能的设定。刷新你记忆的不错参考：
+Flexbox 有很多属性和设定。这个参考资料可以刷新你的记忆：
 
 + [CSS Tricks - A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 
-如果你碰到了一个奇怪的布局问题，阅读规范，理解准确的行为通常来得更快：
+如果你碰到了一个奇怪的布局问题，阅读规范常常可以更快地了解到底为什么:
 
 + [CSS Flexible Box Layout Module Level 1](http://www.w3.org/TR/css-flexbox-1)
 
 
 
-控制使用哪个轴（水平或者垂直）来排列元素：
+控制使用哪个轴（水平或者垂直）来排列元素的方法：
 
 + `flex-direction: row`, `flex-direction: column`
 
