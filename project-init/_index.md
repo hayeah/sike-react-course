@@ -154,33 +154,21 @@ $ cat package.json
 
 # Initialize Git Repository
 
-We don't want junks like log or installed packages to bloat our git repository. So let's use a `.gitignore` file to prevent anyone from adding unnecessary files into the repo.
+We don't want junks like log or installed packages to bloat our git repository. So let's create a `.gitignore` file to prevent anyone from adding unnecessary files into the repo.
 
-You can find common project-specific `.gitignore` files in the repo [github/gitignore](https://github.com/github/gitignore). Some examples are:
-
-+ [ObjectiveC .gitignore](https://github.com/github/gitignore/blob/master/Objective-C.gitignore)
-+ [Rails .gitignore](https://github.com/github/gitignore/blob/master/Rails.gitignore)
-+ [Node .gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
-
-We'll use NodeJS specific: `.gitignore`. Download it to your project directory:
+We can get one suitable for a NodeJS project from gitignore.io:
 
 ```
-curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
+curl https://www.gitignore.io/api/node > .gitignore
 ```
 
 <cn>
 
 # 初始化 Git 仓库
 
-我们不想要像日志或者安装过的包之类的垃圾文件，它们会使我们的 git 仓库膨胀。因此我们使用 `.gitignore` 文件来阻止任何人向仓库添加不必要的文件。
+我们不希望把日志或者依赖包之类的垃圾被添加到 git 仓库里，导致膨胀。我们使用 `.gitignore` 文件来阻止任何人向仓库添加不必要的文件。
 
-你能在这个仓库 [github/gitignore](https://github.com/github/gitignore) 里找到常见项目特定的 `.gitignore` 文件。一些例子：
-
-+ [ObjectiveC .gitignore](https://github.com/github/gitignore/blob/master/Objective-C.gitignore)
-+ [Rails .gitignore](https://github.com/github/gitignore/blob/master/Rails.gitignore)
-+ [Node .gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
-
-我们会使用 NodeJS 特定的: `.gitignore` 。把它下载到你的项目目录。
+我们可以从 gitignore.io 下载一个适合 NodeJS 项目的文件：
 
 ```
 curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
@@ -188,7 +176,7 @@ curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > 
 
 </cn>
 
-Then we can create the repo:
+Then we create the git repo:
 
 ```
 $ git init
@@ -202,7 +190,7 @@ $ git commit -m "Project init"
 
 <cn>
 
-然后我们可以创建仓库：
+然后我们创建 git 仓库：
 
 ```
 $ git init
@@ -282,15 +270,15 @@ index 0000000..e2d56c6
 
 Let's create `index.html`. Rather than starting from scratch, it's faster to tweak [HTML5-boilerplate](https://github.com/h5bp/html5-boilerplate/blob/master/src/index.html) to suit your needs.
 
-For this project you could use something like this:
+For this project you could use a template like this:
 
 <cn>
 
 # HTML 样板文件
 
-让我们来创建 `index.html`。 与其从零开始，调整 [HTML5-boilerplate](https://github.com/h5bp/html5-boilerplate/blob/master/src/index.html) 满足你的需求来得更快。
+让我们来创建 `index.html`。 与其从零开始，按需求来调整 [HTML5 常用模板页面](https://github.com/h5bp/html5-boilerplate/blob/master/src/index.html) 会更快。
 
-对于这个项目，你可以使用像这样的东西：
+对于这个项目，你可以使用类似这样的模板：
 
 </cn>
 
@@ -430,7 +418,7 @@ And you can use GitHub Pages to host this web-page. All you need to do is to pus
 
 <cn>
 
-而且你可以使用 GitHub Pages 来托管这个网页。所有你需要做的是推送到分支 `gh-pages`：
+你还可以使用 GitHub Pages 来托管这个网页。你只需要把页面推送到 `gh-pages` 这个分支：
 
 </cn>
 
@@ -452,10 +440,10 @@ To git@github.com:hayeah/sikeio-ilovereact.git
 
 </cn>
 
-Then you should be able to see the page at: http://hayeah.github.io/sikeio-ilovereact/
+If it's successful, you should be able to see the page at: http://hayeah.github.io/sikeio-ilovereact/
 
 <cn>
 
-然后你应该可以看到这个页面：http://hayeah.github.io/sikeio-ilovereact/
+成功的话，你应该可以打开这个页面：http://hayeah.github.io/sikeio-ilovereact/
 
 </cn>
