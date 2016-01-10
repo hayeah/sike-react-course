@@ -33,7 +33,7 @@
 
   如果你比较少接触前端或移动端产品，开始之前你可以看看:
 
-  [What Is Responsive Design](responsive-design) [中文版](responsive-design/lang?=cn)
+  [> responsive-design][What Is Responsive Design] [> responsive-design/lang?=cn][中文版]
 
 #lesson[day=1 name=create-project project=ilovereact]
 #lesson[day=2 name=flexbox project=ilovereact]
