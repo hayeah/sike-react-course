@@ -1,35 +1,41 @@
 
 
-我们将要从零开始建立一个前端项目。建立一个项目的过程很乏味。但是如果你刚接触前端开发，这是一个在你开始使用更复杂的工具前，学习基础的好方法。
+# 初始化一个前端项目
 
-市面上有很多不同的项目构建工具。更不幸的是，每隔一周，一个新的构建工具就会变得流行起来。跟上这个步伐是不可能的。
+我们将要从零开始建立一个前端项目。
 
-尽管如此，这些构建工具使用了相同的基本思路。我们会展示给你这些基本思路，因此不论你最终使用哪种前段构建工具（Grunt，Gulp，Webpack），你将能够快速地学习它们。
+虽然建立一个项目的过程很乏味，但这是一个学习基础的好方法。你可以学到前端项目的基本结构，也能接触到常见的工具。
+
+市面上有太多的前端项目构建工具。然而非常不幸地，每周貌似都有个新的工具流行起来。要跟上这个步伐是不可能的。
+
+但这些构建工具都有相同的基本思路。我们会教你你这些基本思路，所以不论你最终使用哪种前段构建工具（Grunt，Gulp，Webpack），你将能够快速地上手。
 
 
 
-对于这个项目，我们将：
+在这个项目我们会：
 
 + 使用 NPM 安装开源包
 + 把 CSS 模块化
 + 使用 BrowserSync 实现实时编辑
 + 使用 Makefile 运行项目任务
 
-尽管 NPM 是 NodeJS 的包管理工具，它也非常适合前端开发。以后，我们将学习如何组织 JavaScript：
+尽管 NPM 是 NodeJS 的包管理工具，它也非常适合前端开发。
+
+这一周我们对 JavaScript 的需求不多。下一周我们才会开始学习更进阶的 JavaScript 组织方式：
 
 + 编写更小的 CommonJS 模块而不是一个大的 JS 文件
-+ 使用 `browserify` 把 JavaScript 模块组合成一个 bundle。
++ 使用 `webpack` 把 JavaScript 模块组合成一个 bundle。
 + 使用 Babel 把 ES6 转换为 ES5，这样你可以在各处运行你的 JS 了。
 
-在你开始之前，确保你的 NodeJS 版本是最新的。
+在你开始之前，请确保你的 NodeJS 版本是最新的。
 
 
 
 ```
 $ node -v
-v2.5.0
+v4.2.1
 ```
-版本 2， 3， 4， 或者更高都可以.
+版本 2， 3， 4， 或更高都可以.
 
 
 
@@ -85,19 +91,19 @@ npm config get registry
 
 [任务：配置项目 CSS 基础](../css-base/?lang=cn)
 
-在我们开始继续在这个项目工作前，我们应该添加一些 CSS 来解决常见的跨浏览器问题：
+在这个项目开工之前，我们应该添加一些 CSS 来解决常见的跨浏览器问题：
 
-+ 使用 [PostCSS](https://github.com/postcss/postcss) 向标准 CSS 添加特性。
-+ 使用 [autoprefixer](https://github.com/postcss/autoprefixer) 添加浏览器引擎前缀。
-+ 引入 [normalizer.css](http://necolas.github.io/normalize.css) 来修复浏览器不一致的问题。
++ 使用 [PostCSS](https://github.com/postcss/postcss) 为标准 CSS 添加一些新功能。
++ 使用 [autoprefixer](https://github.com/postcss/autoprefixer) 自动为属性加上浏览器前缀，提高兼容性。
++ 引入 [normalizer.css](http://necolas.github.io/normalize.css) 来减少浏览器之间的不一致。
 
 此外，为了让 CSS 布局更简单，我们会采用 ReactNative 的 flexbox 设置：
 
 + 在全局使用 [ReactNative flexbox settings](https://github.com/facebook/css-layout#default-values)。
 
-我们会在下一课中谈到这些设置的意义。如果你还没理解它们，不用担心。
+我们会在下一课中谈到这些设置的意义。如果你还没理解这些设置，别担心。
 
 资源：
 
-+ 为浏览器兼容性查看 [Can I Use](http://caniuse.com)。
++ 查看某个功能的浏览器支持 [Can I Use](http://caniuse.com)。
 

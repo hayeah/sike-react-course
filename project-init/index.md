@@ -77,23 +77,17 @@ $ cat package.json
 
 # Initialize Git Repository
 
-We don't want junks like log or installed packages to bloat our git repository. So let's use a `.gitignore` file to prevent anyone from adding unnecessary files into the repo.
+We don't want junks like log or installed packages to bloat our git repository. So let's create a `.gitignore` file to prevent anyone from adding unnecessary files into the repo.
 
-You can find common project-specific `.gitignore` files in the repo [github/gitignore](https://github.com/github/gitignore). Some examples are:
-
-+ [ObjectiveC .gitignore](https://github.com/github/gitignore/blob/master/Objective-C.gitignore)
-+ [Rails .gitignore](https://github.com/github/gitignore/blob/master/Rails.gitignore)
-+ [Node .gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
-
-We'll use NodeJS specific: `.gitignore`. Download it to your project directory:
+We can get one suitable for a NodeJS project from gitignore.io:
 
 ```
-curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
+curl https://www.gitignore.io/api/node > .gitignore
 ```
 
 
 
-Then we can create the repo:
+Then we create the git repo:
 
 ```
 $ git init
@@ -142,7 +136,7 @@ index 0000000..e2d56c6
 
 Let's create `index.html`. Rather than starting from scratch, it's faster to tweak [HTML5-boilerplate](https://github.com/h5bp/html5-boilerplate/blob/master/src/index.html) to suit your needs.
 
-For this project you could use something like this:
+For this project you could use a template like this:
 
 
 
@@ -225,5 +219,5 @@ To git@github.com:hayeah/sikeio-ilovereact.git
 
 
 
-Then you should be able to see the page at: http://hayeah.github.io/sikeio-ilovereact/
+If it's successful, you should be able to see the page at: http://hayeah.github.io/sikeio-ilovereact/
 

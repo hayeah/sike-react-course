@@ -11,7 +11,7 @@ Furthermore, to make CSS layout easier, we'll adopt the ReactNative's flexbox se
 For this project, we just want two additional CSS features:
 
 1. `@import` to create a bundle from many CSS files.
-2. Use `autoprefix` to generate browser specific CSS property names for "experimental" features.
+2. Use `autoprefix` plugin to generate browser prefix for newer CSS properties
 
 
 
@@ -19,11 +19,11 @@ For this project, we just want two additional CSS features:
 
 
 
-An alternative to Less/Sass is [PostCSS](https://github.com/postcss/postcss). PostCSS is not a language. It is a parser that parses the standard CSS syntax, and allows you to install JavaScript plugins to transform the CSS in different ways. With PostCSS, you can add only the features you need.
+An alternative to Less/Sass is [PostCSS](https://github.com/postcss/postcss). PostCSS is not a language. It is a parser that parses the standard CSS syntax. You can use plugins to transform the CSS language in different ways.
 
 
 
-We'll install the [PostCSS command line tool](https://github.com/code42day/postcss-cli):
+Install the [PostCSS command line tool](https://github.com/code42day/postcss-cli):
 
 
 
@@ -74,17 +74,11 @@ Take a look at the browser support chart for flexbox ([Can I Use: Flexbox](http:
 
 You'd see that for Safari 8 there's the note:
 
-
-
 ```
 Supported with prefix: -webkit
 ```
 
-
-
 That's the [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix) for Safari 8. Instead of writing:
-
-
 
 ```css
 .a-flexible-row {
@@ -94,7 +88,8 @@ That's the [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Ven
 
 
 
-You need to add the vendor prefix for every browser you support. The CSS rule might look like:
+
+Different browser engines have different vendor prefixes, and you need vendor prefixes for all the browsers you need to support. Your CSS rule might look like:
 
 
 
@@ -163,7 +158,7 @@ body, div, span {
 
 
 
-Run this command to transform your css file:
+Run the `postcss` command to transform your css file:
 
 
 
@@ -214,7 +209,7 @@ body, div, span {
 
 
 
-Link to `bundle/app.css` in the `head` element:
+Load `bundle/app.css` in the `head` element:
 
 
 
@@ -242,7 +237,7 @@ Don't worry if you don't understand what these properties do. We'll learn about 
 
 Browsers can behave subtly differently from each other. [normalize.css](https://github.com/necolas/normalize.css) makes browsers behave more alike. For example, did you know that in IE 8/9/10  `img` would have a border if it's inside an `a` element?
 
-normalize.css includes the fix for that:
+normalize.css includes the fix for this problem:
 
 
 
@@ -255,7 +250,7 @@ img {
 
 
 
-It also define HTML5 elements:
+It also defines HTML5 elements:
 
 
 
@@ -280,7 +275,7 @@ summary {
 
 
 
-Install it with npm:
+Install normalize.css with npm:
 
 
 
@@ -292,7 +287,7 @@ npm install --save normalize.css@3.0.3
 
 ### Exercise: Include normalize.css
 
-Instead of using another `link` element to, let's use the [postcss-import](https://github.com/postcss/postcss-import) plugin to import normalize.css.
+Instead of using another `link` element to load normalize.css, let's use the [postcss-import](https://github.com/postcss/postcss-import) plugin to import normalize.css.
 
 Install `postcss-import`:
 

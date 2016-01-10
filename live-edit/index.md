@@ -148,7 +148,7 @@ $ echo $PATH
 
 
 
-If you type the `foo` command, the system searches for `foo` in the following order:
+If you type the `foo` command, the system searches `foo` the following directories one after another:
 
 ```
 /usr/local/sbin
@@ -179,7 +179,7 @@ $ browser-sync --version
 
 
 
-To make this permanent, add to your shell's startup file:
+To make the PATH permanent, add to your shell's startup file:
 
 ```
 # ~/.bashrc or ~/.zshrc
@@ -211,7 +211,7 @@ $ browser-sync start --server --files=index.html
 
 
 
-+ `--files=index.html` specifies that if the file `index.html` changes, refresh the browser automatically.
++ `--files=index.html` monitors `index.html` for changes, and refreshes the browser automatically.
 
 Use the browser to open `http://localhost:3002`, and you can start editing live!
 
@@ -223,25 +223,29 @@ Try changing `Hello World` to `Make Everything With React!`.
 
 # Makefile
 
-For small projects, a Makefile is much simpler to get started with than Grunt/Gulp/Webpack. There are tasks you need to run frequently, like compiling JavaScript, bundling, or running BrowserSync. The command you need to run can get longer and more complicated. These tasks are perfect inside a Makefile.
+For small projects, a Makefile is much simpler to get started with than Grunt/Gulp/Webpack. There are tasks you need to run frequently, like compiling JavaScript, bundling, or running BrowserSync. The commands for the tasks you need to run can be long and complicated. Put these tasks in the Makefile can simplify your life.
 
 
 
 ### Exercise: Create the `Makefile`.
 
-
+Create a file called `Makefile` at the root of your project directory. We define the task `server` like this:
 
 ```
-# Makefile
 .PHONY: server
 server:
-  # WARNING: The indentation MUST be a tab. Spaces won't work.
   browser-sync start --server --files=index.html
 ```
 
+Note that the space in front of the command MUST BE A TAB!
 
+```
+.PHONY: server
+server:
+<tab>browser-sync start --server --files=index.html
+```
 
-Now you can run browser-sync this way:
+Now you can use make to run  browser-sync:
 
 ```
 make server

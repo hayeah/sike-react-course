@@ -11,20 +11,20 @@
 
 对于这个项目，我们只想要两个 CSS 补充特性：
 
-1. `@import` 从很多 CSS 文件打包
-2. 使用 `autoprefix` 为“实验性”特性来生成特定浏览器的 CSS 属性名称。
+1. `@import` 把多个 CSS 文件汇集成包。
+2. 使用 `autoprefix` 插件自动为较新的 CSS 属性生成浏览器前缀。
 
 
 
-[Sass](http://sass-lang.com/) 和 [Less](http://lesscss.org/) 是最受欢迎的两个 CSS 预处理器。它们是有着大量特性（变量，循环语句，条件语句，函数）的完备语言，可以生成复杂的 CSS 样式表。我们不需要那个。
+[Sass](http://sass-lang.com/) 和 [Less](http://lesscss.org/) 是最受欢迎的两款 CSS 预处理器。它们是完整的语言，有大量特性（变量，循环语句，条件语句，函数），可以用来生成复杂的 CSS 样式表。我们不需要这么多功能。
 
 
 
-Less/Sass 的替代品之一是 [PostCSS](https://github.com/postcss/postcss)。PostCSS 不是一种语言。它是一个解析器，解析标准 CSS 语法，而且允许你安装 JavaScript 插件通过不同方法来转换 CSS。使用 PostCSS，你可以添加你需要的功能。
+Less/Sass 的替代品之一是 [PostCSS](https://github.com/postcss/postcss)。PostCSS 不是一种语言。它是一个语法解析器，解析标准 CSS 语言。你可以通过插件来改造 CSS 语言。
 
 
 
-我们将安装 [PostCSS command line tool](https://github.com/code42day/postcss-cli)：
+安装 [PostCSS command line tool](https://github.com/code42day/postcss-cli)：
 
 
 
@@ -73,19 +73,13 @@ Examples:
 
 ![](vendor-prefix.png)
 
-你应该看到对于 Safari 8 有一个注释：
-
-
+你能看到对于 Safari 8 有一个注释：
 
 ```
 Supported with prefix: -webkit
 ```
 
-
-
-那是 Safari 8 的 [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix)。不要这样写：
-
-
+这既是 Safari 8 的 [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix)。这样写是不行的：
 
 ```css
 .a-flexible-row {
@@ -95,7 +89,7 @@ Supported with prefix: -webkit
 
 
 
-你需要为每个你支持的浏览器添加浏览器引擎前缀。 这条 CSS 规则也许看起来是这样：
+每个浏览器引擎都有自己的前缀，而你需要为每个你支持的浏览器添加前缀。 这条 CSS 规则该写成这样：
 
 
 
@@ -112,7 +106,7 @@ Supported with prefix: -webkit
 
 
 
-你将需要做：
+你要：
 
 + 了解哪些特性需要浏览器引擎前缀。
 + 记得在每一处你用到这些特性的地方添加这些前缀。
@@ -123,7 +117,7 @@ Supported with prefix: -webkit
 
 
 
-把这些事情做对很显然相当复杂。[autoprefixer](https://github.com/postcss/autoprefixer)  工具自动给你添加浏览器引擎前缀。另外，它使用一个 [浏览器市场占有率数据库](https://github.com/ai/browserslist) 来决定某个特殊的特性是否仍旧需要浏览器引擎前缀。
+把这些事情做对很显然相当复杂。[autoprefixer](https://github.com/postcss/autoprefixer)  工具自动给你添加浏览器引擎前缀。另外，它使用一个 [浏览器市场占有率数据库](https://github.com/ai/browserslist) 来决定某个特殊的特性是否仍旧需要为某个浏览器添加前缀。
 
 安装 autoprefixer：
 
@@ -137,11 +131,11 @@ npm install autoprefixer@6.0.2 --save-dev
 
 ### 练习：在全局使用 Flexbox
 
-虽然 ReactNative 实现了 flexbox，但是它使用了一种与浏览器不同的 flexbox 默认设置。一个巨大的区别是在 ReactNative 中元素默认从上到下排列，但是在浏览器中默认是从左到右排列。
+虽然 ReactNative 实现了 flexbox，但是它使用了与浏览器不同的 flexbox 默认设置。一个很大的差别是 ReactNative 的元素默认的布局是由上到下排列，但是在浏览器中默认是由左到右排列。
 
-结果是 ReactNative 的设定更加友好，所以让我们使浏览器表现出同样的行为。
+其实 ReactNative 的设定更好用，所以让我们使浏览器表现出同样的行为。
 
-添加 [ReactNative flexbox settings](https://github.com/facebook/css-layout#default-values) 到文件 `css/app.css` 中:
+请添加 [ReactNative flexbox settings](https://github.com/facebook/css-layout#default-values) 到这个文件 `css/app.css`:
 
 
 
@@ -164,7 +158,7 @@ body, div, span {
 
 
 
-运行这个命令来转换你的 CSS 文件：
+运行 postcss 命令来转换你的 CSS 文件：
 
 
 
@@ -175,7 +169,7 @@ postcss --use autoprefixer css/app.css --output bundle/app.css
 
 
 
-你可以看到在 `bundle/app.css` 中，自动添加前缀的 CSS 属性：
+你可以看到在 `bundle/app.css` 中有添加了前缀的 CSS 属性：
 
 
 
@@ -215,7 +209,7 @@ body, div, span {
 
 
 
-在 `head` 元素中关联 `bundle/app.css`：
+在 `head` 元素中加载 `bundle/app.css`：
 
 
 
@@ -235,15 +229,15 @@ body, div, span {
 
 
 
-如果你不理解这些属性的作用，不要担心。我们会很快学习它们的！
+如果你不理解这些属性的作用，不要担心。我们会很快学到它们！
 
 
 
 # normalize.css
 
-浏览器行为表现彼此略有不同。[normalize.css](https://github.com/necolas/normalize.css) 使浏览器行为更相似。举个例子，你以前知道在 IE 8/9/10 中，如果 `img` 在一个 `a` 元素内，它会有边框这件事吗？
+浏览器行为表现彼此略有不同。[normalize.css](https://github.com/necolas/normalize.css) 使浏览器的行为更相似。举个例子，你以前知道在 IE 8/9/10 中，如果 `img` 在一个 `a` 元素内，它会有边框这件事吗？
 
-normalize.css 包含了对于那个问题的修复：
+normalize.css 包含了对于这个问题的修复：
 
 
 
@@ -256,7 +250,7 @@ img {
 
 
 
-它也会定义 HTML5 元素：
+它也定义了 HTML5 元素：
 
 
 
@@ -281,7 +275,7 @@ summary {
 
 
 
-使用 npm 安装它：
+使用 npm 安装 normalize.css：
 
 
 
@@ -305,7 +299,7 @@ npm install --save-dev postcss-import@7.0.0
 
 
 
-normalize.css 被安装在 `node_modules/normalize.css/normalize.css`。在 `css/app.css` 里我们可以导入 normalize.css:
+normalize.css 被安装在 `node_modules/normalize.css/normalize.css`。在 `css/app.css` 里我们用相对路径导入 normalize.css:
 
 
 
@@ -326,9 +320,9 @@ postcss --use autoprefixer --use postcss-import css/app.css --output bundle/app.
 
 
 
-你现在应该可以看到在 `bundle/app.css` 中的 normalize.css 了。
+你现在应该可以看到在打包完成的 `bundle/app.css` 中包含了 normalize.css。
 
-因为 normalize.css 被安装在 `node_modules` 目录里，你实际上可以使用包名称来导入它：
+因为 normalize.css 被安装在 `node_modules` 目录里，你其实还可以使用包的名称来导入它：
 
 
 

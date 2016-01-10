@@ -1,4 +1,6 @@
-We are going to setup a frontend project from scratch. It's tedious to setup a project. But if you are new to frontend development, it's a good way to learn the basics before you start using a more complicated build tool.
+# Setup A Frontend Project
+
+We are going to setup a frontend project from scratch. Although it is boring to setup a project, it's a good way to learn the common tools and structure of a frontend project.
 
 There are too many different project build tools out there. Even worse, a new build tool becomes popular every other week! It's impossible to keep up.
 
@@ -13,7 +15,9 @@ For this project, we will:
 + Use BrowserSync for live-editing.
 + Use Makefile to run project tasks.
 
-Although NPM is the package management tool for NodeJS, it's also great for frontend development. Later, we'll learn how to organize JavaScript:
+Although NPM is the package management tool for NodeJS, it's also great for frontend development.
+
+This week we won't need to use too much JavaScript. Next week, we'll learn more advanced ways to organize JavaScript:
 
 + Instead of one big JS file, write smaller CommonJS modules.
 + Use `browserify` to combine JavaScript modules into a bundle.
@@ -25,7 +29,7 @@ Before you start, make sure that your NodeJS version is recent enough.
 
 ```
 $ node -v
-v2.5.0
+v4.2.1
 ```
 Versions 2, 3, 4, or above should be ok.
 
@@ -73,8 +77,8 @@ Resources:
 Before we start working on the project, we should add some CSS to solve common cross-browser problems:
 
 + Use [PostCSS](https://github.com/postcss/postcss) to add features to standard CSS.
-+ Use [autoprefixer](https://github.com/postcss/autoprefixer) to add vendor prefixes automatically.
-+ Include [normalizer.css](http://necolas.github.io/normalize.css) to fix browser inconsistencies.
++ Use [autoprefixer](https://github.com/postcss/autoprefixer) to automatically add vendor prefixes to properties.
++ Include [normalizer.css](http://necolas.github.io/normalize.css) to minimize browser inconsistencies.
 
 Furthermore, to make CSS layout easier, we'll adopt the ReactNative's flexbox settings:
 
@@ -84,6 +88,6 @@ We'll talk about what these settings mean in the next lesson. Don't worry if you
 
 Resources:
 
-+ Check [Can I Use](http://caniuse.com) for browser compatibility.
++ Check [Can I Use](http://caniuse.com) for browser support.
 
 
