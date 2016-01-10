@@ -3,8 +3,6 @@
 ## 暖身周
 
 #overview
-  [> react-ecosystem][GraphQL+Relay+Flux+React 什么鬼？]
-
   这次训练营大家的背景都不太一样，后端，移动端，前端都有。许多同学使用过类似 Bootstrap 的框架来实现页面，但没有从零开始，自己做布局的经验。
 
   这周我们会一起完成一个包含滚动效果的营销页面：
@@ -31,18 +29,19 @@
 
   这个预设和 ReactNative 的盒子模型一致，使用起来其实也可以避免不少坑。
 
-  最后，纯粹为了好玩，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过.
+  最后，纯粹为了好玩，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过。
 
+  如果你比较少接触前端或移动端产品，开始之前你可以看看:
+
+  [What Is Responsive Design](responsive-design) [中文版](responsive-design/lang?=cn)
 
 #lesson[day=1 name=create-project project=ilovereact]
-#lesson[day=2 name=responsive-design project=ilovereact]
-#lesson[day=3 name=flexbox project=ilovereact]
-#lesson[day=4 name=absolute-positioning project=ilovereact]
-#lesson[day=5 name=js-bling-bling project=ilovereact]
-#lesson[day=6 name=scrollmagic project=ilovereact]
+#lesson[day=2 name=flexbox project=ilovereact]
+#lesson[day=3 name=absolute-positioning project=ilovereact]
+#lesson[day=4 name=js-bling-bling project=ilovereact]
+#lesson[day=5 name=scrollmagic project=ilovereact]
 
-
-## 第一周
+## 第 1 周
 
 #overview
   暖身周大家对 Flexbox 和 CommonJS 模块有了认识，这周我们会使用 React 来实现一个购物车：
@@ -65,8 +64,6 @@
 #lesson[day=4 name=buyshoes-commonjs project=buyshoes]
 
 ## 第 2 周
-
-## 第 3 周
 
 #lesson[day=2 name=buyshoes-flux project=buyshoes]
 #lesson[day=4 name=buyshoes-flux-store-connector project=buyshoes]
