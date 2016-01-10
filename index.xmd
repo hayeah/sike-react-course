@@ -27,13 +27,13 @@
   }
   ```
 
-  这个预设和 ReactNative 的盒子模型一致，使用起来其实也可以避免不少坑。
+  这个预设和 ReactNative 的盒子模型一致，用起来可以避免不少常见的 CSS 坑。
 
-  最后，纯粹为了好玩，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过。
+  最后，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过。
 
-  如果你比较少接触前端或移动端产品，开始之前你可以看看:
+  如果你比较少接触前端或移动端产品，开始之前你可以了解一下适用于移动端的布局思路:
 
-  [> responsive-design][What Is Responsive Design] [> responsive-design/lang?=cn][中文版]
+  <a href="responsive-design">What Is Responsive Design<a> <a href="responsive-design/lang?=cn">中文版<a>
 
 #lesson[day=1 name=create-project project=ilovereact]
 #lesson[day=2 name=flexbox project=ilovereact]
