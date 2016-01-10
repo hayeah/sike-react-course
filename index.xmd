@@ -33,7 +33,7 @@
 
   如果你比较少接触前端或移动端产品，开始之前你可以了解一下适用于移动端的布局思路:
 
-  <a href="responsive-design">What Is Responsive Design<a> <a href="responsive-design/lang?=cn">中文版<a>
+  <a href="responsive-design">What Is Responsive Design<a> <a href="responsive-design/?lang=cn">中文版<a>
 
 #lesson[day=1 name=create-project project=ilovereact]
 #lesson[day=2 name=flexbox project=ilovereact]
