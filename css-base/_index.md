@@ -19,15 +19,15 @@ Furthermore, to make CSS layout easier, we'll adopt the ReactNative's flexbox se
 For this project, we just want two additional CSS features:
 
 1. `@import` to create a bundle from many CSS files.
-2. Use `autoprefix` to generate browser specific CSS property names for "experimental" features.
+2. Use `autoprefix` plugin to generate browser prefix for newer CSS properties
 
 <cn>
 # PostCSS
 
 对于这个项目，我们只想要两个 CSS 补充特性：
 
-1. `@import` 从很多 CSS 文件打包
-2. 使用 `autoprefix` 为“实验性”特性来生成特定浏览器的 CSS 属性名称。
+1. `@import` 把多个 CSS 文件汇集成包。
+2. 使用 `autoprefix` 插件自动为较新的 CSS 属性生成浏览器前缀。
 
 </cn>
 
@@ -35,23 +35,23 @@ For this project, we just want two additional CSS features:
 
 <cn>
 
-[Sass](http://sass-lang.com/) 和 [Less](http://lesscss.org/) 是最受欢迎的两个 CSS 预处理器。它们是有着大量特性（变量，循环语句，条件语句，函数）的完备语言，可以生成复杂的 CSS 样式表。我们不需要那个。
+[Sass](http://sass-lang.com/) 和 [Less](http://lesscss.org/) 是最受欢迎的两款 CSS 预处理器。它们是完整的语言，有大量特性（变量，循环语句，条件语句，函数），可以用来生成复杂的 CSS 样式表。我们不需要这么多功能。
 
 </cn>
 
-An alternative to Less/Sass is [PostCSS](https://github.com/postcss/postcss). PostCSS is not a language. It is a parser that parses the standard CSS syntax, and allows you to install JavaScript plugins to transform the CSS in different ways. With PostCSS, you can add only the features you need.
+An alternative to Less/Sass is [PostCSS](https://github.com/postcss/postcss). PostCSS is not a language. It is a parser that parses the standard CSS syntax. You can use plugins to transform the CSS language in different ways.
 
 <cn>
 
-Less/Sass 的替代品之一是 [PostCSS](https://github.com/postcss/postcss)。PostCSS 不是一种语言。它是一个解析器，解析标准 CSS 语法，而且允许你安装 JavaScript 插件通过不同方法来转换 CSS。使用 PostCSS，你可以添加你需要的功能。
+Less/Sass 的替代品之一是 [PostCSS](https://github.com/postcss/postcss)。PostCSS 不是一种语言。它是一个语法解析器，解析标准 CSS 语言。你可以通过插件来改造 CSS 语言。
 
 </cn>
 
-We'll install the [PostCSS command line tool](https://github.com/code42day/postcss-cli):
+Install the [PostCSS command line tool](https://github.com/code42day/postcss-cli):
 
 <cn>
 
-我们将安装 [PostCSS command line tool](https://github.com/code42day/postcss-cli)：
+安装 [PostCSS command line tool](https://github.com/code42day/postcss-cli)：
 
 </cn>
 
@@ -141,6 +141,19 @@ Take a look at the browser support chart for flexbox ([Can I Use: Flexbox](http:
 
 You'd see that for Safari 8 there's the note:
 
+```
+Supported with prefix: -webkit
+```
+
+That's the [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix) for Safari 8. Instead of writing:
+
+```css
+.a-flexible-row {
+  flex-direction: row;
+}
+```
+
+
 <cn>
 
 # 浏览器引擎前缀 （Verdor Prefix）
@@ -149,37 +162,13 @@ You'd see that for Safari 8 there's the note:
 
 ![](vendor-prefix.png)
 
-你应该看到对于 Safari 8 有一个注释：
-
-</cn>
+你能看到对于 Safari 8 有一个注释：
 
 ```
 Supported with prefix: -webkit
 ```
 
-<cn>
-
-```
-Supported with prefix: -webkit
-```
-
-</cn>
-
-That's the [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix) for Safari 8. Instead of writing:
-
-<cn>
-
-那是 Safari 8 的 [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix)。不要这样写：
-
-</cn>
-
-```css
-.a-flexible-row {
-  flex-direction: row;
-}
-```
-
-<cn>
+这既是 Safari 8 的 [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix)。这样写是不行的：
 
 ```css
 .a-flexible-row {
@@ -189,11 +178,11 @@ That's the [vendor prefix](https://developer.mozilla.org/en-US/docs/Glossary/Ven
 
 </cn>
 
-You need to add the vendor prefix for every browser you support. The CSS rule might look like:
+Different browser engines have different vendor prefixes, and you need vendor prefixes for all the browsers you need to support. Your CSS rule might look like:
 
 <cn>
 
-你需要为每个你支持的浏览器添加浏览器引擎前缀。 这条 CSS 规则也许看起来是这样：
+每个浏览器引擎都有自己的前缀，而你需要为每个你支持的浏览器添加前缀。 这条 CSS 规则该写成这样：
 
 </cn>
 
@@ -234,7 +223,7 @@ So you'll need to:
 
 <cn>
 
-你将需要做：
+你要：
 
 + 了解哪些特性需要浏览器引擎前缀。
 + 记得在每一处你用到这些特性的地方添加这些前缀。
@@ -251,7 +240,7 @@ To install autoprefixer:
 
 <cn>
 
-把这些事情做对很显然相当复杂。[autoprefixer](https://github.com/postcss/autoprefixer)  工具自动给你添加浏览器引擎前缀。另外，它使用一个 [浏览器市场占有率数据库](https://github.com/ai/browserslist) 来决定某个特殊的特性是否仍旧需要浏览器引擎前缀。
+把这些事情做对很显然相当复杂。[autoprefixer](https://github.com/postcss/autoprefixer)  工具自动给你添加浏览器引擎前缀。另外，它使用一个 [浏览器市场占有率数据库](https://github.com/ai/browserslist) 来决定某个特殊的特性是否仍旧需要为某个浏览器添加前缀。
 
 安装 autoprefixer：
 
@@ -281,11 +270,11 @@ Add the [ReactNative flexbox settings](https://github.com/facebook/css-layout#de
 
 ### 练习：在全局使用 Flexbox
 
-虽然 ReactNative 实现了 flexbox，但是它使用了一种与浏览器不同的 flexbox 默认设置。一个巨大的区别是在 ReactNative 中元素默认从上到下排列，但是在浏览器中默认是从左到右排列。
+虽然 ReactNative 实现了 flexbox，但是它使用了与浏览器不同的 flexbox 默认设置。一个很大的差别是 ReactNative 的元素默认的布局是由上到下排列，但是在浏览器中默认是由左到右排列。
 
-结果是 ReactNative 的设定更加友好，所以让我们使浏览器表现出同样的行为。
+其实 ReactNative 的设定更好用，所以让我们使浏览器表现出同样的行为。
 
-添加 [ReactNative flexbox settings](https://github.com/facebook/css-layout#default-values) 到文件 `css/app.css` 中:
+请添加 [ReactNative flexbox settings](https://github.com/facebook/css-layout#default-values) 到这个文件 `css/app.css`:
 
 </cn>
 
@@ -327,11 +316,11 @@ body, div, span {
 
 </cn>
 
-Run this command to transform your css file:
+Run the `postcss` command to transform your css file:
 
 <cn>
 
-运行这个命令来转换你的 CSS 文件：
+运行 postcss 命令来转换你的 CSS 文件：
 
 </cn>
 
@@ -353,7 +342,7 @@ You'd see in `bundle/app.css` the auto prefixed CSS properties:
 
 <cn>
 
-你可以看到在 `bundle/app.css` 中，自动添加前缀的 CSS 属性：
+你可以看到在 `bundle/app.css` 中有添加了前缀的 CSS 属性：
 
 </cn>
 
@@ -429,11 +418,11 @@ body, div, span {
 
 </cn>
 
-Link to `bundle/app.css` in the `head` element:
+Load `bundle/app.css` in the `head` element:
 
 <cn>
 
-在 `head` 元素中关联 `bundle/app.css`：
+在 `head` 元素中加载 `bundle/app.css`：
 
 </cn>
 
@@ -473,7 +462,7 @@ Don't worry if you don't understand what these properties do. We'll learn about 
 
 <cn>
 
-如果你不理解这些属性的作用，不要担心。我们会很快学习它们的！
+如果你不理解这些属性的作用，不要担心。我们会很快学到它们！
 
 </cn>
 
@@ -481,15 +470,15 @@ Don't worry if you don't understand what these properties do. We'll learn about 
 
 Browsers can behave subtly differently from each other. [normalize.css](https://github.com/necolas/normalize.css) makes browsers behave more alike. For example, did you know that in IE 8/9/10  `img` would have a border if it's inside an `a` element?
 
-normalize.css includes the fix for that:
+normalize.css includes the fix for this problem:
 
 <cn>
 
 # normalize.css
 
-浏览器行为表现彼此略有不同。[normalize.css](https://github.com/necolas/normalize.css) 使浏览器行为更相似。举个例子，你以前知道在 IE 8/9/10 中，如果 `img` 在一个 `a` 元素内，它会有边框这件事吗？
+浏览器行为表现彼此略有不同。[normalize.css](https://github.com/necolas/normalize.css) 使浏览器的行为更相似。举个例子，你以前知道在 IE 8/9/10 中，如果 `img` 在一个 `a` 元素内，它会有边框这件事吗？
 
-normalize.css 包含了对于那个问题的修复：
+normalize.css 包含了对于这个问题的修复：
 
 </cn>
 
@@ -511,11 +500,11 @@ img {
 
 </cn>
 
-It also define HTML5 elements:
+It also defines HTML5 elements:
 
 <cn>
 
-它也会定义 HTML5 元素：
+它也定义了 HTML5 元素：
 
 </cn>
 
@@ -561,11 +550,11 @@ summary {
 
 </cn>
 
-Install it with npm:
+Install normalize.css with npm:
 
 <cn>
 
-使用 npm 安装它：
+使用 npm 安装 normalize.css：
 
 </cn>
 
@@ -583,7 +572,7 @@ npm install --save normalize.css@3.0.3
 
 ### Exercise: Include normalize.css
 
-Instead of using another `link` element to, let's use the [postcss-import](https://github.com/postcss/postcss-import) plugin to import normalize.css.
+Instead of using another `link` element to load normalize.css, let's use the [postcss-import](https://github.com/postcss/postcss-import) plugin to import normalize.css.
 
 Install `postcss-import`:
 
@@ -613,7 +602,7 @@ normalize.css is installed at `node_modules/normalize.css/normalize.css`. In `cs
 
 <cn>
 
-normalize.css 被安装在 `node_modules/normalize.css/normalize.css`。在 `css/app.css` 里我们可以导入 normalize.css:
+normalize.css 被安装在 `node_modules/normalize.css/normalize.css`。在 `css/app.css` 里我们用相对路径导入 normalize.css:
 
 </cn>
 
@@ -657,9 +646,9 @@ Because normalize.css is installed in the `node_modules` directory, you can actu
 
 <cn>
 
-你现在应该可以看到在 `bundle/app.css` 中的 normalize.css 了。
+你现在应该可以看到在打包完成的 `bundle/app.css` 中包含了 normalize.css。
 
-因为 normalize.css 被安装在 `node_modules` 目录里，你实际上可以使用包名称来导入它：
+因为 normalize.css 被安装在 `node_modules` 目录里，你其实还可以使用包的名称来导入它：
 
 </cn>
 
