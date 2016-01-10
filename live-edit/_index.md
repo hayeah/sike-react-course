@@ -8,9 +8,9 @@ Let's use npm to install BrowserSync 2.9.3:
 
 # 安装 BrowserSync
 
-[BrowserSync](http://www.browsersync.io) 是一个实时编辑工具。当你修改一个文件时，浏览器会自动刷新。如果你有两个屏幕（你应该有！），这会相当有用，这样你可以把浏览器放在一个屏幕上，把编辑器放在另一个上。
+[BrowserSync](http://www.browsersync.io) 是一个实时编辑工具。当你修改一个文件时，浏览器会自动刷新。有两个屏幕（买买买！）实在很爽，这样你可以把浏览器放在一个屏幕上，把编辑器放在另一个上。
 
-让我们使用 npm 安装  BrowserSync 2.9.3：
+让我们用 npm 安装 BrowserSync 2.9.3：
 
 </cn>
 
@@ -142,7 +142,7 @@ BrowserSync is one single package, but it also depends on MANY other packages, a
 
 <cn>
 
-BrowserSync 是一个单独的包，但是它也依赖于**很多**其他的包，而且这些包也有它们自己的依赖。我们可以通过运行 `npm ls` 看到依赖树：
+BrowserSync 是一个单独的包，但是它也依赖于 <u>很多</u> 其他的包，而且这些包也有它们自己的依赖。我们可以通过运行 `npm ls` 看到依赖树：
 
 </cn>
 
@@ -219,7 +219,7 @@ browser-sync
 
 <cn>
 
-如果一个 NPM 包是一个命令行工具，可执行文件会被安装在 `node_modules/.bin` 目录中。
+假如某个 NPM 包是一个命令行工具，可执行文件会被安装在 `node_modules/.bin` 这个目录。
 
 ```
 $ ls node_modules/.bin
@@ -250,7 +250,7 @@ Live CSS Reload & Browser Syncing
 
 <cn>
 
-我们可以使用 `--help` 选项运行可执行文件来查看帮助信息：
+执行命令时我们可以加上 `--help` 选项来查看帮助信息：
 
 ```
 $ ./node_modules/.bin/browser-sync --help
@@ -287,9 +287,9 @@ $ echo $PATH
 
 ### PATH 环境变量
 
-为了实现输入 `browser-sync` 而不是完整路径 `./node_modules/.bin/browser-sync`，我们需要修改 PATH 环境变量，使得系统可以找到 `browser-sync`。
+为了可以用 `browser-sync` 来执行命令，而不是完整路径 `./node_modules/.bin/browser-sync`，我们需要修改 PATH 环境变量。这样系统才能找到 `browser-sync` 这个命令。
 
-首先，让我们看一看 `PATH` 的当前值：
+首先，让我们看看 `PATH` 的当前值：
 
 ```
 $ echo $PATH
@@ -298,7 +298,7 @@ $ echo $PATH
 
 </cn>
 
-If you type the `foo` command, the system searches for `foo` in the following order:
+If you type the `foo` command, the system searches `foo` the following directories one after another:
 
 ```
 /usr/local/sbin
@@ -312,7 +312,7 @@ If you type the `foo` command, the system searches for `foo` in the following or
 
 <cn>
 
-如果你输入 `foo` 命令，系统在下面的顺序中查找 `foo`：
+如果你输入 `foo` 命令，系统会按顺序在以下目录里查找 `foo`：
 
 ```
 /usr/local/sbin
@@ -351,7 +351,7 @@ $ browser-sync --version
 
 <cn>
 
-现在，执行 `browser-sync` 应该工作了：
+现在，执行 `browser-sync` 应该可以工作了：
 
 ```
 $ browser-sync --version
@@ -360,7 +360,7 @@ $ browser-sync --version
 
 </cn>
 
-To make this permanent, add to your shell's startup file:
+To make the PATH permanent, add to your shell's startup file:
 
 ```
 # ~/.bashrc or ~/.zshrc
@@ -369,7 +369,7 @@ export PATH=$PATH:./node_modules/.bin
 
 <cn>
 
-为了把它持久化，添加到你的 shell 的启动文件中：
+把 PATH 设定持久化，添加到你的命令行的启动文件中：
 
 ```
 # ~/.bashrc or ~/.zshrc
@@ -424,7 +424,7 @@ $ browser-sync start --server --files=index.html
 
 </cn>
 
-+ `--files=index.html` specifies that if the file `index.html` changes, refresh the browser automatically.
++ `--files=index.html` monitors `index.html` for changes, and refreshes the browser automatically.
 
 Use the browser to open `http://localhost:3002`, and you can start editing live!
 
@@ -434,69 +434,86 @@ Try changing `Hello World` to `Make Everything With React!`.
 
 <cn>
 
-+ `--files=index.html` 指定如果 `index.html` 改变了，自动刷新浏览器。
++ `--files=index.html` 监听 `index.html`，一旦改变了会自动刷新浏览器。
 
 使用浏览器打开 `http://localhost:3002`，你可以开始实时编辑了！
 
 尝试把 `Hello World` 改为 `Make Everything With React!`。
 
-当你搞定的时候使用 `Ctrl-C` 来关闭服务器。
+使用完毕后用 `Ctrl-C` 来关闭服务器。
 
 </cn>
 
 # Makefile
 
-For small projects, a Makefile is much simpler to get started with than Grunt/Gulp/Webpack. There are tasks you need to run frequently, like compiling JavaScript, bundling, or running BrowserSync. The command you need to run can get longer and more complicated. These tasks are perfect inside a Makefile.
+For small projects, a Makefile is much simpler to get started with than Grunt/Gulp/Webpack. There are tasks you need to run frequently, like compiling JavaScript, bundling, or running BrowserSync. The commands for the tasks you need to run can be long and complicated. Put these tasks in the Makefile can simplify your life.
 
 <cn>
 
 # Makefile
 
-对于小项目，Makefile 比 Grunt/Gulp/Webpack 容易上手多了。有一些任务你需要经常运行，比如编译 JavaScript，打包，或者运行 BrowserSync。你需要运行的命令可以更长更复杂。这些在 Makefile 中得任务很完美。
+对于小项目来说，Makefile 比 Grunt/Gulp/Webpack 容易上手多了。你会有些经常需要运行的任务，比如编译 JavaScript，打包，或者运行 BrowserSync。这些任务的命令可能更长更复杂，把它们放在 Makefile 里会很方便。
 
 </cn>
 
 ### Exercise: Create the `Makefile`.
 
+Create a file called `Makefile` at the root of your project directory. We define the task `server` like this:
+
+```
+.PHONY: server
+server:
+  browser-sync start --server --files=index.html
+```
+
+Note that the space in front of the command MUST BE A TAB!
+
+```
+.PHONY: server
+server:
+<tab>browser-sync start --server --files=index.html
+```
+
+Now you can use make to run  browser-sync:
+
+```
+make server
+```
+
 <cn>
 
 ### 练习：创建 `Makefile`。
 
-</cn>
+在项目的根目录创建一个命名为 `Makefile` 的文件。我们可以这样定义 `server` 这个任务：
 
 ```
-# Makefile
 .PHONY: server
 server:
-  # WARNING: The indentation MUST be a tab. Spaces won't work.
   browser-sync start --server --files=index.html
 ```
 
-<cn>
+注意，命令之前的空白<u>必须是 TAB</u>
 
 ```
-# Makefile
 .PHONY: server
 server:
-  # WARNING: The indentation MUST be a tab. Spaces won't work.
-  browser-sync start --server --files=index.html
+<tab>browser-sync start --server --files=index.html
 ```
 
-</cn>
-
-Now you can run browser-sync this way:
+现在你可以用 make 运行 browser-sync：
 
 ```
 make server
 ```
 
-<cn>
-
-现在你可以通过这种方式运行 browser-sync：
+Note: If you use spaces instead of tab, you'd get this error,
 
 ```
 make server
+Makefile:3: *** missing separator.  Stop.
 ```
+
+### Phony Target
 
 </cn>
 
@@ -506,8 +523,7 @@ The Makefile tutorials out there are mostly for C/C++ projects. See: [Using GNU 
 
 <cn>
 
-一个 Makefile “规则” 通常会创建作为输出的文件。`.PHONY: server` 是说 `server` 是一个任务，而且并不创建文件。
+一个 Makefile “规则” 通常会创建作为输出的文件。`.PHONY: server` 是说 `server` 是一个任务，并不会输出文件。
 
 市面上的 Makefile 教程几乎都是关于 C/C++ 项目的。查看一个不错的介绍：[Using GNU Make as a Front-end Development Build Tool](http://www.sitepoint.com/using-gnu-make-front-end-development-build-tool/)
-
 </cn>
