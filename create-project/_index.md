@@ -1,3 +1,5 @@
+# Setup A Frontend Project
+
 We are going to setup a frontend project from scratch. It's tedious to setup a project. But if you are new to frontend development, it's a good way to learn the basics before you start using a more complicated build tool.
 
 There are too many different project build tools out there. Even worse, a new build tool becomes popular every other week! It's impossible to keep up.
@@ -5,6 +7,8 @@ There are too many different project build tools out there. Even worse, a new bu
 All these build tools, though, share same basic ideas. We'll show you these basic ideas, so that no matter which build tool you eventually use (Grunt, Gulp, Webpack), you'd be able learn them quickly.
 
 <cn>
+
+# 初始化一个前端项目
 
 我们将要从零开始建立一个前端项目。建立一个项目的过程很乏味。但是如果你刚接触前端开发，这是一个在你开始使用更复杂的工具前，学习基础的好方法。
 
