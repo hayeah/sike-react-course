@@ -181,7 +181,7 @@ Then we create the git repo:
 ```
 $ git init
 Initialized empty Git repository in ilovereact/.git/
-$ git add *
+$ git add .
 $ git commit -m "Project init"
 [master (root-commit) d7a71e7] Project init
  1 file changed, 11 insertions(+)
@@ -195,7 +195,7 @@ $ git commit -m "Project init"
 ```
 $ git init
 Initialized empty Git repository in ilovereact/.git/
-$ git add *
+$ git add .
 $ git commit -m "Project init"
 [master (root-commit) d7a71e7] Project init
  1 file changed, 11 insertions(+)
