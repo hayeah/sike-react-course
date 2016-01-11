@@ -1,6 +1,8 @@
 # Layout With Flexbox
 
-The original CSS [visual rendering model](http://www.w3.org/TR/WD-CSS2/cover.html#toc) was drafted in 1998, at a time when most pages were documents, and making apps that runs in the browser was a radical idea. The web had evolved multiple times since then, yet we still use the same dated layout engine from 1998. CSS2 is proven technology, there is a huge body of community knowledge, but it's a huge pain.
+The original CSS [visual rendering model](http://www.w3.org/TR/WD-CSS2/cover.html#toc) was drafted in 1998, at a time when most pages were documents, and making apps that runs in the browser was a radical idea.
+
+The web had evolved multiple times since then, yet we still use the same dated layout engine from 1998. CSS2 is proven technology, there is a huge body of community knowledge, but it's a huge pain.
 
 For example, if you want to vertically center some content, there isn't one way to do it, but many different ways that only work in special circumstances:
 
@@ -18,7 +20,7 @@ It does take practice to use flexbox well. But compared to traditional layout wi
 
 ### Our Mission
 
-In this lesson we'll use flexbox to implement the basic layout of our web page:
+In this lesson we'll use flexbox to implement the basic layout of our page:
 
 ![](ilove-react-layout-only.jpg)
 
@@ -38,7 +40,7 @@ If you don't have Sketch, you can download the annotated design:
 
 # Download Design Assets
 
-You can download all the design assets from the repo:
+Download all the design assets from the repo:
 
 [hayeah/iLoveReact-assets](https://github.com/hayeah/iLoveReact-assets)
 
@@ -58,32 +60,39 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 
   ![](flex-direction.jpg)
 
-+ `align-items` and `justify-content` - controls how the children should be arranged in the parent container.
++ Centering children both horizontally and vertically in a container:
+
+  ![](flex-centering.jpg)
+
++ `align-items` and `justify-content` - centering the children in the parent container, or put them against the edge.
 
   ![](flex-align-justify.jpg)
 
 
-+ To center items both horizontally and vertically in a container:
-
-  ![](flex-centering.jpg)
 
 
+Pay special attention to the last example. Observe how `flex-direction` affects the behaviour of align-items and justify-content.
 
-
-The alignment properties `align-items` and `justify-content` are very easy to mix up.
+Imagine that flex-direction is an arrow pointing in the layout direction.
 
 + `justify-content` - controls where the items should be on the arrow.
   + This is the "main-axis" of the flex container.
 + `align-items` - controls where the arrow should be in the container.
   + This is the "cross-axis" of the flex container.
 
+`align-items` and `justify-content` are very easy to mix up.
 
 
-So `align-items: center` could mean horizontal centering or vertical centering depending on what the flex-direction is. One trick to help us remember is by understanding the `align-self` property.
+
+So `align-items: center` could mean horizontal centering or vertical centering depending on what the flex-direction is.
+
+### Align Self
 
 `align-self` can give a different `align-item` value to a particular item in a flex container.
 
+![](flex-align-self.jpg)
 
+The CSS is like:
 
 ```css
 .container {
@@ -99,18 +108,6 @@ So `align-items: center` could mean horizontal centering or vertical centering d
 ```
 
 
-
-What should `align-self` do? `align-self` should not move the item along the flex-direction (the main-axis), otherwise the order of the `.red` element would change:
-
-![](align-self-bad-design.jpg)
-
-
-
-`align-self` should move the item cross-axially so the horizontal order of the row stays the same:
-
-![](flex-align-self.jpg)
-
-Following this reasoning, it's easy to remember which direction `align-self` is. And `align-items` must be in the same direction as `align-self`.
 
 
 
@@ -164,9 +161,7 @@ a:hover {
 
 There are four sections in this web page. You should make each section as tall and as wide as the screen.
 
-To make them easier to see, you could temporarily set their background to red:
-
-
+To make them easier to see while you are debugging, you could temporarily set their background to red:
 
 ```css
 .section {
@@ -175,7 +170,10 @@ To make them easier to see, you could temporarily set their background to red:
 }
 ```
 
+Hint: The `%` unit is the most conventional way to do this. You could also try the newer vw/vh unit.
 
++ [Make div 100% height of browser window](http://stackoverflow.com/questions/1575141/make-div-100-height-of-browser-window)
++ [Can I Use: Viewport Units vw/vh](http://caniuse.com/#feat=viewport-units)
 
 The sections should look like:
 
@@ -211,7 +209,7 @@ Since items in a single flex container can only flow in one direction, you need 
 
 
 + Add a horizontal flex container to hold the navigation links.
-+ Add padding to space them apart.
++ Add padding to space the links apart.
 
 Add these internal links:
 
@@ -291,13 +289,15 @@ There are two properties you can set to make a flexbox bigger than its content:
 
 
 
-Like `align-items` and `justify-content`, their behaviour depends on the flex direction:
+Their behaviour also depends on the flex direction:
 
 ![](flex-and-stretch.jpg)
 
 
 
 Why is `flex-grow` a number? If `flex-grow` is 0, that element doesn't grow. Otherwise, the number is the proportion an element should stretch to fill the available space.
+
+
 
 ![](flex-grow-factor.jpg)
 
@@ -336,6 +336,8 @@ You result:
 
 Note: Make sure these containers are empty. If the amount of content in one container is more than the other, then one container would be bigger than the other.
 
+In the screenshot below, the right container is wider than the left container, because the text is a bit longer in the right.
+
 ![](flex-basis-auto.jpg)
 
 We'll fix this problem in the next exercise.
@@ -350,8 +352,6 @@ The size of a flexbox is determined by two factors:
 2. How much free space there is in the parent container. If `flex-grow` is non-zero, grow to fill the space.
 
 If a flexbox is allowed to grow, it would grow as much as possible to fit the content. Let's add more content to the right container:
-
-
 
 ```html
 <div class="feature-description">

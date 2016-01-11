@@ -1,6 +1,8 @@
 # Layout With Flexbox
 
-The original CSS [visual rendering model](http://www.w3.org/TR/WD-CSS2/cover.html#toc) was drafted in 1998, at a time when most pages were documents, and making apps that runs in the browser was a radical idea. The web had evolved multiple times since then, yet we still use the same dated layout engine from 1998. CSS2 is proven technology, there is a huge body of community knowledge, but it's a huge pain.
+The original CSS [visual rendering model](http://www.w3.org/TR/WD-CSS2/cover.html#toc) was drafted in 1998, at a time when most pages were documents, and making apps that runs in the browser was a radical idea.
+
+The web had evolved multiple times since then, yet we still use the same dated layout engine from 1998. CSS2 is proven technology, there is a huge body of community knowledge, but it's a huge pain.
 
 For example, if you want to vertically center some content, there isn't one way to do it, but many different ways that only work in special circumstances:
 
@@ -10,9 +12,11 @@ For example, if you want to vertically center some content, there isn't one way 
 
 # Flexbox 布局
 
-最初的 CSS [可视化渲染模型](http://www.w3.org/TR/WD-CSS2/cover.html#toc) 起草与 1998 年。在当时大部分页面都是文件类型，制作运行在浏览器中的应用还是一个相当激进的想法。从那时, Web 已经有了多次的进化，但是我们仍旧用着来自 1998 年陈旧的的布局引擎。虽然说 CSS2 是被一个通用的技术，社区有巨大的知识沉淀，但开发起来实在是个巨大的痛苦。
+最初的 CSS [可视化渲染模型](http://www.w3.org/TR/WD-CSS2/cover.html#toc) 起草于 1998 年。当时页面大多只是文件类型，制作能在浏览器中运行的应用还是一个相当激进的想法。
 
-举个例子，如果你想垂直居中些内容，CSS2 并没有一种通用的方法来做这个布局。不通的     情况可能需要不同的方法：
+多年以来 Web 有了多次的进化，但是我们仍然用着来自 1998 年陈旧的的布局引擎。虽然说 CSS2 是被一个通用的技术，社区也有巨大的知识沉淀，但开发起来实在是个巨大的痛苦。
+
+举个例子，如果你想垂直居中些内容，CSS2 并没有一种通用的方法来做这个布局。不同情况有特有的解决方式：
 
 ![](css-vertical-centering.jpg)
 
@@ -26,7 +30,7 @@ It does take practice to use flexbox well. But compared to traditional layout wi
 
 <cn>
 
-为了成为一名称职的前端开发者，你需要去学习各种各样古怪、丑陋、不自然的小技巧来处理不同的布局需求。
+要成为一名称职的前端开发者，你需要去学习各种各样古怪、丑陋、不自然的小技巧来处理不同的布局需求。
 
 相比之下，Flexbox 是专门为现代 Web UI 设计的布局机制。它并不简单。和其他复杂的布局系统一样，使用的时候你可能会遇到出乎意料的布局结果。但是几乎所有情况下，“奇怪” 的布局行为总有一个简单的解释。
 
@@ -36,7 +40,7 @@ Flexbox 还是需要多上手才能用好。但是相比于传统 CSS 布局方�
 
 ### Our Mission
 
-In this lesson we'll use flexbox to implement the basic layout of our web page:
+In this lesson we'll use flexbox to implement the basic layout of our page:
 
 ![](ilove-react-layout-only.jpg)
 
@@ -44,7 +48,7 @@ In this lesson we'll use flexbox to implement the basic layout of our web page:
 
 ### 我们的任务
 
-在本次课程中我们将用 flexbox 实现 web 页面的基本布局：
+在本课程我们将用 flexbox 实现页面的基本布局：
 
 ![](ilove-react-layout-only.jpg)
 
@@ -68,7 +72,7 @@ If you don't have Sketch, you can download the annotated design:
 
 [ilovereact-plain.sketch](ilovereact-plain.sketch)
 
-如果你没有 Sketch，你可以下载带有注解的设计：
+如果你没有 Sketch，你可以下载带有注解的设计效果图：
 
 [![](annotated-layout.jpg)](annotated-layout.jpg)
 
@@ -76,7 +80,7 @@ If you don't have Sketch, you can download the annotated design:
 
 # Download Design Assets
 
-You can download all the design assets from the repo:
+Download all the design assets from the repo:
 
 [hayeah/iLoveReact-assets](https://github.com/hayeah/iLoveReact-assets)
 
@@ -86,7 +90,7 @@ Add these images to the `img` directory in your project.
 
 # 下载设计资源
 
-你可以从这个仓库下载所有的设计资源：
+从这个仓库下载所有的设计资源：
 
 [hayeah/iLoveReact-assets](https://github.com/hayeah/iLoveReact-assets)
 
@@ -106,7 +110,7 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 
 [Flexbox 完整指南](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) 里有所有和 Flexbox 的相关 CSS 属性的总结。这篇文章的讲解对于初次接触 Flexbox 来说信息量有点过大，很难一次消化。
 
-因此，我们先挑 Flexbox 的三个属性开始介绍：`flex-direction`，`align-items`，`justify-content`。
+因此，我们先选这三个 Flexbox 属性开始介绍：`flex-direction`，`align-items`，`justify-content`。
 
 </cn>
 
@@ -114,62 +118,64 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 
   ![](flex-direction.jpg)
 
-+ `align-items` and `justify-content` - controls how the children should be arranged in the parent container.
-
-  ![](flex-align-justify.jpg)
-
-
-+ To center items both horizontally and vertically in a container:
++ Centering children both horizontally and vertically in a container:
 
   ![](flex-centering.jpg)
+
++ `align-items` and `justify-content` - centering the children in the parent container, or put them against the edge.
+
+  ![](flex-align-justify.jpg)
 
 <cn>
 
-+ `flex-direction` - 决定子元素是水平排列还是垂直排列。
++ `flex-direction` - 控制子元素是水平排列还是垂直排列。
 
   ![](flex-direction.jpg)
 
-+ `align-items` 和 `justify-content` - 控制着子元素在父容器中如何布局。
-
-  ![](flex-align-justify.jpg)
-
-
-+ 把元素在容器里同时水平和垂直居中的姿势：
++ 在容器里同时水平和垂直居中元素：
 
   ![](flex-centering.jpg)
+
++ `align-items` 和 `justify-content` - 在父容器中居中元素，或者靠边。
+
+  ![](flex-align-justify.jpg)
 
 </cn>
 
 
-The alignment properties `align-items` and `justify-content` are very easy to mix up.
+Pay special attention to the last example. Observe how `flex-direction` affects the behaviour of align-items and justify-content.
+
+Imagine that flex-direction is an arrow pointing in the layout direction.
 
 + `justify-content` - controls where the items should be on the arrow.
   + This is the "main-axis" of the flex container.
 + `align-items` - controls where the arrow should be in the container.
   + This is the "cross-axis" of the flex container.
 
+`align-items` and `justify-content` are very easy to mix up.
+
 <cn>
 
-`align-items` 和 `justify-content` 着两个属性很容易混淆。
+看看最后这个例子。注意，`flex-direction` 属性影响了 align-items 和 justify-content 的效果。把 flex-direction 想象为一个箭头，指向元素布局的方向。
 
 + `justify-content` - 控制着元素应该放在箭头上的什么位置。
   + 这是 flex 容器的 “主轴”。
 + `align-items` - 控制着箭头本身应该放在容器的什么位置。
   + 这是 flex 容器的 “横轴”。
 
+`align-items` 和 `justify-content` 着两个属性很容易混淆。
+
 </cn>
 
-So `align-items: center` could mean horizontal centering or vertical centering depending on what the flex-direction is. One trick to help us remember is by understanding the `align-self` property.
+So `align-items: center` could mean horizontal centering or vertical centering depending on what the flex-direction is.
+
+### Align Self
 
 `align-self` can give a different `align-item` value to a particular item in a flex container.
 
-<cn>
+![](flex-align-self.jpg)
 
-所以说 `align-items: center` 可能根据 flex-direction 的值不同，而意味着水平居中或者垂直居中。理解 `align-self` 属性这个属性的含义可以帮助我们推理出 align-items 到底是影响垂直还是水平布局。
-
-`align-self` 可以对 Flex 容器中某个指定的元素的赋与不同的 `align-item` 值。
-
-</cn>
+The CSS is like:
 
 ```css
 .container {
@@ -184,7 +190,15 @@ So `align-items: center` could mean horizontal centering or vertical centering d
 }
 ```
 
+
+
 <cn>
+
+`align-self` 可以对 Flex 容器中某个指定的元素的赋与不同的 `align-item` 值。
+
+![](flex-align-self.jpg)
+
+CSS 大概这样：
 
 ```css
 .container {
@@ -198,36 +212,6 @@ So `align-items: center` could mean horizontal centering or vertical centering d
   align-self: flex-start;
 }
 ```
-
-</cn>
-
-What should `align-self` do? `align-self` should not move the item along the flex-direction (the main-axis), otherwise the order of the `.red` element would change:
-
-![](align-self-bad-design.jpg)
-
-<cn>
-
-以设计的角度来说，`align-self` 应该做什么？`align-self` 不应该把 item 沿着 flex-direction（主轴）移动，否则 `.red` 元素的顺序可能会改变：
-
-![](align-self-bad-design.jpg)
-
-</cn>
-
-`align-self` should move the item cross-axially so the horizontal order of the row stays the same:
-
-![](flex-align-self.jpg)
-
-Following this reasoning, it's easy to remember which direction `align-self` is. And `align-items` must be in the same direction as `align-self`.
-
-<cn>
-
-`align-self` 应该把元素按照横轴的方向移动，因此保持元素的顺序:
-
-![](flex-align-self.jpg)
-
-了解了这个道理就能记住 `align-self` 的方向。而 `align-items` 理应和 `align-self` 的方向相同。
-
-道理是这样的。现实情况还是会搞混。试试看，效果对了就好啦~
 
 </cn>
 
@@ -325,19 +309,7 @@ a:hover {
 
 There are four sections in this web page. You should make each section as tall and as wide as the screen.
 
-To make them easier to see, you could temporarily set their background to red:
-
-<cn>
-
-# 页面布局
-
-### 练习：页面的部分
-
-这个网页有四个部分。你应该让每个章节的宽高和屏幕一样。
-
-为了让它们可见度更高，你可以暂时把它们的背景设为红色半透明：
-
-</cn>
+To make them easier to see while you are debugging, you could temporarily set their background to red:
 
 ```css
 .section {
@@ -346,16 +318,10 @@ To make them easier to see, you could temporarily set their background to red:
 }
 ```
 
-<cn>
+Hint: The `%` unit is the most conventional way to do this. You could also try the newer vw/vh unit.
 
-```css
-.section {
-  background-color: rgba(255,0,0,0.3);
-  border: 2px solid #FFF;
-}
-```
-
-</cn>
++ [Make div 100% height of browser window](http://stackoverflow.com/questions/1575141/make-div-100-height-of-browser-window)
++ [Can I Use: Viewport Units vw/vh](http://caniuse.com/#feat=viewport-units)
 
 The sections should look like:
 
@@ -363,7 +329,27 @@ The sections should look like:
 
 <cn>
 
-这些区域块应该看起来这样：
+# 页面布局
+
+### 练习：页面的章节
+
+这个网页有四个章节 (`<section>`)。你应该让每个章节的宽高和屏幕一样。
+
+在调试时，为了让它们可见度更高，你可以暂时把它们的背景设为红色半透明：
+
+```css
+.section {
+  background-color: rgba(255,0,0,0.3);
+  border: 2px solid #FFF;
+}
+```
+
+提示：`%` 单位是最普遍使用的全屏方案。你也可以试试新的 vw/vh 单位。
+
++ [Make div 100% height of browser window](http://stackoverflow.com/questions/1575141/make-div-100-height-of-browser-window)
++ [Can I Use: Viewport Units vw/vh](http://caniuse.com/#feat=viewport-units)
+
+这些章节应该看起来这样：
 
 <video src="fullpage-sections.mp4" controls></video>
 
@@ -424,14 +410,14 @@ Since items in a single flex container can only flow in one direction, you need 
 </cn>
 
 + Add a horizontal flex container to hold the navigation links.
-+ Add padding to space them apart.
++ Add padding to space the links apart.
 
 Add these internal links:
 
 <cn>
 
 + 添加一个水平 flex 容器容纳导航链接。
-+ 添加 padding 让它们有间隔。
++ 添加 padding 为导航链接加上间隔。
 
 </cn>
 
@@ -575,20 +561,20 @@ There are two properties you can set to make a flexbox bigger than its content:
 
 <cn>
 
-你可以设置两个属性使 flexbox 比它的内容更大：
+你可以设置下面这两个属性使 flexbox 比它的内容更大：
 
 + `align-self: stretch` - 沿着横轴的方向拉伸元素。
 + `flex-grow: 1` - 沿着主轴的方向拉伸元素。
 
 </cn>
 
-Like `align-items` and `justify-content`, their behaviour depends on the flex direction:
+Their behaviour also depends on the flex direction:
 
 ![](flex-and-stretch.jpg)
 
 <cn>
 
-正如 `align-items` 和 `justify-content`，它们的具体行为取决于 flex direction：
+它们的具体行为也受 flex direction 影响：
 
 ![](flex-and-stretch.jpg)
 
@@ -596,11 +582,13 @@ Like `align-items` and `justify-content`, their behaviour depends on the flex di
 
 Why is `flex-grow` a number? If `flex-grow` is 0, that element doesn't grow. Otherwise, the number is the proportion an element should stretch to fill the available space.
 
+
+
 ![](flex-grow-factor.jpg)
 
 <cn>
 
-为什么 `flex-grow` 是个数字呢？如果 `flex-grow` 为 0，那个元素就不会扩大。不为 0，这个数字代表一个元素拉伸覆盖可用空间该有的比例：
+为什么 `flex-grow` 是个数字呢？如果 `flex-grow` 为 0，那个元素就不会扩大。所有不为 0 的元素，按比例来分配空间，拉长覆盖所有可用的空白区域。
 
 ![](flex-grow-factor.jpg)
 
@@ -669,13 +657,17 @@ You result:
 
 Note: Make sure these containers are empty. If the amount of content in one container is more than the other, then one container would be bigger than the other.
 
+In the screenshot below, the right container is wider than the left container, because the text is a bit longer in the right.
+
 ![](flex-basis-auto.jpg)
 
 We'll fix this problem in the next exercise.
 
 <cn>
 
-注：你得确保这些容器是空的。如果一个容器内容比另外一个容器多，那内容多的容器就会比较大。
+注：你得先把着两个容器清空。如果一个容器内容比另外一个容器多，那内容多的容器就会比较宽。
+
+下面这个截图右边的容器比左边宽了一点点，因为右边的文字较多。
 
 ![](flex-basis-auto.jpg)
 
@@ -692,17 +684,6 @@ The size of a flexbox is determined by two factors:
 
 If a flexbox is allowed to grow, it would grow as much as possible to fit the content. Let's add more content to the right container:
 
-<cn>
-
-# Flex Basis 属性
-
-Flexbox 容器的高宽由两个因素决定：
-
-1. Flexbox 中有多少的内容。
-2. 父容器中有多少空闲空间。如果 `flex-grow` 非零，占满所以空闲空间。
-
-</cn>
-
 ```html
 <div class="feature-description">
   <h2>Native Experience</h2>
@@ -713,6 +694,15 @@ Flexbox 容器的高宽由两个因素决定：
 ```
 
 <cn>
+
+# Flex Basis 属性
+
+Flexbox 容器的高宽由取决于两个因素：
+
+1. Flexbox 中有多少的内容。
+2. 父容器中有多少空闲空间。如果 `flex-grow` 非零，应占满所有空闲空间。
+
+如果你允许一个 flexbox 容器成长 (flex-grow 非零), 那它会无限制地加长，以保证有足够的空间适配内容。我们来试试加上一个很长的字串：
 
 ```html
 <div class="feature-description">
@@ -731,7 +721,7 @@ It expands to fit the content in one line, squeezing out the left container:
 
 <cn>
 
-它扩张得很长，来包围一整行的内容，结果就把左边的容器挤出去了：
+容器拉得很长，包围一整行的内容，结果就把左边的容器挤没有了：
 
 <video src="flex-basis-auto-greedy.mp4" controls loop></video>
 
@@ -779,7 +769,7 @@ Question: Setting `flex-basis: 50%` also makes the two containers equal. Why? Ho
 
 <cn>
 
-`flex-basis` 属性就好像是 flexbox 的最小值。它决定了 flexbox 给自己保留多少空间。默认的 `flex-basis: auto` 意为“保留尽可能多的空间来适配内容”。`flex-basis: 50px` 意为保留 50 像素，但是如果有更多空闲空间就会扩大。
+`flex-basis` 属性就好像是 flexbox 的最小值。它决定了 flexbox 给自己保留多少空间。默认的 `flex-basis: auto` 意为 “保留尽可能多的空间来适配内容”。`flex-basis: 50px` 意为保留 50 像素，但是如果有更多空闲空间就会扩大。
 
 </cn>
 
@@ -995,7 +985,7 @@ Control where in the container items are (against one of the edges, or centered)
 
 <cn>
 
-控制元素在容器的什么位置（对着一条边，或者居中）：
+控制元素在容器的什么位置（对着一边，或者居中）：
 
 + `align-items`, `align-self`, `justify-content`
 
