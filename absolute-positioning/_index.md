@@ -10,7 +10,7 @@ The layout system (flexbox or traditional CSS document flow) is good at arrangin
 
 <cn>
 
-布局系统（flex 或者传统的 CSS 文档流）易于排列相对于彼此一个挨着一个的元素：
+布局系统（flex 或者传统的 CSS 文档流）易于做相对布局，多个元素一个挨着一个：
 
 ![](layout-relative.jpg)
 
@@ -22,7 +22,7 @@ Sometimes, the items are not relative to each other, but relative to their conta
 
 <cn>
 
-有时，元素并不彼此相关，但是和容器相关。你可以用绝对定位来指定这些元素应该在哪里。举个例子，把元素放在角上：
+但也有时候多个元素不是相互靠在一起，而是相对于容器来布局。这时候，你可以用绝对定位来指定这些元素应该在哪里。举个例子，把元素放在角上：
 
 ![](layout-absolute.jpg)
 
@@ -54,7 +54,7 @@ Finally, you can position items outside of the container:
 
 ![](layout-stacking-order.jpg)
 
-最后，你可以把元素放在容器外面：
+你还可以把元素放在容器外面：
 
 ![](layout-absolute-outside.jpg)
 
@@ -69,9 +69,9 @@ Embed the app demo in the iPhone frame:
 
 <cn>
 
-### 你的任务
+### 这个课程的任务
 
-把这个 app demo 嵌入到 iPhone 框架里：
+把 app demo 嵌入到 iPhone 框架里：
 
 ![](iphone-demo.jpg)
 
@@ -104,9 +104,9 @@ Usually an absolutely positioned item is relative to its container. Let's positi
 
 <cn>
 
-# Static 对比 Relative
+# Static 和 Relative 的差别
 
-一个绝对定位的元素经常与它的容器有关。让我们把一个红盒子放在一个绿盒子的内部：
+一个绝对定位元素的位置是相对于该元素的父容器。让我们把一个红盒子定位在一个绿色容器里面：
 
 </cn>
 
@@ -152,13 +152,13 @@ If the green box is `position: relative`, it works as expected:
 
 <cn>
 
-如果绿色盒子是 `position: relative`，它的行为符合预期：
+如果绿色盒子是 `position: relative`，布局结果符合预期：
 
 ![](relative-container.jpg)
 
 </cn>
 
-If the green box is `position: static`, the red box now ignores the green box as though it's not there:
+If the green box is `position: static`, the red box now is positioned oustide the green box, as though the green box is not there:
 
 ![](static-container.jpg?)
 
@@ -166,7 +166,7 @@ If the green box is `position: static`, the red box now ignores the green box as
 
 <cn>
 
-如果绿盒子是 `position: static`，红盒子现在忽略掉了绿盒子，它就不在那儿了：
+如果绿盒子是 `position: static`，红盒子现在跑到了绿盒子的外面，就好像绿盒子不存在了一样：
 
 ![](static-container.jpg?)
 
@@ -180,9 +180,9 @@ ReactNative changes the default to `position: relative` so we don't have to worr
 
 <cn>
 
-`position: static` 是 CSS 的默认设定，但是它基本没用。当使用绝对定位的时候，你总应该记住把父容器设为 `positon: relative`。
+`position: static` 是 CSS 的默认设定，但是它基本没有实用价值。当使用绝对定位的时候，你总应该记住把父容器设为 `positon: relative`。
 
-ReactNative 把默认值改成了 `position: relative`，因此我们不需要担心这种问题：
+ReactNative 把默认值改成了 `position: relative`，因此我们不需要担心这个问题：
 
 </cn>
 
@@ -240,7 +240,7 @@ Use absolute positioning to embed the demo image inside the iPhone frame. The me
 
 ### 练习：iPhone 演示
 
-使用绝对定位把演示图片嵌入 iPhone 框架里。尺寸为：
+使用绝对定位把演示图片嵌入 iPhone 框里。尺寸为：
 
 </cn>
 
@@ -260,7 +260,7 @@ Add to the "Native Experience" section:
 
 <cn>
 
-添加到“Native Experience”部分：
+添加到 “Native Experience” 部分：
 
 ```html
 <img src="img/tumblr-demo.jpg"/>
@@ -276,7 +276,7 @@ Add to the "Touch & Gestures" section:
 
 <cn>
 
-添加到“Touch & Gestures”部分：
+添加到 “Touch & Gestures” 部分：
 
 ```html
 <img src="img/swype-demo.jpg"/>
@@ -298,7 +298,7 @@ Your result:
 
 # Percentage Positioning
 
-For responsive design, you'd often have to use percentage (%) to position items, so where they are is relative to size of the window/screen.
+For responsive design, you'd often have to use percentage (%) to position elements, so their positions are relative to size of the window/screen.
 
 It's easy to move an item to the center of a container:
 
@@ -308,7 +308,9 @@ It's easy to move an item to the center of a container:
 
 # 百分比定位
 
-对于响应式设计，你应该经常使用百分比（%）来定位元素，因此它们的位置与窗口/屏幕的大小有关：
+为了实现响应式设计，你常需要使用百分比（%）来定位元素，让这些元素的位置与窗口/屏幕的大小相关。
+
+比如说我们把一个盒子和容器的中心对齐：
 
 ![](topleft-50-50.jpg)
 
@@ -320,7 +322,8 @@ There is a problem, though... `top, left` moves the top-left corner of the posit
 
 <cn>
 
-尽管有一个问题... `top, left` 把左上角移动到了被定位的元素里。你往往想把被定位的元素居中。移动元素中心的最简单方法是使用 transform 属性，按元素大小的 50% 移动它：
+不过有个小问题... `top, left` 是用来定位某个元素的左上角，但在实际应用你更你往往需要定位某个元素的中心。在上面那个例子，我们要怎么用绝对定位来做居中呢？
+移动元素中心的最简单方法是使用 transform 属性，按元素大小的 50% 移动它：
 
 ![](topleft-50-50-translated.jpg)
 
@@ -332,7 +335,7 @@ This technique works regardless of the size of the positioned item. To center it
 
 <cn>
 
-无论被定为元素有多大，这种技术都可以工作。把元素定位在容器边缘的中间：
+无论元素有多大，这个方法都通用。用这个技巧可以把元素靠着容器边缘居中：
 
 ![](centered-positions.jpg)
 
@@ -348,25 +351,29 @@ It's confusing that percentage means different things for different CSS properti
 
 <cn>
 
-百分比对于不同 CSS 属性的意义有很多，这点令人迷惑。但是这基本是你期望看到的：
+百分比对于不同 CSS 属性的意义有很多，挺容易混淆的。但是这基本上还是符合逻辑：
 
 + `left, right` - 参考容器宽度的百分比。
 + `top, bottom` - 参考容器高度的百分比。
-+ `translate(x%,y%)` - 参考变换元素宽(x)或高(y)的百分比。
++ `translate(x%,y%)` - 参考变换元素宽或高的百分比。
 + `padding, margin` - 参考容器宽度的百分比。
   + 对水平方向有用，垂直方向无用。
 
 </cn>
 
-> Note: It is very very hard to vertically center items with traditional CSS layout techniques because `margin-top` and `margin-bottom` refer to the width of the container, not the height!
+> Note: Vertically centering is hard to achieve with traditional CSS layout techniques because `margin-top` and `margin-bottom` refer to the width of the container, not the height!
 >
-> Also, if you can't use CSS3 `transform` for compatibility reasons, then you need to know the width & height of a positioned item in order to offset it with a negative margin...
+> If you can't use CSS3 `transform` for compatibility reasons, then you need to know the width & height of a positioned item in order to offset it with a negative margin...
+>
+> In summary, it sucks.
 
 <cn>
 
-> 注：使用传统 CSS 布局技术来垂直居中元素非常非常难，经常是与容器宽度有关的 `margin-top` 和 `margin-bottom`，而不是与高度有关。
+> 注：使用传统 CSS 布局技术来垂直居中元素很困难，就是因为 `margin-top` 和 `margin-bottom` 的百分比是相对于容器来计算，而不是相对于元素的宽高。
 >
 > 如果你因为兼容性的考量不能使用 CSS3 `transform`，你就需要知道被定位元素的宽度和高度的具体值，并根据这些值给被定位元素设置一个负的 margin 值。通过这些操作后，最终才能使被定位元素居中。
+>
+> 一个字：坑。
 
 </cn>
 
@@ -389,7 +396,7 @@ Your result:
 
 ### 练习：Android 机器人
 
-把 android 机器人放在右下角.
+把安卓机器人放在右下角.
 
 ```html
 <img id="android-robot" src="img/android-robot.svg"/>
@@ -568,13 +575,20 @@ There are three layers that should be stacked:
 
 有三个图层需要堆在一起：
 
-1. Bottom - 背景图片。
-2. Middle - 线性渐变 overlay。
-3. Top - 内容（标题，导航链接）。
+1. 最下面 - 背景图片。
+2. 中间 - 线性渐变 overlay。
+3. 最上面 - 内容（标题，导航链接）。
 
 </cn>
 
-The `img` and `h1` elements are `position: static`. `z-index` doesn't work for static elements, so they are always below absolutely positioned elements:
+There is another pitfall with static elements you should know.
+
++ `absolute, relative`: these elements have z-index.
++ `static`: these elements don't have z-index. Even if you assigned a z-index, this property is ignored.
+
+
+
+The `img` and `h1` elements are `position: static`, so `z-index` doesn't work. They will appear behind all `absolute` or `relative` positioned elements:
 
 ![](z-order-static.jpg)
 
@@ -584,11 +598,20 @@ You should set the title to `position: relative` to give it a z-index. Now the t
 
 <cn>
 
-`img` 和 `h1` 元素都是 `position: static`。`z-index` 对 static 元素不起作用，因此它们经常在绝对定位的元素下面：
+这里我们要说说 static 元素的另外一个坑。
+
++ absolute, relative: 有 z-index。
++ static: 没有 z-index。
+
+没有 z-index 的元素默认在有 z-index 的元素下面。
+
+`img` 和 `h1` 元素都是 `position: static`。`z-index` 对 static 元素不起作用，因此它们都在绝对定位的元素下面：
 
 ![](z-order-static.jpg)
 
-你应该把标题设为 `position: relative` 来给它设定一个 z-index。现在标题会在 overlay 上出现了：
+
+
+你应该把标题设为 `position: relative`，所以 z-index 才生效。现在标题会在 overlay 上出现了：
 
 ![](z-order-relative.jpg)
 
@@ -658,7 +681,7 @@ Overlay 的样式为：
 
 </cn>
 
-Make sure that the content isn't behind the overlay:
+Make sure that the logo and title aren't covered over by the overlay:
 
 ![](z-index-problem.jpg)
 
@@ -668,7 +691,7 @@ Your Result:
 
 <cn>
 
-确保内容不在 overlay 的后面：
+确保内容没有被 overlay 覆盖住：
 
 ![](z-index-problem.jpg)
 
@@ -692,7 +715,7 @@ Your Result:
 
 # 总结
 
-`position: static` 没什么用，有时还会起负面作用。把全局设为这个值并不是一个坏主意：
+`position: static` 没什么用，有时还会起负面作用。可以考虑全局设置定位为 relative：
 
 ```css
 * {
@@ -703,15 +726,15 @@ Your Result:
 </cn>
 
 + Container should not be `position: static`.
-+ User percentage to position items responsively.
++ Use percentage to position items responsively.
 + Use CSS transform's `translate` function to offset an element by percentage of its own size.
 + If an element is `position: static`, it doesn't have z-index.
 
 <cn>
 
-+ 容器不能为 `position: static`。
-+ 使用百分比对元素进行响应式定位。
-+ 使用 CSS transform 的 `translate` 函数根据它自己大小的百分比来偏移一个元素。
++ 容器不应该设置为 `position: static`。
++ 利用百分比对元素实现响应式定位。
++ 使用 CSS transform 的 `translate` 函数，根据元素本身的宽高百分比来做偏移。
 + 如果一个元素为 `position: static`，它不会有 z-index。
 
 </cn>

@@ -80,7 +80,7 @@ If the green box is `position: relative`, it works as expected:
 
 
 
-If the green box is `position: static`, the red box now ignores the green box as though it's not there:
+If the green box is `position: static`, the red box now is positioned oustide the green box, as though the green box is not there:
 
 ![](static-container.jpg?)
 
@@ -151,7 +151,7 @@ Your result:
 
 # Percentage Positioning
 
-For responsive design, you'd often have to use percentage (%) to position items, so where they are is relative to size of the window/screen.
+For responsive design, you'd often have to use percentage (%) to position elements, so their positions are relative to size of the window/screen.
 
 It's easy to move an item to the center of a container:
 
@@ -181,9 +181,11 @@ It's confusing that percentage means different things for different CSS properti
 
 
 
-> Note: It is very very hard to vertically center items with traditional CSS layout techniques because `margin-top` and `margin-bottom` refer to the width of the container, not the height!
+> Note: Vertically centering is hard to achieve with traditional CSS layout techniques because `margin-top` and `margin-bottom` refer to the width of the container, not the height!
 >
-> Also, if you can't use CSS3 `transform` for compatibility reasons, then you need to know the width & height of a positioned item in order to offset it with a negative margin...
+> If you can't use CSS3 `transform` for compatibility reasons, then you need to know the width & height of a positioned item in order to offset it with a negative margin...
+>
+> In summary, it sucks.
 
 
 
@@ -289,7 +291,14 @@ There are three layers that should be stacked:
 
 
 
-The `img` and `h1` elements are `position: static`. `z-index` doesn't work for static elements, so they are always below absolutely positioned elements:
+There is another pitfall with static elements you should know.
+
++ `absolute, relative`: these elements have z-index.
++ `static`: these elements don't have z-index. Even if you assigned a z-index, this property is ignored.
+
+
+
+The `img` and `h1` elements are `position: static`, so `z-index` doesn't work. They will appear behind all `absolute` or `relative` positioned elements:
 
 ![](z-order-static.jpg)
 
@@ -331,7 +340,7 @@ The style for the overlay is:
 
 
 
-Make sure that the content isn't behind the overlay:
+Make sure that the logo and title aren't covered over by the overlay:
 
 ![](z-index-problem.jpg)
 
@@ -354,7 +363,7 @@ Your Result:
 
 
 + Container should not be `position: static`.
-+ User percentage to position items responsively.
++ Use percentage to position items responsively.
 + Use CSS transform's `translate` function to offset an element by percentage of its own size.
 + If an element is `position: static`, it doesn't have z-index.
 
