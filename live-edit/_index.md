@@ -376,6 +376,11 @@ export PATH=$PATH:./node_modules/.bin
 export PATH=$PATH:./node_modules/.bin
 ```
 
+如果你无法顺利运行 browser-sync, 也不知道如何排错，请看科普视频：
+
+1. [PATH 环境变量原理](../cast-path-environmental-variable)
+2. [npm install 把东西装哪里？](../npm-install)
+
 </cn>
 
 # Live-Edit With BrowserSync
