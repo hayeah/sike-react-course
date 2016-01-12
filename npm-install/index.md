@@ -10,7 +10,7 @@ npm install 把包都安装到那里去了？怎么执行 npm 安装的命令行
 + 知道怎么改 PATH，添加查找路径。
 + 知道怎么配置终端初始化文件 ~/.bashrc 或者 ~/.zshrc。
 
-不清楚的话请看：[PATH 环境变量的原理](cast-path-environmental-variable)
+不清楚的话请看：[PATH 环境变量的原理](../cast-path-environmental-variable)
 
 ## 扫盲知识点
 
