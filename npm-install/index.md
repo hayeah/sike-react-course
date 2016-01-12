@@ -52,7 +52,8 @@ npm install 把包都安装到那里去了？怎么执行 npm 安装的命令行
 
 ## 添加新的依赖
 
-add-new-dependencies.mp4
+<video src="add-new-dependencies.mp4" controls="true" preload="none"></video>
+
 
 + `npm install lodash --save` 把新的依赖添加到 package.json。
 + --save-dev 添加开发依赖。
