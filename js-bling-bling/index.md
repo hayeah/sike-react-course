@@ -22,7 +22,7 @@ In this lesson we are going to use JavaScript to add animation effects.
 
 Many frontend developers would tell you that you should avoid JavaScript animation and use CSS animation to get better performance (less CPU time) and smoother effects (higher framerate).
 
-However, the reason that JavaScript animation is slow is usually because the library you use isn't optimized for animation. An optimized JavaScript animation engine (e.g. [GreenSock](https://www.greensock.com) or [Velocity.js](http://velocityjs.org/)) has comparable performance to CSS animation. In some cases JS animation could be faster than CSS animation.
+However, the reason that JavaScript animation is slow is usually because the library you use isn't optimized for animation. An optimized JavaScript animation engine (e.g. [GreenSock](https://www.greensock.com) or [Velocity.js](http://velocityjs.org/)) has comparable performance to CSS animation. In some cases JS animation could be faster than CSS animation！
 
 
 
@@ -42,8 +42,9 @@ The test results:
 You could get 5~6x performance boost just by using another JavaScript library! For a comparison of JavaScript animation and CSS animation performance, see:
 
 + [CSS animations performance: the untold story](http://greensock.com/css-performance)
+  + There is an informative discussion between Paul Irish and the GreenSock author in the comment section.
 
-So don't worry about performance issues, it's not JavaScript's fault. We will use GreenSock for this project. Later when we implement scrolling effects, GreenSock makes it super easy to play the animation back and forth:
+So don't worry about performance issues, it's not JavaScript's fault. We will use GreenSock for this project. Later when we implement scrolling effects, GreenSock makes it super easy to play animations back and forth:
 
 <video src="scrollmagic-scrubbing.mp4" controls loop></video>
 
@@ -55,9 +56,9 @@ Note: See [Animate.css](https://daneden.github.io/animate.css/) for a simple to 
 
 Let's see how we can implement a JavaScript animation that swings an element horizontally:
 
-<video src="sinewave-animation.mp4"></video>
+<video src="sinewave-animation.mp4" controls="true" loop></video>
 
-We can use a sine wave to define its position in time:
+We can use a sine wave to define its position in time, one cycle per second:
 
 ![](sine-animation-curve.jpg)
 
@@ -92,7 +93,7 @@ setTimeout(draw,1000/60);
 
 See: [Codepen Demo](http://codepen.io/hayeah/pen/XmKYxr?editors=011)
 
-However, the browser (or iOS for ReactNative) refreshes the screen at a fixed rate, but a `setTimeout` timer may call `draw` at an unpredictable time. Suppose `draw` takes 10ms, it could sometime finish after the the screen refreshes:
+The browser refreshes the screen at a fixed rate, but a `setTimeout` timer may call `draw` at an unpredictable time. Suppose `draw` takes 10ms, it could sometime finish after the the screen refreshes:
 
 ![](setTimeout-not-sync.jpg)
 
@@ -102,7 +103,7 @@ To make sure that `draw` always have enough time to complete, we can use `reques
 
 Invokations of `draw` are now in perfect sync with screen refreshes, they *always* finish before the screen actually refresh.
 
-Rewriting the animation loop with `requestAnimationFrame`:
+We can rewrite the animation loop with `requestAnimationFrame`:
 
 
 
@@ -154,7 +155,7 @@ npm install gsap@1.18.0 --save
 
 
 
-For now, we'll use `<script>` tag to load the library. Later we'll learn how to use it as a CommonJS module. The GSAP library is installed at `node_modules/gsap/src/uncompressed/TweenMax.js`. Add to `index.html`:
+We'll use `<script>` tag to load the library. The GSAP library is installed at `node_modules/gsap/src/uncompressed/TweenMax.js`. Add to `index.html`:
 
 
 
@@ -172,7 +173,7 @@ From the developer's tool, you should see that TweenMax was loaded, and that it 
 
 ### TweenMax API
 
-You can use TweenMax to animate CSS properties. The three most important methods are `to`, `from` and `fromTo`.We'll use a centered element called `#box` to illustrate these methods.
+You can use TweenMax to animate CSS properties. The three most important methods are `to`, `from` and `fromTo`. We'll use a centered element called `#box` to illustrate these methods.
 
 + `TweenMax.to(object,duration,options)` - animate properties from stylesheet CSS values to your values.
 
@@ -246,7 +247,7 @@ TweenMax.fromTo("#box",1, {
 
 
 
-<video src="TweenMaxFromToYoyo.mp4"></video>
+<video src="TweenMaxFromToYoyo.mp4" controls="true"></video>
 
 [Codepen Demo](http://codepen.io/hayeah/full/LpZMBa)
 
@@ -262,9 +263,9 @@ There are three ease types:
 
 The [Ease Visualizer](http://greensock.com/ease-visualizer) is a great tool to experiment with the different easing functions that are included in GreenSock.
 
-<video src="gsap-visualizer.mp4" controls></video>
+<video src="gsap-visualizer.mp4" controls="true"></video>
 
-You might notice that the yoyo animation is a bit jerky at the start of the animation (near the left). For a looping animation, easeInOut is a better easing type.
+You might notice that the yoyo animation is a bit jerky at the start of the animation (near the left). This is because of the default easeOut setting. For a looping animation, easeInOut would seem more natural.
 
 
 
@@ -348,13 +349,13 @@ For more info about the rendering tab see [DevTools - Rendering Settings](https:
 
 You can think of a web page as a bunch of rectangles. The layout and drawing are done by the CPU:
 
-1. CPU calculate layout of the rectangles. Where are the rectangles? How big are they?
-2. CPU render a rectangle as bitmap.
+1. CPU calculates layout of the rectangles. Where are the rectangles? How big are they?
+2. CPU renders a rectangle as bitmap.
 
 Then if possible, rectangles are sent to the GPU for better performance:
 
-3. CPU uploads the bitmap to GPU as texture.
-4. Send instruction to GPU to manipulate the bitmap. Translate/scale/rotation, transparency, etc.
+3. CPU uploads the bitmap to the GPU as texture.
+4. CPU sends instruction to the GPU to manipulate the bitmap. Translate/scale/rotation, transparency, etc.
 
 
 
@@ -372,7 +373,7 @@ To enable GPU acceleration, use the following four properties for animation:
 
 Basically only CSS3 transform can be accelerated by the GPU. Any of the box model properties (top, left, width, height, padding, margin, border...) would trigger relayout and repaint.
 
-So changing our TweenMax code to use CSS transform:
+So changing our TweenMax code to take advantage of GPU, by using CSS transform:
 
 
 
@@ -487,22 +488,22 @@ Your result:
 
 
 
-# Pro - Slider Control & Animated Scrolling
+# Slider Control & Animated Scrolling
 
-This section is optional. There are two additional features we'll implement:
+There are two additional features we'll implement:
 
 1. Update the slider control to reflect the current scroll position.
 2. When user click on the slider control to jump to a section, scroll there smoothly.
 
 <video src="animated-scroll.mp4" controls loop autoplay></video>
 
-Note: Use jQuery if you want to, but this is a good chance to practice using the DOM API.
+This is a good chance to practice using the DOM API.
 
 
 
 ### Exercise: Update slider control on scroll event
 
-Whenever the the window scrolls you should use `window.scrollY` to figure out which section the window is showing.
+Whenever the window scrolls you should use `window.scrollY` to figure out which section the window is showing.
 
 There are four sections. You should make sure that the section ids and the the `href` property of the slider control links match up:
 

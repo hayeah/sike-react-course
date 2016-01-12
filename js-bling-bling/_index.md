@@ -6,7 +6,7 @@ In this lesson we are going to use JavaScript to add animation effects.
 
 # JavaScript Bling Bling
 
-在这部分我们将使用 JavaScript 添加动画效果。
+在这部分我们将使用 JavaScript 来添加动画效果。
 
 </cn>
 
@@ -42,15 +42,15 @@ In this lesson we are going to use JavaScript to add animation effects.
 
 Many frontend developers would tell you that you should avoid JavaScript animation and use CSS animation to get better performance (less CPU time) and smoother effects (higher framerate).
 
-However, the reason that JavaScript animation is slow is usually because the library you use isn't optimized for animation. An optimized JavaScript animation engine (e.g. [GreenSock](https://www.greensock.com) or [Velocity.js](http://velocityjs.org/)) has comparable performance to CSS animation. In some cases JS animation could be faster than CSS animation.
+However, the reason that JavaScript animation is slow is usually because the library you use isn't optimized for animation. An optimized JavaScript animation engine (e.g. [GreenSock](https://www.greensock.com) or [Velocity.js](http://velocityjs.org/)) has comparable performance to CSS animation. In some cases JS animation could be faster than CSS animation！
 
 <cn>
 
 # JavaScript 动画 VS CSS 动画
 
-很多前端开发者会告诉你，你应该避免使用 JavaScript 动画，使用 CSS 动画来获得更好的性能（更少的 CPU 时间）和更平滑的效果（更高的帧率）。
+很多前端开发者会告诉你，你应该避免使用 JavaScript 动画。使用 CSS 动画会有更好的性能（更少的 CPU 时间）和更平滑的效果（更高的帧率）。
 
-然而，JavaScript 动画慢得原因经常是你用的库没有为动画进行优化。优化过的 JavaScript 动画引擎（比如 [GreenSock](https://www.greensock.com) 或 [Velocity.js](http://velocityjs.org/)）有堪比 CSS 动画的性能。
+然而，JavaScript 动画慢的原因经常是因为你用的库并没有为动画进行优化。优化过的 JavaScript 动画引擎（比如 [GreenSock](https://www.greensock.com) 或 [Velocity.js](http://velocityjs.org/)）有堪比 CSS 动画的性能。某些情况下 JS 动画甚至比 CSS 动画更快！
 
 </cn>
 
@@ -67,7 +67,7 @@ The test results:
 
 <cn>
 
-让我们试试 [JavaScript Animation Speed Test](https://www.greensock.com/js/speed.html)，比较不同的库来观察它们的性能差异。在我的测试里，我把粒子数量设为了 500 。你可以尝试更多或更少的粒子。Demo 类似：
+让我们试试 [JavaScript Animation Speed Test](https://www.greensock.com/js/speed.html)，比较不同的动画库来观察它们的性能差异。在我的测试里，我把粒子数量设为了 500 。你可以尝试更多或更少的粒子。Demo 如下：
 
 <video src="particles-flyout-demo.mp4" controls loop autoplay></video>
 
@@ -83,8 +83,9 @@ The test results:
 You could get 5~6x performance boost just by using another JavaScript library! For a comparison of JavaScript animation and CSS animation performance, see:
 
 + [CSS animations performance: the untold story](http://greensock.com/css-performance)
+  + There is an informative discussion between Paul Irish and the GreenSock author in the comment section.
 
-So don't worry about performance issues, it's not JavaScript's fault. We will use GreenSock for this project. Later when we implement scrolling effects, GreenSock makes it super easy to play the animation back and forth:
+So don't worry about performance issues, it's not JavaScript's fault. We will use GreenSock for this project. Later when we implement scrolling effects, GreenSock makes it super easy to play animations back and forth:
 
 <video src="scrollmagic-scrubbing.mp4" controls loop></video>
 
@@ -92,11 +93,14 @@ Note: See [Animate.css](https://daneden.github.io/animate.css/) for a simple to 
 
 <cn>
 
-你可以获得 5~6 倍的性能提升，仅仅通过使用其他的 JavaScript 库！对于 JavaScript 动画和 CSS 动画的性能比较，参见：
+仅仅只是换个 JavaScript 库，你可以获得 5~6 倍的性能提升！深入了解 JavaScript 动画和 CSS 动画的性能比较，参见：
 
 + [CSS animations performance: the untold story](http://greensock.com/css-performance)
+  + Paul Irish 和 GreenSock 作者在留言板有很有价值的讨论。
 
-因此不要担心性能表现，它不是 JavaScript 的问题。我们将为这个项目使用 GreenSock。以后当我们实现滚动效果的时候，GreenSock 把来回播放动画变得极其简单：
+因此不要担心性能表现，它不是 JavaScript 的问题。在这个项目我们会使用 GreenSock 来实现动画。
+
+除了动画，使用 GreenSock 也可以很轻松地解决来回播放动画的滚动效果：
 
 <video src="scrollmagic-scrubbing.mp4" controls loop></video>
 
@@ -108,9 +112,9 @@ Note: See [Animate.css](https://daneden.github.io/animate.css/) for a simple to 
 
 Let's see how we can implement a JavaScript animation that swings an element horizontally:
 
-<video src="sinewave-animation.mp4"></video>
+<video src="sinewave-animation.mp4" controls="true" loop></video>
 
-We can use a sine wave to define its position in time:
+We can use a sine wave to define its position in time, one cycle per second:
 
 ![](sine-animation-curve.jpg)
 
@@ -118,17 +122,17 @@ Then we use `setTimeout` to schedule a `draw` function, updating the element 60 
 
 <cn>
 
-# JavaScript 动画是如何工作的
+# JavaScript 动画的工作原理
 
-让我们看一下如何实现一个在水平方向上摆动元素的 JavaScript 动画：
+让我们看一下如何用 JavaScript 实现一个在水平摆动的动画：
 
-<video src="sinewave-animation.mp4"></video>
+<video src="sinewave-animation.mp4" controls="true" loop></video>
 
-我们可以使用正弦图形来根据时间确定它的位置：
+我们可以使用正弦图形来根据时间定位，一个周期一秒：
 
 ![](sine-animation-curve.jpg)
 
-之后我们使用 `setTimeout` 来调度 `draw` 函数，每秒重绘 60 次元素（或者每 16ms 重绘一次）：
+然后我们使用 `setTimeout` 来调度 `draw` 函数，每秒重绘 60 次（或者说每 16ms 重绘一次）：
 
 </cn>
 
@@ -184,7 +188,7 @@ setTimeout(draw,1000/60);
 
 See: [Codepen Demo](http://codepen.io/hayeah/pen/XmKYxr?editors=011)
 
-However, the browser (or iOS for ReactNative) refreshes the screen at a fixed rate, but a `setTimeout` timer may call `draw` at an unpredictable time. Suppose `draw` takes 10ms, it could sometime finish after the the screen refreshes:
+The browser refreshes the screen at a fixed rate, but a `setTimeout` timer may call `draw` at an unpredictable time. Suppose `draw` takes 10ms, it could sometime finish after the the screen refreshes:
 
 ![](setTimeout-not-sync.jpg)
 
@@ -194,23 +198,24 @@ To make sure that `draw` always have enough time to complete, we can use `reques
 
 Invokations of `draw` are now in perfect sync with screen refreshes, they *always* finish before the screen actually refresh.
 
-Rewriting the animation loop with `requestAnimationFrame`:
+We can rewrite the animation loop with `requestAnimationFrame`:
 
 <cn>
 
 参见：[Codepen Demo](http://codepen.io/hayeah/pen/XmKYxr?editors=011)
 
-不过，浏览器（或者 iOS for ReactNative）以一个固定速率刷新屏幕，`setTimeout` 计时器可能在无法预测的时间调用 `draw`。假定 `draw` 花了 10ms，它有时可能在屏幕刷新之后结束：
+浏览器以一个固定速率刷新屏幕，但 `setTimeout` 计时器调用 `draw` 是不可控的。假设 `draw` 每次会花费 10ms，它有时可能在屏幕刷新之后才重绘完毕：
 
 ![](setTimeout-not-sync.jpg)
+
 
 为了确保 `draw` 总是有足够的时间运行，我们可以使用 `requestAnimationFrame` 来使得 `draw` 方法的执行频率与屏幕刷新频率相同。时间线看起来像这样：
 
 ![](rAF-sync.jpg)
 
-`draw` 的调用现在可以与屏幕刷新完美同步了，它们·保·证·会在屏幕实际刷新前结束运行。
+`draw` 的调用现在可以与屏幕刷新完美同步了，它们<u>保证</u>会在屏幕实际刷新前结束运行。
 
-使用 `requestAnimationFrame` 重写动画循环：
+我们可以使用 `requestAnimationFrame` 来重写动画循环：
 
 </cn>
 
@@ -278,9 +283,9 @@ Note: [Layout thrashing](http://wilsonpage.co.uk/preventing-layout-thrashing/) i
 
 参考：[Codepen Demo](http://codepen.io/hayeah/pen/QjExJZ?editors=011)
 
-注：ReactNative 同样支持 `requestAnimationFrame`，使用 [CADisplayLink](http://www.bigspaceship.com/ios-animation-intervals/) 构建。
+注：ReactNative 同样支持 `requestAnimationFrame`，利用了 [CADisplayLink](http://www.bigspaceship.com/ios-animation-intervals/)。
 
-注：[Layout thrashing](http://wilsonpage.co.uk/preventing-layout-thrashing/) 是另外一个原生 JavaScript 动画慢得原因。你应该知道它是什么，但是不用担心。优化过的 JavaScript animation 会避免 layout thrashing 。
+注：[Layout thrashing](http://wilsonpage.co.uk/preventing-layout-thrashing/) 是另外一个原生 JavaScript 动画慢的原因。你应该知道它是什么，但是不用想太多。优化过的 JavaScript animation 会避免 layout thrashing 。
 
 </cn>
 
@@ -292,7 +297,7 @@ GreenSock is an awesome animation library with a stupid name. Install it:
 
 # GreenSock
 
-GreenSock 是有着愚蠢名字的优秀动画库。安装：
+GreenSock 是个优异的动画库，虽然它的名字很傻。安装：
 
 </cn>
 
@@ -310,11 +315,11 @@ npm install gsap@1.18.0 --save
 
 </cn>
 
-For now, we'll use `<script>` tag to load the library. Later we'll learn how to use it as a CommonJS module. The GSAP library is installed at `node_modules/gsap/src/uncompressed/TweenMax.js`. Add to `index.html`:
+We'll use `<script>` tag to load the library. The GSAP library is installed at `node_modules/gsap/src/uncompressed/TweenMax.js`. Add to `index.html`:
 
 <cn>
 
-从现在开始，我们会使用 `<script>` 标签加载这个库。之后我们会学习如何将它作为一个 CommonJS 模块使用。GSAP 库被安装在 `node_modules/gsap/src/uncompressed/TweenMax.js`。添加到 `index.html`：
+我们用 `<script>` 标签来加载这个库。GSAP 库被安装在 `node_modules/gsap/src/uncompressed/TweenMax.js`。添加到 `index.html`：
 
 </cn>
 
@@ -344,7 +349,7 @@ From the developer's tool, you should see that TweenMax was loaded, and that it 
 
 ### TweenMax API
 
-You can use TweenMax to animate CSS properties. The three most important methods are `to`, `from` and `fromTo`.We'll use a centered element called `#box` to illustrate these methods.
+You can use TweenMax to animate CSS properties. The three most important methods are `to`, `from` and `fromTo`. We'll use a centered element called `#box` to illustrate these methods.
 
 + `TweenMax.to(object,duration,options)` - animate properties from stylesheet CSS values to your values.
 
@@ -352,9 +357,9 @@ You can use TweenMax to animate CSS properties. The three most important methods
 
 ### TweenMax API
 
-你可以使用 TweenMax 来自定义 CSS 属性动画。三个最重要的方法是 `to`, `from` 和 `fromTo`。我们会使用一个叫 `#box` 的居中的元素来演示这些方法。
+你可以使用 TweenMax 来产生 CSS 属性动画。三个最重要的方法是 `to`, `from` 和 `fromTo`。我们会使用一个叫 `#box` 的居中的元素来演示这些方法。
 
-+ `TweenMax.to(object,duration,options)` - 自定义属性动画：由 CSS 样式表中的值变化为自定义的值。
++ `TweenMax.to(object,duration,options)` - 属性动画：由 CSS 样式表中的值变化为动画终值。
 
 </cn>
 
@@ -394,13 +399,13 @@ This is useful for animating an element out:
 
 <cn>
 
-对于使用动画把元素移出的情况，这将非常有用：
+对于使用动画把元素移出的情况，这很有用：
 
 <video src="TweenMaxTo.mp4" autoplay controls loop></video>
 
 [Codepen Demo](http://codepen.io/hayeah/pen/xwOmEj)
 
-+ `TweenMax.from(object,duration,options)` - 自定义属性动画：由自定义的值变化为 CSS 样式表中的值。
++ `TweenMax.from(object,duration,options)` - 属性动画：由动画初始值变化致 CSS 样式表中的值。
 
 </cn>
 
@@ -445,7 +450,7 @@ This is useful for animating an element in:
 
 [Codepen Demo](http://codepen.io/hayeah/full/NGreMb/)
 
-+ `TweenMax.fromTo(object,duration,optionsFrom,optionsTo)` - 自定义属性动画：由自定义初始值变化为自定义终值。
++ `TweenMax.fromTo(object,duration,optionsFrom,optionsTo)` - 属性动画：由动画初始值变化致终值。
 
 </cn>
 
@@ -495,13 +500,13 @@ TweenMax.fromTo("#box",1, {
 
 </cn>
 
-<video src="TweenMaxFromToYoyo.mp4"></video>
+<video src="TweenMaxFromToYoyo.mp4" controls="true"></video>
 
 [Codepen Demo](http://codepen.io/hayeah/full/LpZMBa)
 
 <cn>
 
-<video src="TweenMaxFromToYoyo.mp4"></video>
+<video src="TweenMaxFromToYoyo.mp4" controls="true"></video>
 
 [Codepen Demo](http://codepen.io/hayeah/full/LpZMBa)
 
@@ -517,9 +522,9 @@ There are three ease types:
 
 The [Ease Visualizer](http://greensock.com/ease-visualizer) is a great tool to experiment with the different easing functions that are included in GreenSock.
 
-<video src="gsap-visualizer.mp4" controls></video>
+<video src="gsap-visualizer.mp4" controls="true"></video>
 
-You might notice that the yoyo animation is a bit jerky at the start of the animation (near the left). For a looping animation, easeInOut is a better easing type.
+You might notice that the yoyo animation is a bit jerky at the start of the animation (near the left). This is because of the default easeOut setting. For a looping animation, easeInOut would seem more natural.
 
 <cn>
 
@@ -531,11 +536,11 @@ You might notice that the yoyo animation is a bit jerky at the start of the anim
 + `easeOut` - 开始很快，接近结尾时减速。
 + `easeInOut` - 开始很慢，中间加速，然后再次减速。
 
-[Ease Visualizer](http://greensock.com/ease-visualizer) 是测试 easing 函数的不错的工具，这些函数都被包含在了 GreenSock 中。
+[Ease Visualizer](http://greensock.com/ease-visualizer) 是尝试 GreenSock 内建 easing 函数的工具，非常好用。
 
-<video src="gsap-visualizer.mp4" controls></video>
+<video src="gsap-visualizer.mp4" controls="true"></video>
 
-你可能发现 yoyo 动画在开始（接近左侧）时有点儿加速。在循环动画中，easeInOut 是更佳的 easing 类型。
+你可能发现 yoyo 动画在初始值的时候有点卡顿的感觉（接近左侧），这个是因为动画用默认用了 easeOut。在循环动画中选择 easeInOut 会看起来更自然。
 
 </cn>
 
@@ -615,9 +620,9 @@ TweenMax.fromTo("#box",1, {
 ### 练习：让 React Logo 动起来
 
 + 创建 `js/app.js`。使用一个 `<script>` 标签来加载它。
-+ 修改 `make server`，当 `js/app.js` 改变时，刷新页面。
++ 修改 `make server`，当 `js/app.js` 改变时，自动刷新页面。
 + 写出 `animateLogo` 函数。
-+ 选择适合的 easing 函数和你喜欢的动画持续时间。
++ 选择的 easing 函数和 duration。看顺眼就好。
 
 </cn>
 
@@ -673,11 +678,11 @@ For more info about the rendering tab see [DevTools - Rendering Settings](https:
 
 # 渲染监控器
 
-你可以使用 Chrome 开发者工具来查看你动画的表现是多么好。
+你可以使用 Chrome 开发者工具来查看你动画的表现够不够好：
 
 <video src="rendering-fps-monitor.mp4" controls></video>
 
-你可以看到正在以 60fps 运行，像之前承诺的一样。
+你可以看到正在以 60fps 运行，和之前承诺的一样。
 
 "Show paint rectangles" 展示给你一些绿色的矩形。这些是浏览器在重绘的区域。我们可以看到三个元素正在被重绘的区域：
 
@@ -687,7 +692,7 @@ For more info about the rendering tab see [DevTools - Rendering Settings](https:
 
 重绘的代价很高昂，因为浏览器使用 CPU 来重建那个矩形的点阵。换句话说，它没有被 GPU “硬件加速”。
 
-更多关于 rendering 标签的信息，参见：[DevTools - Rendering Settings](https://developer.chrome.com/devtools/docs/rendering-settings)。
+更多关于 rendering 监控器的科普，参见：[DevTools - Rendering Settings](https://developer.chrome.com/devtools/docs/rendering-settings)。
 
 </cn>
 
@@ -695,13 +700,13 @@ For more info about the rendering tab see [DevTools - Rendering Settings](https:
 
 You can think of a web page as a bunch of rectangles. The layout and drawing are done by the CPU:
 
-1. CPU calculate layout of the rectangles. Where are the rectangles? How big are they?
-2. CPU render a rectangle as bitmap.
+1. CPU calculates layout of the rectangles. Where are the rectangles? How big are they?
+2. CPU renders a rectangle as bitmap.
 
 Then if possible, rectangles are sent to the GPU for better performance:
 
-3. CPU uploads the bitmap to GPU as texture.
-4. Send instruction to GPU to manipulate the bitmap. Translate/scale/rotation, transparency, etc.
+3. CPU uploads the bitmap to the GPU as texture.
+4. CPU sends instruction to the GPU to manipulate the bitmap. Translate/scale/rotation, transparency, etc.
 
 <cn>
 
@@ -715,7 +720,7 @@ Then if possible, rectangles are sent to the GPU for better performance:
 之后如果可能的话，矩形被送到 GPU 以获得更好的性能：
 
 3. CPU 以点阵位图的形式上传到 GPU 中。
-4. 给 GPU 发送指令来处理这些位图。可能有平移/缩放/旋转，修改透明度，等等。
+4. CPU 给 GPU 发送指令去处理这些位图。可能有平移/缩放/旋转，修改透明度，等等。
 
 </cn>
 
@@ -733,11 +738,11 @@ To enable GPU acceleration, use the following four properties for animation:
 
 Basically only CSS3 transform can be accelerated by the GPU. Any of the box model properties (top, left, width, height, padding, margin, border...) would trigger relayout and repaint.
 
-So changing our TweenMax code to use CSS transform:
+So changing our TweenMax code to take advantage of GPU, by using CSS transform:
 
 <cn>
 
-GPU 如何比 CPU 快呢？假设我们把一个红色点阵和一个绿色点阵结合，CPU 不得不一个一个像素地做：
+GPU 为什么比 CPU 快呢？假设我们把一个红色点阵和一个绿色点阵结合，CPU 不得不一个一个像素地做：
 
 <video src="CPU-composite.mp4" controls autoplay loop></video>
 
@@ -751,7 +756,7 @@ GPU 可以平行地组合所有像素：
 
 基本上只有 CSS3 transform 可以被 GPU 加速。任何盒模型属性（top, left, width, height, padding, margin, border...）都会触发重新布局和重绘。
 
-因此修改我们 TweenMax 的代码，来使用 CSS transform：
+所以，我们可以修改 TweenMax 的代码来利用 GPU 加速。改成使用 CSS transform：
 
 </cn>
 
@@ -823,11 +828,11 @@ To learn more see: [High Performance Animations](http://csstriggers.com/)
 
 [Codepen Demo](http://codepen.io/hayeah/pen/Oyvwqv)
 
-TweenMax 通过使用 `transform3d` 属性来启用 GPU 加速。使用 rendering 监控器，你可以看到“green rectangles”没了，不再有浏览器重绘了。此外，启用“show composited layer border”，你会看到元素有一个橙色边框，意为它是个 3D 图层，被 GPU 加速：
+TweenMax 通过使用 `transform3d` 属性来启用 GPU 加速。使用 rendering 监控器，你可以看到“green rectangles”没了，不再有浏览器重绘了。此外，启用“show composited layer border”，你会看到元素有一个橙色边框，表示它是个 3D 图层，被 GPU 加速：
 
 <video src="show-composited-layer.mp4" controls></video>
 
-总得来说，当修改 CSS 属性时，有三种可能的开销：
+总的来说，当修改 CSS 属性时，有三种可能的开销：
 
 1. 重排（CPU。代价最高）。
 2. 重绘（CPU）。
@@ -863,7 +868,7 @@ You can specify a different duration for each step. Here's an example:
 
 # 让 Robot 动起来
 
-TweenMax 可以执行单个步骤、从某一个起始点变化到终点的动画。为了构建更复杂的动画，你可以使用 [TimeLineMax](https://greensock.com/docs/#/HTML5/GSAP/TimelineMax/) 来构建更加复杂、多步骤的动画。
+TweenMax 可以执行单个步骤、从某一个起始点变化到终点的动画。为了构建更复杂的动画，你可以使用 [TimeLineMax](https://greensock.com/docs/#/HTML5/GSAP/TimelineMax/) 来构建多步骤的动画。
 
 </cn>
 
@@ -965,35 +970,35 @@ Your result:
 
 </cn>
 
-# Pro - Slider Control & Animated Scrolling
+# Slider Control & Animated Scrolling
 
-This section is optional. There are two additional features we'll implement:
+There are two additional features we'll implement:
 
 1. Update the slider control to reflect the current scroll position.
 2. When user click on the slider control to jump to a section, scroll there smoothly.
 
 <video src="animated-scroll.mp4" controls loop autoplay></video>
 
-Note: Use jQuery if you want to, but this is a good chance to practice using the DOM API.
+This is a good chance to practice using the DOM API.
 
 <cn>
 
-# 高级 - 指示器 & 网页滚动动画
+# 指示器 & 网页滚动动画
 
-这部分是可选的。我们要实现两个额外的特性：
+这部分是可选的。我们要实现两个额外的功能：
 
 1. 更新指示器状态来反映当前滚动的位置。
 2. 当用户点击指示器跳转到一部分时，平滑地滚动到那里。
 
 <video src="animated-scroll.mp4" controls loop autoplay></video>
 
-注：如果你想要的话，使用 jQuery，但是这是一个练习使用 DOM API 的好机会。
+这是一个练习使用 DOM API 的好机会。
 
 </cn>
 
 ### Exercise: Update slider control on scroll event
 
-Whenever the the window scrolls you should use `window.scrollY` to figure out which section the window is showing.
+Whenever the window scrolls you should use `window.scrollY` to figure out which section the window is showing.
 
 There are four sections. You should make sure that the section ids and the the `href` property of the slider control links match up:
 
@@ -1001,9 +1006,9 @@ There are four sections. You should make sure that the section ids and the the `
 
 ### 练习：滚动事件发生时更新指示器状态
 
-不论何时当窗口滚动时你应该使用 `window.scrollY` 来算出窗口正在展示的是哪一部分。
+当窗口滚动时, 你可以用 `window.scrollY` 来算出窗口正在展示的是哪一部分。
 
-有四部分。你应该确保这些部分的 id 和指示器的 `href` 属性链接保持一致：
+这个页面有四个部分。你应该确保这些部分的 id 和指示器的 `href` 属性链接保持一致：
 
 </cn>
 
@@ -1329,11 +1334,11 @@ On ReactNative JavaScript animation is your only choice. Much of the performance
 
 # 总结
 
-通过使用被优化的动画引擎，JavaScript 动画能像 CSS 动画一样快。选择最符合项目的那种吧！
+通过使用被优化的动画引擎，JavaScript 动画能像 CSS 动画一样快。不要相信教条，选择最符合项目的方案吧！
 
 在 ReactNative 中，JavaScript 动画是你唯一的选择。很多我们已经谈到的性能技巧也适用于 ReactNative。最重要的是：
 
 + 避免引起布局。
-+ 动画可以通过 GPU 加速。
++ 某些动画可以通过 GPU 加速。
 
 </cn>
