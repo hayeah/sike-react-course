@@ -74,9 +74,11 @@
   + 用 `ls -a` 查看影藏文件。
 + 修改 Shell 启动文件，在启动时配置 PATH
   + bash: 修改 ~/.bashrc
+    + 还要确认 ~/.bash_profile 这个文件有 `source ~/.bashrc` 这段。
   + zsh: 修改 ~/.zshrc
 + 可以手动 `source ~/.zshrc` 去运行启动文件
   + 开新终端会自动运行
+
 
 
 # 添加路径在 PATH 最后
