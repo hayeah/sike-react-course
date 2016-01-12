@@ -159,7 +159,7 @@ a:hover {
 
 ### Exercise: Full Page Sections
 
-There are four sections in this web page. You should make each section as tall and as wide as the screen.
+There are four sections in this web page (`<div class="section">`). You should make each section as tall and as wide as the screen.
 
 To make them easier to see while you are debugging, you could temporarily set their background to red:
 

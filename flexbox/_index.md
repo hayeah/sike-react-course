@@ -307,7 +307,7 @@ a:hover {
 
 ### Exercise: Full Page Sections
 
-There are four sections in this web page. You should make each section as tall and as wide as the screen.
+There are four sections in this web page (`<div class="section">`). You should make each section as tall and as wide as the screen.
 
 To make them easier to see while you are debugging, you could temporarily set their background to red:
 
@@ -333,7 +333,7 @@ The sections should look like:
 
 ### 练习：页面的章节
 
-这个网页有四个章节 (`<section>`)。你应该让每个章节的宽高和屏幕一样。
+这个网页有四个章节 (`<div class="section">`)。你应该让每个章节的宽高和屏幕一样。
 
 在调试时，为了让它们可见度更高，你可以暂时把它们的背景设为红色半透明：
 
