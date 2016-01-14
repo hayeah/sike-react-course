@@ -554,7 +554,7 @@ function updateSliderControl() {
 
     // Get the section pointed to by the link
     var section = document.querySelector(...);
-    var sectiontTop = ...
+    var sectionTop = ...
     var sectionBottom = ...
 
     // Check if window.scrollY is between the section.
@@ -662,6 +662,16 @@ Your result:
 <video src="animated-scroll.mp4" controls></video>
 
 
+
+# Pushing To GitHub Pages
+
+Our page needs to load GreenSock from node_modules, but .gitignore prevents us from adding files from node_modules to the repo. This is an unusual situation we won't encounter again after we switch to Webpack.
+
+For now, use violence to add the file we need:
+
+```
+git add -f node_modules/gsap/src/uncompressed/TweenMax.js
+```
 
 # Summary
 

@@ -1092,7 +1092,7 @@ function updateSliderControl() {
 
     // Get the section pointed to by the link
     var section = document.querySelector(...);
-    var sectiontTop = ...
+    var sectionTop = ...
     var sectionBottom = ...
 
     // Check if window.scrollY is between the section.
@@ -1129,7 +1129,7 @@ function updateSliderControl() {
 
     // 获取被链接指向的部分
     var section = document.querySelector(...);
-    var sectiontTop = ...
+    var sectionTop = ...
     var sectionBottom = ...
 
     // 检查 window.scrollY 是否在这部分中
@@ -1321,6 +1321,16 @@ Your result:
 
 </cn>
 
+# Pushing To GitHub Pages
+
+Our page needs to load GreenSock from node_modules, but .gitignore prevents us from adding files from node_modules to the repo. This is an unusual situation we won't encounter again after we switch to Webpack.
+
+For now, use violence to add the file we need:
+
+```
+git add -f node_modules/gsap/src/uncompressed/TweenMax.js
+```
+
 # Summary
 
 With an optimized animation engine, JavaScript animation can be as fast as CSS animation. Choose whichever that suit your project's needs better.
@@ -1331,6 +1341,16 @@ On ReactNative JavaScript animation is your only choice. Much of the performance
 + Animate properties that the GPU can accelerate.
 
 <cn>
+
+# 推到 GitHub Pages
+
+我们的页面需要引用 node_modules 路径里面的 GreenSock， 但是 .gitignore 阻止我们添加任何在 node_modules 里面的文件。这是个比较例外的情况，我们改用 Webpack 以后不会在遇到这个问题。
+
+现在呢，我们就先用暴力去添加需要的文件：
+
+```
+git add -f node_modules/gsap/src/uncompressed/TweenMax.js
+```
 
 # 总结
 
