@@ -1344,7 +1344,7 @@ On ReactNative JavaScript animation is your only choice. Much of the performance
 
 # 推到 GitHub Pages
 
-我们的页面需要引用 node_modules 路径里面的 GreenSock， 但是 .gitignore 阻止我们添加任何在 node_modules 里面的文件。这是个比较例外的情况，我们改用 Webpack 以后不会在遇到这个问题。
+我们的页面需要引用 node_modules 路径里面的 GreenSock， 但是 .gitignore 阻止我们添加任何在 node_modules 里面的文件。这是个比较例外的情况，我们改用 Webpack 以后不会再遇到这个问题。
 
 现在呢，我们就先用暴力去添加需要的文件：
 
