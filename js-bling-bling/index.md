@@ -359,7 +359,7 @@ Then if possible, rectangles are sent to the GPU for better performance:
 
 
 
-So how is the GPU faster than the GPU? Suppose we want to combine a red bitmap with a green bitmap, the CPU has to do it one pixel at a time:
+So how is the GPU faster than the CPU? Suppose we want to combine a red bitmap with a green bitmap, the CPU has to do it one pixel at a time:
 
 <video src="CPU-composite.mp4" controls autoplay loop></video>
 
