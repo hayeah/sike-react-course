@@ -1299,7 +1299,7 @@ window.onload = function() {
 
 </cn>
 
-+ You need to cancel the link's default behaviour.
++ The default behaviour of clicking on an anchor link is to jump directly to the target, and this could happen before the scrolling animation has a chance to happen. You need to cancel the default behaviour.
   + See: [MDN - Event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)
 + The event listener bug is very very common.
   + See: [adding 'click' event listeners in loop](http://stackoverflow.com/questions/8909652/adding-click-event-listeners-in-loop)
@@ -1310,7 +1310,7 @@ Your result:
 
 <cn>
 
-+ 你需要取消链接的默认行为
++ 点击链接的默认行为是直接跳到目标，如果你没取消默认行为的话滚动动画可能就没有机会去运行了。你需要去取消浏览器默认行为。
   + 参考： [MDN - Event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)
 + 事件侦听器 bug 非常非常普遍
   + 参考： [adding 'click' event listeners in loop](http://stackoverflow.com/questions/8909652/adding-click-event-listeners-in-loop)

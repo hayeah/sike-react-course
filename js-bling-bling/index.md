@@ -652,7 +652,7 @@ window.onload = function() {
 
 
 
-+ You need to cancel the link's default behaviour.
++ The default behaviour of clicking on an anchor link is to jump directly to the target, and this could happen before the scrolling animation has a chance to happen. You need to cancel the default behaviour.
   + See: [MDN - Event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)
 + The event listener bug is very very common.
   + See: [adding 'click' event listeners in loop](http://stackoverflow.com/questions/8909652/adding-click-event-listeners-in-loop)
