@@ -410,10 +410,10 @@ For a good summary of ES6 features see: [ES6 Features](https://github.com/lukeho
 ES6 特性总结请看：[ES6 Features](https://github.com/lukehoban/es6features)
 </cn>
 
-You can see all the ES6 & ES7 features that Babel supports in its [list of transformers](https://babeljs.io/docs/advanced/transformers/). It's possible to turn on/off individual features to control exactly what you'd allow your team to use.
+You can see some of the ES6 & ES7 features that Babel supports in its [list of transformers](http://babeljs.io/docs/learn-es2015/). It's possible to turn on/off individual features to control exactly what you'd allow your team to use.
 
 <cn>
-Babel 所支持的 ES6 和 ES7 中的特性可以在[这里](https://babeljs.io/docs/advanced/transformers/)看到。你还可以通过开启或关闭某些单独的特性来控制团队所使用的功能。
+Babel 所支持的 ES6 和 ES7 中的特性可以在[这里](http://babeljs.io/docs/learn-es2015/)看到。你还可以通过开启或关闭某些单独的特性来控制团队所使用的功能。
 </cn>
 
 The two most important ES6 features are `let` and `=>`. You should always use them.

@@ -184,7 +184,7 @@ $ babel --version
 
 ES6 特性总结请看：[ES6 Features](https://github.com/lukehoban/es6features)
 
-Babel 所支持的 ES6 和 ES7 中的特性可以在[这里](https://babeljs.io/docs/advanced/transformers/)看到。你还可以通过开启或关闭某些单独的特性来控制团队所使用的功能。
+Babel 所支持的 ES6 和 ES7 中的特性可以在[这里](http://babeljs.io/docs/learn-es2015/)看到。你还可以通过开启或关闭某些单独的特性来控制团队所使用的功能。
 
 有两个最重要的 ES6 中的特性就是 `let` 和 `=>` 了。你会经常使用到它们。
 

@@ -225,7 +225,7 @@ For a good summary of ES6 features see: [ES6 Features](https://github.com/lukeho
 
 
 
-You can see all the ES6 & ES7 features that Babel supports in its [list of transformers](https://babeljs.io/docs/advanced/transformers/). It's possible to turn on/off individual features to control exactly what you'd allow your team to use.
+You can see some of the ES6 & ES7 features that Babel supports in its [list of transformers](http://babeljs.io/docs/learn-es2015/). It's possible to turn on/off individual features to control exactly what you'd allow your team to use.
 
 
 
