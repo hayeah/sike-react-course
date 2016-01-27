@@ -14,7 +14,7 @@ In this lesson we are going to rewrite the `buyshoes` page in React. We'll cover
 + Using the `ref` property to access browser DOM.
 
 <cn>
-这一课中，我们将使用 React 来重写 `buyshoes` 页面。我们讲学习以下内容：
+这一课中，我们将使用 React 来重写 `buyshoes` 页面。我们将学习以下内容：
 
 + 使用 Babel 编译 ES6 & JSX。
 + Virtual DOM + JSX。
