@@ -8,7 +8,7 @@ For example, if you want to vertically center some content, there isn't one way 
 
 ![](css-vertical-centering.jpg)
 
-<cn>
+<Cn>
 
 # Flexbox 布局
 
@@ -20,7 +20,7 @@ For example, if you want to vertically center some content, there isn't one way 
 
 ![](css-vertical-centering.jpg)
 
-</cn>
+</Cn>
 
 To become a competent frontend developer, you have to learn all kinds of weird, ugly, unnatural tricks to handle different layout needs.
 
@@ -28,7 +28,7 @@ Flexbox, in contrast, was designed specifically for creating UI for the modern w
 
 It does take practice to use flexbox well. But compared to traditional layout with CSS, Flexbox is so much easier!
 
-<cn>
+<Cn>
 
 要成为一名称职的前端开发者，你需要去学习各种各样古怪、丑陋、不自然的小技巧来处理不同的布局需求。
 
@@ -36,7 +36,7 @@ It does take practice to use flexbox well. But compared to traditional layout wi
 
 Flexbox 还是需要多上手才能用好。但是相比于传统 CSS 布局方法，Flexbox 简单多了！
 
-</cn>
+</Cn>
 
 ### Our Mission
 
@@ -44,7 +44,7 @@ In this lesson we'll use flexbox to implement the basic layout of our page:
 
 ![](ilove-react-layout-only.jpg)
 
-<cn>
+<Cn>
 
 ### 我们的任务
 
@@ -52,7 +52,7 @@ In this lesson we'll use flexbox to implement the basic layout of our page:
 
 ![](ilove-react-layout-only.jpg)
 
-</cn>
+</Cn>
 
 # Design Spec
 
@@ -64,7 +64,7 @@ If you don't have Sketch, you can download the annotated design:
 
 [![](annotated-layout.jpg)](annotated-layout.jpg)
 
-<cn>
+<Cn>
 
 # 设计规范
 
@@ -76,7 +76,7 @@ If you don't have Sketch, you can download the annotated design:
 
 [![](annotated-layout.jpg)](annotated-layout.jpg)
 
-</cn>
+</Cn>
 
 # Download Design Assets
 
@@ -86,7 +86,7 @@ Download all the design assets from the repo:
 
 Add these images to the `img` directory in your project.
 
-<cn>
+<Cn>
 
 # 下载设计资源
 
@@ -96,7 +96,7 @@ Add these images to the `img` directory in your project.
 
 把这些图片添加到你项目的 `img` 目录。
 
-</cn>
+</Cn>
 
 # Introduction To Flex
 
@@ -104,7 +104,7 @@ Add these images to the `img` directory in your project.
 
 We'll start with just three properties: `flex-direction`, `align-items`, `justify-content`.
 
-<cn>
+<Cn>
 
 # Flex 介绍
 
@@ -112,7 +112,7 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 
 因此，我们先选这三个 Flexbox 属性开始介绍：`flex-direction`，`align-items`，`justify-content`。
 
-</cn>
+</Cn>
 
 + `flex-direction` - whether child items are arranged horizontally or vertically.
 
@@ -126,7 +126,7 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 
   ![](flex-align-justify.jpg)
 
-<cn>
+<Cn>
 
 + `flex-direction` - 控制子元素是水平排列还是垂直排列。
 
@@ -140,7 +140,7 @@ We'll start with just three properties: `flex-direction`, `align-items`, `justif
 
   ![](flex-align-justify.jpg)
 
-</cn>
+</Cn>
 
 
 Pay special attention to the last example. Observe how `flex-direction` affects the behaviour of align-items and justify-content.
@@ -154,7 +154,7 @@ Imagine that flex-direction is an arrow pointing in the layout direction.
 
 `align-items` and `justify-content` are very easy to mix up.
 
-<cn>
+<Cn>
 
 看看最后这个例子。注意，`flex-direction` 属性影响了 align-items 和 justify-content 的效果。把 flex-direction 想象为一个箭头，指向元素布局的方向。
 
@@ -165,7 +165,7 @@ Imagine that flex-direction is an arrow pointing in the layout direction.
 
 `align-items` 和 `justify-content` 着两个属性很容易混淆。
 
-</cn>
+</Cn>
 
 So `align-items: center` could mean horizontal centering or vertical centering depending on what the flex-direction is.
 
@@ -192,7 +192,7 @@ The CSS is like:
 
 
 
-<cn>
+<Cn>
 
 `align-self` 可以对 Flex 容器中某个指定的元素的赋与不同的 `align-item` 值。
 
@@ -213,19 +213,19 @@ CSS 大概这样：
 }
 ```
 
-</cn>
+</Cn>
 
 # Page Style
 
 Let's first define the typography and background color of the page:
 
-<cn>
+<Cn>
 
 # 页面样式
 
 让我们首先定义页面的文字样式和背景颜色：
 
-</cn>
+</Cn>
 
 ```css
 body {
@@ -263,7 +263,7 @@ a:hover {
 }
 ```
 
-<cn>
+<Cn>
 
 ```css
 body {
@@ -301,7 +301,7 @@ a:hover {
 }
 ```
 
-</cn>
+</Cn>
 
 # Page Layout
 
@@ -327,7 +327,7 @@ The sections should look like:
 
 <video src="fullpage-sections.mp4" controls></video>
 
-<cn>
+<Cn>
 
 # 页面布局
 
@@ -353,45 +353,45 @@ The sections should look like:
 
 <video src="fullpage-sections.mp4" controls></video>
 
-</cn>
+</Cn>
 
 ### Exercise: Title And Logo
 
 Add the following to the first section:
 
-<cn>
+<Cn>
 
 ### 练习：标题和 Logo
 
 把下面的代码添加到第一个区域块：
 
-</cn>
+</Cn>
 
 ```html
 <img class="react-logo" src="img/react-logo.svg"/>
 <h1>Build Native Apps With React</h1>
 ```
 
-<cn>
+<Cn>
 
 ```html
 <img class="react-logo" src="img/react-logo.svg"/>
 <h1>Build Native Apps With React</h1>
 ```
 
-</cn>
+</Cn>
 
 Your result:
 
 ![](title-and-logo.jpg)
 
-<cn>
+<Cn>
 
 你的结果：
 
 ![](title-and-logo.jpg)
 
-</cn>
+</Cn>
 
 ### Exercise: Navigation Links
 
@@ -399,7 +399,7 @@ Since items in a single flex container can only flow in one direction, you need 
 
 ![](flex-nesting.jpg)
 
-<cn>
+<Cn>
 
 ### 练习：导航链接
 
@@ -407,19 +407,19 @@ Since items in a single flex container can only flow in one direction, you need 
 
 ![](flex-nesting.jpg)
 
-</cn>
+</Cn>
 
 + Add a horizontal flex container to hold the navigation links.
 + Add padding to space the links apart.
 
 Add these internal links:
 
-<cn>
+<Cn>
 
 + 添加一个水平 flex 容器容纳导航链接。
 + 添加 padding 为导航链接加上间隔。
 
-</cn>
+</Cn>
 
 ```html
 <a href="#native">
@@ -439,7 +439,7 @@ Add these internal links:
 </a>
 ```
 
-<cn>
+<Cn>
 
 ```html
 <a href="#native">
@@ -459,19 +459,19 @@ Add these internal links:
 </a>
 ```
 
-</cn>
+</Cn>
 
 Your result:
 
 ![](navlinks.jpg)
 
-<cn>
+<Cn>
 
 你的结果：
 
 ![](navlinks.jpg)
 
-</cn>
+</Cn>
 
 # Flex-Grow And Stretch
 
@@ -481,7 +481,7 @@ Our next goal is to divide the page into two equal parts:
 
 The obvious way to accomplish this is to set the width to 50%, and height to 100%. For this exercise, though, we are going to use flexbox. First, let's add the following html to the second section:
 
-<cn>
+<Cn>
 
 # Flex-Grow 如何拉长元素
 
@@ -491,7 +491,7 @@ The obvious way to accomplish this is to set the width to 50%, and height to 100
 
 完成这项工作最直观的方式是把宽度设置为 50%，高度设置为 100%。但是为了练习，我们要用 flexbox 来做。首先，让我们把下面的 html 添加到第二个区域块：
 
-</cn>
+</Cn>
 
 
 ```html
@@ -514,7 +514,7 @@ The obvious way to accomplish this is to set the width to 50%, and height to 100
 }
 ```
 
-<cn>
+<Cn>
 
 ```html
 <div class="iphone-demo">
@@ -536,7 +536,7 @@ The obvious way to accomplish this is to set the width to 50%, and height to 100
 }
 ```
 
-</cn>
+</Cn>
 
 Initially, these two containers are just big enough to contain their text content:
 
@@ -544,7 +544,7 @@ Initially, these two containers are just big enough to contain their text conten
 
 If you remove their content, they'd collapse to a 0x0 box (try it!).
 
-<cn>
+<Cn>
 
 一开始，这两个容器刚好足够大包围它们的文字内容：
 
@@ -552,33 +552,33 @@ If you remove their content, they'd collapse to a 0x0 box (try it!).
 
 如果移除了它们的内容，这些容器会折叠成一个 0x0 的盒子（尝试下！）。
 
-</cn>
+</Cn>
 
 There are two properties you can set to make a flexbox bigger than its content:
 
 + `align-self: stretch` - stretch the element along the cross-axis.
 + `flex-grow: 1` - stretch the element along the main-axis.
 
-<cn>
+<Cn>
 
 你可以设置下面这两个属性使 flexbox 比它的内容更大：
 
 + `align-self: stretch` - 沿着横轴的方向拉伸元素。
 + `flex-grow: 1` - 沿着主轴的方向拉伸元素。
 
-</cn>
+</Cn>
 
 Their behaviour also depends on the flex direction:
 
 ![](flex-and-stretch.jpg)
 
-<cn>
+<Cn>
 
 它们的具体行为也受 flex direction 影响：
 
 ![](flex-and-stretch.jpg)
 
-</cn>
+</Cn>
 
 Why is `flex-grow` a number? If `flex-grow` is 0, that element doesn't grow. Otherwise, the number is the proportion an element should stretch to fill the available space.
 
@@ -586,21 +586,21 @@ Why is `flex-grow` a number? If `flex-grow` is 0, that element doesn't grow. Oth
 
 ![](flex-grow-factor.jpg)
 
-<cn>
+<Cn>
 
 为什么 `flex-grow` 是个数字呢？如果 `flex-grow` 为 0，那个元素就不会扩大。所有不为 0 的元素，按比例来分配空间，拉长覆盖所有可用的空白区域。
 
 ![](flex-grow-factor.jpg)
 
-</cn>
+</Cn>
 
 As a concrete example, we can make the first container take up 1/3 of the space, and the second container take up 2/3 of the space:
 
-<cn>
+<Cn>
 
 具体举个例子，我们可以让第一个容器占有 1/3 的空间，让第二个容器占有 2/3 的空间：
 
-</cn>
+</Cn>
 
 ```css
 .iphone-demo {
@@ -616,7 +616,7 @@ As a concrete example, we can make the first container take up 1/3 of the space,
 
 ![](flew-grow-1-and-2.jpg)
 
-<cn>
+<Cn>
 
 ```css
 .iphone-demo {
@@ -632,7 +632,7 @@ As a concrete example, we can make the first container take up 1/3 of the space,
 
 ![](flew-grow-1-and-2.jpg)
 
-</cn>
+</Cn>
 
 
 ### Exercise: Left Right Layout
@@ -643,7 +643,7 @@ You result:
 
 ![](left-right-partitions-no-content.jpg)
 
-<cn>
+<Cn>
 
 ### 练习：左右布局
 
@@ -653,7 +653,7 @@ You result:
 
 ![](left-right-partitions-no-content.jpg)
 
-</cn>
+</Cn>
 
 Note: Make sure these containers are empty. If the amount of content in one container is more than the other, then one container would be bigger than the other.
 
@@ -663,7 +663,7 @@ In the screenshot below, the right container is wider than the left container, b
 
 We'll fix this problem in the next exercise.
 
-<cn>
+<Cn>
 
 注：你得先把着两个容器清空。如果一个容器内容比另外一个容器多，那内容多的容器就会比较宽。
 
@@ -673,7 +673,7 @@ We'll fix this problem in the next exercise.
 
 我们会在下个练习修复这个问题。
 
-</cn>
+</Cn>
 
 # Flex Basis
 
@@ -693,7 +693,7 @@ If a flexbox is allowed to grow, it would grow as much as possible to fit the co
 </div>
 ```
 
-<cn>
+<Cn>
 
 # Flex Basis 属性
 
@@ -713,65 +713,65 @@ Flexbox 容器的高宽由取决于两个因素：
 </div>
 ```
 
-</cn>
+</Cn>
 
 It expands to fit the content in one line, squeezing out the left container:
 
 <video src="flex-basis-auto-greedy.mp4" controls loop></video>
 
-<cn>
+<Cn>
 
 容器拉得很长，包围一整行的内容，结果就把左边的容器挤没有了：
 
 <video src="flex-basis-auto-greedy.mp4" controls loop></video>
 
-</cn>
+</Cn>
 
 The key to understand this behaviour is that the amount of "free space" is calculated after growing the containers to fit the content:
 
 ![](flex-basis-auto-free-spzce.jpg)
 
-<cn>
+<Cn>
 
 理解这种行为的关键是 “空闲空间” 有多少是在容器适配内容之后才计算的：
 
 ![](flex-basis-auto-free-spzce.jpg)
 
-</cn>
+</Cn>
 
 Then the free space is divided according to `flew-grow` factors. This explains why the containers are not the same width:
 
 ![](flex-basis-auto.jpg)
 
-<cn>
+<Cn>
 
 然后计算出来的空闲空间会根据 `flew-grow` 因素来瓜分。这就解释了为什么之前两个容器的宽度会不一样：
 
 ![](flex-basis-auto.jpg)
 
-</cn>
+</Cn>
 
 We can use the `flex-basis` property to override the size of a flexbox when calculating free space. If we set `flex-basis: 0` for both children, it is as though their widths are zero when their parent calculates the free space. The free space (the entire width of the parent) is then divided between the two children:
 
 ![](flex-basis-zero.jpg)
 
-<cn>
+<Cn>
 
 我们可以使用 `flex-basis` 来指定计算空闲空间时 flexbox 应该是什么尺寸。如果我们给两个子元素设置了 `flex-basis: 0`，当它们的父容器计算空闲空间时，它们的宽度就好像为零一样。之后，空闲空间（整个父容器的宽度）才会被这两个子元素瓜分：
 
 ![](flex-basis-zero.jpg)
 
-</cn>
+</Cn>
 
 The `flex-basis` property is like the min-width of flexbox. It determines how much space the flexbox reserves for itself. The default `flex-basis: auto` means "reserve as much space as needed to fit the content". And `flex-basis: 50px` means reserve 50px, but grow if there's more free space.
 
 Question: Setting `flex-basis: 50%` also makes the two containers equal. Why? How is it different from `flex-basis: 0`?
 
-<cn>
+<Cn>
 
 `flex-basis` 属性就好像是 flexbox 的最小值。它决定了 flexbox 给自己保留多少空间。默认的 `flex-basis: auto` 意为 “保留尽可能多的空间来适配内容”。`flex-basis: 50px` 意为保留 50 像素，但是如果有更多空闲空间就会扩大。
 
-</cn>
+</Cn>
 
 ### Exercise: Adjust Flex-Basis
 
@@ -792,7 +792,7 @@ Add to section 2:
 </div>
 ```
 
-<cn>
+<Cn>
 
 ### 练习：适应 Flex-Basis
 
@@ -813,7 +813,7 @@ Add to section 2:
 </div>
 ```
 
-</cn>
+</Cn>
 
 Add to section 3:
 
@@ -836,7 +836,7 @@ Your result:
 
 ![](feature-layout-done.jpg)
 
-<cn>
+<Cn>
 
 添加到第三区域块：
 
@@ -859,7 +859,7 @@ Your result:
 
 ![](feature-layout-done.jpg)
 
-</cn>
+</Cn>
 
 # Android Is Coming
 
@@ -875,7 +875,7 @@ Result:
 
 ![](android-is-here.jpg)
 
-<cn>
+<Cn>
 
 # Android 即将到来
 
@@ -891,7 +891,7 @@ Result:
 
 ![](android-is-here.jpg)
 
-</cn>
+</Cn>
 
 # Flex: 1
 
@@ -906,7 +906,7 @@ flex-basis: auto;
 */
 ```
 
-<cn>
+<Cn>
 
 # Flex: 1
 
@@ -921,7 +921,7 @@ flex-basis: auto;
 */
 ```
 
-</cn>
+</Cn>
 
 And `flex: 1` means `flex: 1 1 auto`, or written in full:
 
@@ -931,7 +931,7 @@ flex-shrink: 1;
 flex-basis: auto;
 ```
 
-<cn>
+<Cn>
 
 `flex: 1` 意为 `flex: 1 1 auto`。全写出来如下：
 
@@ -941,7 +941,7 @@ flex-shrink: 1;
 flex-basis: auto;
 ```
 
-</cn>
+</Cn>
 
 # Summary
 
@@ -953,7 +953,7 @@ If you run into a strange layout problem, it's often quicker to read the spec to
 
 + [CSS Flexible Box Layout Module Level 1](http://www.w3.org/TR/css-flexbox-1)
 
-<cn>
+<Cn>
 
 # 总结
 
@@ -965,52 +965,52 @@ Flexbox 有很多属性和设定。这个参考资料可以刷新你的记忆：
 
 + [CSS Flexible Box Layout Module Level 1](http://www.w3.org/TR/css-flexbox-1)
 
-</cn>
+</Cn>
 
 Control which axis (horizontal or vertical) items are arranged:
 
 + `flex-direction: row`, `flex-direction: column`
 
-<cn>
+<Cn>
 
 控制使用哪个轴（水平或者垂直）来排列元素的方法：
 
 + `flex-direction: row`, `flex-direction: column`
 
-</cn>
+</Cn>
 
 Control where in the container items are (against one of the edges, or centered):
 
 + `align-items`, `align-self`, `justify-content`
 
-<cn>
+<Cn>
 
 控制元素在容器的什么位置（对着一边，或者居中）：
 
 + `align-items`, `align-self`, `justify-content`
 
-</cn>
+</Cn>
 
 Control how items grow or shrink：
 
 + `flex-grow`, `flex-basis`, `flex-shrink`, `align-self: stretch`
 
-<cn>
+<Cn>
 
 控制元素如何扩大或收缩：
 
 + `flex-grow`, `flex-basis`, `flex-shrink`, `align-self: stretch`
 
-</cn>
+</Cn>
 
 Shorthand:
 
 + `flex: 1` means `flex-grow: 1; flex-shrink: 1; flex-basis: auto;`
 
-<cn>
+<Cn>
 
 简写：
 
 + `flex: 1` 意为 `flex-grow: 1; flex-shrink: 1; flex-basis: auto;`
 
-</cn>
+</Cn>

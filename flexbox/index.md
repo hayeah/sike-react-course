@@ -1,5 +1,7 @@
 # Layout With Flexbox
 
+<ZoomableImage src="annotated-layout.jpg" displayWidth="300px" originalWidth="1440" originalHeight="3203"/>
+
 The original CSS [visual rendering model](http://www.w3.org/TR/WD-CSS2/cover.html#toc) was drafted in 1998, at a time when most pages were documents, and making apps that runs in the browser was a radical idea.
 
 The web had evolved multiple times since then, yet we still use the same dated layout engine from 1998. CSS2 is proven technology, there is a huge body of community knowledge, but it's a huge pain.
