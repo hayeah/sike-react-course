@@ -62,7 +62,7 @@ If you have Sketch, you can download the original Sketch file:
 
 If you don't have Sketch, you can download the annotated design:
 
-[![](annotated-layout.jpg)](annotated-layout.jpg)
+![](annotated-layout.jpg)(annotated-layout.jpg)
 
 <Cn>
 
@@ -74,7 +74,7 @@ If you don't have Sketch, you can download the annotated design:
 
 如果你没有 Sketch，你可以下载带有注解的设计效果图：
 
-[![](annotated-layout.jpg)](annotated-layout.jpg)
+![](annotated-layout.jpg)(annotated-layout.jpg)
 
 </Cn>
 

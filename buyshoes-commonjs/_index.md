@@ -34,7 +34,10 @@ JavaScript 生来有一些缺陷。`let` 修复了由 `var` 造成的常见问�
 # CommonJS 介绍
 </cn>
 
-CommonJS is the module system adopted by NodeJS/NPM. It's probably the most popular module system, and enjoys the best tools support. Don't confuse CommonJS with NPM, though.
+CommonJS is the module system adopted by NodeJS. It's probably the most popular module system for JavaScript, and most tools ([Browserify](http://browserify.org), [Webpack](webpack.github.io), [TypeScript](http://www.typescriptlang.org/), [Flow](http://flowtype.org/), etc.) has builtin support for CommonJS.
+
+
+Don't confuse CommonJS with NPM, though.
 
 + CommonJS - Breaks a project into smaller modules.
 + NPM - Create and install packages, which may or may not use CommonJS.

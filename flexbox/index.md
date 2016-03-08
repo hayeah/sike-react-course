@@ -36,7 +36,7 @@ If you have Sketch, you can download the original Sketch file:
 
 If you don't have Sketch, you can download the annotated design:
 
-[![](annotated-layout.jpg)](annotated-layout.jpg)
+![](annotated-layout.jpg)(annotated-layout.jpg)
 
 
 
