@@ -1,12 +1,13 @@
-# Web 开发的未来 - React 全端训练营
+<Project name="ilovereact">
+# I Love React
 
-## Project 1 - I Love React
+<Cover>
+<video src="assets/scrollmagic-demo.mp4" controls></video>
+</Cover>
 
 这次训练营大家的背景都不太一样，后端，移动端，前端都有。许多同学使用过类似 Bootstrap 的框架来实现页面，但没有从零开始，自己做布局的经验。
 
-这周我们会一起完成一个包含滚动效果的营销页面：
-
-<video src="assets/scrollmagic-demo.mp4" controls></video>
+这周我们会一起完成一个包含滚动效果的营销页面.
 
 通过这个页面的实现，前端经验较为不足的同学们可以系统性地接触到前端开发的技巧，工具，和流程。我们的学习目标如下：
 
@@ -30,21 +31,18 @@
 
 最后，我们会结合 ScrollMagic 和 GreenSock 动画库来做些效果。没时间或者没精力的话可以跳过。
 
-如果你比较少接触前端或移动端产品，开始之前你可以了解一下适用于移动端的布局思路:
+如果你比较少接触前端或移动端产品，开始之前你可以了解一下适用于移动端的布局思路: [What Is Responsive Design](responsive-design) [中文版](responsive-design/?lang=cn)
+</Project>
 
-[What Is Responsive Design](responsive-design) [中文版](responsive-design/?lang=cn)
 
-<Lesson name="create-project"/>
-<Lesson name="flexbox"/>
-<Lesson name="absolute-positioning"/>
-<Lesson name="js-bling-bling"/>
-<Lesson name="scrollmagic"/>
+<Project name="buyshoes-react">
+# React Shopping Cart
 
-## Project 2 - Shopping Cart
+<Cover>
+<img src="assets/shopping-cart.jpg"/>
+</Cover>
 
 暖身周大家对 Flexbox 和 CommonJS 模块有了认识，这周我们会使用 React 来实现一个购物车：
-
-![](assets/shopping-cart.jpg)
 
 这周的学习目标如下：
 
@@ -54,15 +52,11 @@
   + 组件生命周期。
 + 练习 Flexbox 布局。
 + React 的函数式编程风格。
-+ Flux 架构来实现 "one way data flow"。
+</Project>
 
-<Lesson name="buyshoes-layout"/>
-<Lesson name="buyshoes-details"/>
-<Lesson name="buyshoes-reactify"/>
-<Lesson name="buyshoes-commonjs"/>
+
+<Project name="buyshoes-flux">
+# Shopping Cart With Flux
 
 用 React 完成 ”静态“ 页面后，我们会开始学习如何用 Flux 架构加上动态功能。
-
-<Lesson name="buyshoes-flux"/>
-<Lesson name="buyshoes-flux-store-connector"/>
-<Lesson name="buyshoes-flux-dispatcher"/>
+</Project>

@@ -21,31 +21,31 @@ module.exports = {
     },
 
 		"buyshoes-layout":{
-      repo: "ilovereact",
+      repo: "buyshoes-react",
     },
 
 		"buyshoes-details":{
-      repo: "ilovereact",
+      repo: "buyshoes-react",
     },
 
 		"buyshoes-reactify":{
-      repo: "ilovereact",
+      repo: "buyshoes-react",
     },
 
 		"buyshoes-commonjs":{
-      repo: "ilovereact",
+      repo: "buyshoes-react",
     },
 
 		"buyshoes-flux":{
-      repo: "ilovereact",
+      repo: "buyshoes-flux",
     },
 
 		"buyshoes-flux-store-connector":{
-      repo: "ilovereact",
+      repo: "buyshoes-flux",
     },
 
 		"buyshoes-flux-dispatcher":{
-      repo: "ilovereact",
+      repo: "buyshoes-flux",
     }
   }
 }
