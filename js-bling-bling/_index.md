@@ -1329,6 +1329,7 @@ For now, use violence to add the file we need:
 
 ```
 git add -f node_modules/gsap/src/uncompressed/TweenMax.js
+git add -f node_modules/gsap/src/uncompressed/ScrollToPlugin.js
 ```
 
 # Summary
@@ -1350,6 +1351,7 @@ On ReactNative JavaScript animation is your only choice. Much of the performance
 
 ```
 git add -f node_modules/gsap/src/uncompressed/TweenMax.js
+git add -f node_modules/gsap/src/uncompressed/ScrollToPlugin.js
 ```
 
 # 总结
